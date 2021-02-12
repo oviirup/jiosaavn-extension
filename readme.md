@@ -50,16 +50,6 @@ Note: Developer mode is required to enable the extention. You can see a toggle b
 You miget get turn off developer mode notification every time you open the browser if you are using Stable versions of chrome. You can use Chrome Dev or Canary of that ntification anoys you.
 </small>
 
-# TODO
-- [ ] Add Download button in Now Playing list
-- [ ] Add
-
-## Issues
-
-- Album and Playlist downloads are currently not working
-
-Please have a look at other issues before submitting a new one. If you have any issues regarding this extension whih you think is unique, you may submit a issue in here [issue link](https://github.com/naqushab/saavn-downloader-extension/issues/new)  
-Please provide all the issue details in the template that is given for a quicker resolution.
 
 ## Behind the Scenes
 
