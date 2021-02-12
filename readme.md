@@ -38,7 +38,7 @@ After Fetching data it gives out MP3 file with neatly organised tags and album a
 
 This extension can not hosted be in chrome webstore due to obvious reasons. You can manually install the extention just by foloowing the steps...
 
-- Download the extension here : [download](https://github.com/GrayGalaxy/JioSaavn-Song-Downloader/archive/master.zip)
+- Download the extension here : [download](https://github.com/GrayGalaxy/JioSaavn-Downloader/releases)
 - Extract the zip file
 - Go to chrome extensions page : [about://extensions/](about://extensions/)
 - You will see a button called "Load Unpacked Extension.." click that
