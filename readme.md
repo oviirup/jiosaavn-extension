@@ -1,6 +1,6 @@
 # JioSaavn Song Downloader :musical_note:
 
-:star: If you love the extension. [![GitHub stars](https://img.shields.io/github/stars/GrayGalaxy/JioSaavn-Song-Downloader.svg?style=flat&logo=github&label=Star)](https://github.com/GrayGalaxy/JioSaavn-Song-Downloader)
+:star: If you love the extension. [![GitHub stars](https://img.shields.io/github/stars/GrayGalaxy/JioSaavn-Downloader.svg?style=flat&logo=github&label=Star)](https://github.com/GrayGalaxy/JioSaavn-Song-Downloader)
 
 :smile: Follow me if you want to be updated. [![GitHub followers](https://img.shields.io/github/followers/GrayGalaxy.svg?style=flat&logo=github&label=Followers)](<(https://github.com/GrayGalaxy)>)
 
