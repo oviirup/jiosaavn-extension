@@ -12,7 +12,6 @@ var capitalise = function (string) {
 	const capital = string.charAt(0).toUpperCase() + string.slice(1)
 	return capital;
 }
-
 // Get biterate
 if (!localStorage.download_bitrate) localStorage.download_bitrate = '320';
 var bitrateString = " [" + localStorage.download_bitrate + " kbps]";
@@ -48,8 +47,10 @@ var getURLArrayBuffer = function (url, onload) {
 			onload(xhr.response)
 		else
 			toast("Requested Url is Forbiden !");
-	}
-	xhr.onerror = function () { toast("Cannot reach Server, Network Error !") };
+	};
+	xhr.onerror = function () {
+		toast("Cannot reach Server, Network Error !");
+	};
 	xhr.send();
 };
 
@@ -57,17 +58,19 @@ var getURLArrayBuffer = function (url, onload) {
 // Download a Single song with ID3 Meta Data (Song Album art and Artists)
 var downloadWithData = function (songData, callback) {
 	getSongBlob(songData, false, function (blob) {
+		// File Name format
 		saveAs(blob, songData.song + '.mp3');
 		callback();
 	});
-};
 
+};
 
 // Get Async Downloaded blob of the a Single Song
 var getSongBlob = function (song, bit, callback) {
 	if (!bit) bit = localStorage.download_bitrate;
 	var songCoverUrl = song.image;
 	songCoverUrl = songCoverUrl.replace('c.saavncdn.com', 'corsdisabledimage.tuhinwin.workers.dev');
+	console.log("Cover art => ", songCoverUrl);
 	getURLArrayBuffer(songCoverUrl, function (coverArrayBuffer) {
 		var songUrlraw = song.media_url;
 		var songUrl = songUrlraw.replace('aac.saavncdn.com', 'corsdisabledsong.tuhinwin.workers.dev');
@@ -75,11 +78,11 @@ var getSongBlob = function (song, bit, callback) {
 		if (bit == '128') {
 			songUrl = songUrl.substr(0, lastUnderscoreIndex) + '.mp3';
 		} else if (bit == '192') {
-			//because 192 is not avail now (192 = 128)
 			songUrl = songUrl.substr(0, lastUnderscoreIndex) + '.mp3';
 		} else {
 			songUrl = songUrl.substr(0, lastUnderscoreIndex) + '_' + bit + '.mp3';
 		}
+		console.log("SongURL =>", songUrl);
 		getURLArrayBuffer(songUrl, function (arrayBuffer) {
 			const writer = new ID3Writer(arrayBuffer);
 			writer.setFrame('TIT2', song.song)
@@ -89,7 +92,7 @@ var getSongBlob = function (song, bit, callback) {
 				.setFrame('TYER', song.year)
 				.setFrame('TPUB', song.label)
 				.setFrame('TCON', [capitalise(song.language)])
-				.setFrame('TBPM', localStorage.download_bitrate)
+				.setFrame('TBPM', bit)
 				.setFrame('APIC', {
 					type: 3,
 					data: coverArrayBuffer,
@@ -101,6 +104,7 @@ var getSongBlob = function (song, bit, callback) {
 		})
 	});
 };
+
 // Download Set of Songs as a Zip
 var downloadSetOfSongsAsZip = function (songs, name) {
 	var zip = new JSZip();
@@ -146,9 +150,15 @@ var downloadStatus = function () {
 			downStatusWrapper.append(downStatus);
 			return this;
 		},
-		el: function () { return downStatus; },
-		hide: function () { downStatus.hide(); },
-		show: function () { downStatus.show(); },
+		el: function () {
+			return downStatus;
+		},
+		hide: function () {
+			downStatus.hide();
+		},
+		show: function () {
+			downStatus.show();
+		},
 		progress: function (value) {
 			downStatus.find('.progress').first().width(value + "%")
 		},
@@ -161,8 +171,12 @@ var downloadStatus = function () {
 			this.hide();
 			this.progress(0);
 		},
-		flush: function () { downStatus.remove(); },
-		flushAll: function () { $('.download-status').remove(); },
+		flush: function () {
+			downStatus.remove();
+		},
+		flushAll: function () {
+			$('.download-status').remove();
+		},
 		status: function (message, hide) {
 			this.show();
 			if (hide) {
@@ -183,7 +197,6 @@ var downloadStatus = function () {
 			downStatus.find('p.status-right').first().html(message)
 		}
 	}
-
 }();
 
 // Download a Zip blob as File via FileSaver

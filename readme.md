@@ -1,12 +1,13 @@
 # JioSaavn Song Downloader :musical_note:
 
-:star: If you love the extension. [![GitHub stars](https://img.shields.io/github/stars/GrayGalaxy/JioSaavn-Downloader.svg?style=flat&logo=github&label=Star)](https://github.com/GrayGalaxy/JioSaavn-Song-Downloader)
+:star: If you love the extension. [![GitHub stars](https://img.shields.io/github/stars/GrayGalaxy/JioSaavn-Downloader.svg?style=flat&logo=github&label=Star)](https://github.com/GrayGalaxy/JioSaavn-Downloader)
 
-:smile: Follow me if you want to be updated. [![GitHub followers](https://img.shields.io/github/followers/GrayGalaxy.svg?style=flat&logo=github&label=Followers)](<(https://github.com/GrayGalaxy)>)
+:smile: Follow me if you want to be updated. [![GitHub followers](https://img.shields.io/github/followers/GrayGalaxy.svg?style=flat&logo=github&label=Followers)](https://github.com/GrayGalaxy)
 
 ## Screenshots
 
 ![Song Quality Selector](https://i.ibb.co/KyH5D8M/02.png)
+
 ![Single Song Download](https://i.ibb.co/1shN3N3/Album-Download.png)
 
 This Extension will allow you to download any song in JioSaavn seamlessly and easily. It also hides ads from JioSaavn Web.
@@ -17,7 +18,7 @@ This extension requires JioSaavn API in the backend to fetch Download Links in r
 
 It uses [JioSaavn API](https://github.com/cachecleanerjeet/JiosaavnAPI) developed by [cachecleanerjeet](https://github.com/cachecleanerjeet) to fetch Songs Data.
 
-After Fetching data it gives out MP3 file with neatly organised tags and album art with the help of `ID3.js`
+After Fetching data it gives out MP3 file with neatly organized tags and album art with the help of `ID3.js`
 
 ## Features
 
@@ -36,7 +37,7 @@ After Fetching data it gives out MP3 file with neatly organised tags and album a
 
 ## How to Install it
 
-This extension can not hosted be in chrome webstore due to obvious reasons. You can manually install the extention just by foloowing the steps...
+This extension can not hosted be in chrome webstore due to obvious reasons. You can manually install the extension just by following the steps...
 
 - Download the extension here : [download](https://github.com/GrayGalaxy/JioSaavn-Downloader/releases)
 - Extract the zip file
@@ -45,9 +46,9 @@ This extension can not hosted be in chrome webstore due to obvious reasons. You 
 - Select the extracted folder and press "OK"
 
 <small>
-Note: Developer mode is required to enable the extention. You can see a toggle button promptly named "Developer Mode". Turn it on to enable the Developer mode.
+Note: Developer mode is required to enable the extension. You can see a toggle button promptly named "Developer Mode". Turn it on to enable the Developer mode.
 
-You miget get turn off developer mode notification every time you open the browser if you are using Stable versions of chrome. You can use Chrome Dev or Canary of that ntification anoys you.
+You might get turn off developer mode notification every time you open the browser if you are using Stable versions of chrome. You can use Chrome Dev or Canary of that notification annoys you.
 </small>
 
 
@@ -55,12 +56,12 @@ You miget get turn off developer mode notification every time you open the brows
 
 ### Overview
 
-This extention was originally created by
+This extension was originally created by
 [Naqushab Neyazee](https://github.com/naqushab) in this [repo](https://github.com/naqushab/saavn-downloader-extension).
 
 There is a [JioSaavn API](https://github.com/cachecleanerjeet/JiosaavnAPI) developed by [cachecleanerjeet](https://github.com/cachecleanerjeet) and fetching Songs Data via that API and then downloading it in Browser and adding perfect metadata in it.
 
-Make sure you check out JioSaavn API page and the original extention repo and :star: it if you like. People donot earn anything from this and spend their precious time developing it and release it for free. I am personally a huge fan of structural appraoch and like the repo a lot. A small praise, a good mention makes them feel a lot good and it doesn't cost anything. See right sidebar for the list of contributors to the repo.
+Make sure you check out JioSaavn API page and the original extension repo and :star: it if you like. People do not earn anything from this and spend their precious time developing it and release it for free. I am personally a huge fan of structural appraoch and like the repo a lot. A small praise, a good mention makes them feel a lot good and it doesn't cost anything. See right sidebar for the list of contributors to the repo.
 
 ### How it works
 

@@ -38,14 +38,20 @@
 	padding-bottom: 30px !important;
 }
 
-.c-dropdown__content.small {
-	width: 150px;
-}
 
 .o-snippet__action-final {
 	padding-right: 8px;
 }
 
+@media (max-width: 61.25em) {
+	#quality-dropdown {
+		right: auto;
+		left: 11px
+	}
+}
+.this{
+	background-color: red !important;
+}
 #song-biterate {
 	display: flex;
 	flex-direction: column;
@@ -54,4 +60,11 @@
 
 #song-biterate>.o-list-select__item {
 	width: 100%;
+}
+
+@media (min-width: 61.25em) {
+	.c-search {
+		right: 23em !important;
+		left: 20em !important;
+	}
 }

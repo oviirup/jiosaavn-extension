@@ -5,9 +5,7 @@ var addDownloadButtonToAllSongs = function () {
 	songsEle.each(function () {
 		var $this = $(this);
 		var btn = $('<div class="o-snippet__item single-download-button"><span class="u-link"><i class="o-icon--large u-pop-in o-icon-download"></i></span></div>');
-		try {
-			var song = this.href;
-		} catch (e) { }
+		try { var song = this.href; } catch (e) { }
 		btn.on('click', function (e) {
 			e.preventDefault();
 			var $btn = $(this);
@@ -25,17 +23,15 @@ var addDownloadButtonToAllSongs = function () {
 				}
 			});
 		});
-
-		$this.parent().parent().parent().parent().parent().last().append(btn);
+		$this.parents('article.o-snippet').find('.o-snippet__item').last().after(btn)
 	});
 };
 //#endregion
 
 //#region // Add Album Download Button on Albums
 var addAlbumDownloadButton = function () {
-
 	var firstBtn = $('.o-flag__body .o-layout>.o-layout__item:first-of-type')
-	$('.album .c-nav.c-nav--secondary').remove();
+	$('.c-nav.c-nav--secondary').remove();
 	var albumBtn = $('<p class="o-layout__item u-margin-bottom-none@sm download_btn"><a class="c-btn c-btn--tertiary c-btn--ghost c-btn--icon"><i class="o-icon--large o-icon-download"></i></a></p>');
 
 	albumBtn.on('click', function () {
@@ -68,8 +64,8 @@ var addPlaylistDownloadButton = function () {
 //#region // Add Download Quality selector on the Menu..
 var createDownloadQuality = function () {
 	var self = this;
-	var menuItem = $('<aside class="c-dropdown u-margin-right@sm select-quality"><div class="c-dropdown__header"><span class="c-dropdown__type"><span class="u-visible-visually@lg">Quality<span class="c-dropdown__select curr-down-rate"></span></div></aside>');
-	var dropDown = $('<div class="c-dropdown__content small"><div class="o-message o-message--error">You must select a bitrate</div></div>');
+	var menuItem = $('<aside id="quality-dropdown" class="c-dropdown u-margin-right@sm"><div class="c-dropdown__header"><span class="c-dropdown__type"><span class="u-visible-visually@lg"></span>Qiality</span> <span class="c-dropdown__select curr-down-rate"></span></div></aside>');
+	var dropDown = $('<div class="c-dropdown__content"><div class="u-padding@sm"><h5 class="u-deci u-margin-bottom-none@sm">Download Quality</h5><p class="u-centi u-color-js-gray-alt-light u-margin-bottom-none@sm"><em>Pick the biterate of the songs you want to download</em></p></div><div class="o-message o-message--error">You must select a bitrate</div></div>');
 	var dropDownList = $('<form id="song-biterate"><section class="u-scroll u-3/5-max-vh"><ul class="o-list-select"></ul></section></form>');
 	var bitrates = ['320', '192', '128', '64', '32', '16'];
 	menuItem.find('.curr-down-rate').first().text(localStorage.download_bitrate + " kbps");
@@ -84,13 +80,14 @@ var createDownloadQuality = function () {
 			});
 			$(this).addClass('selected');
 			menuItem.find('.curr-down-rate').first().text(localStorage.download_bitrate + ' kbps');
+			toast(`Download Quality changed to ${localStorage.download_bitrate}kbps`)
 		});
 		return el;
 	});
 	// Click Action
 	$(document).on("click", function (e) {
-		if (!$(e.target).closest(".select-quality").length) $('.select-quality').removeClass('active')
-		else $('.select-quality').toggleClass('active')
+		if (!$(e.target).closest("#quality-dropdown").length) $('#quality-dropdown').removeClass('active')
+		else $('#quality-dropdown').toggleClass('active')
 	});
 	dropDownList.append(bitrates);
 	dropDown.append(dropDownList);
