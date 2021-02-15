@@ -31,7 +31,6 @@ var addDownloadButtonToAllSongs = function () {
 //#region // Add Album Download Button on Albums
 var addAlbumDownloadButton = function () {
 	var firstBtn = $('.o-flag__body .o-layout>.o-layout__item:first-of-type')
-	$('.c-nav.c-nav--secondary').remove();
 	var albumBtn = $('<p class="o-layout__item u-margin-bottom-none@sm download_btn"><a class="c-btn c-btn--tertiary c-btn--ghost c-btn--icon"><i class="o-icon--large o-icon-download"></i></a></p>');
 
 	albumBtn.on('click', function () {
