@@ -16,19 +16,19 @@
   ],
   "content_scripts": [{
       "matches": ["https://www.jiosaavn.com/*"],
-      "css": ["src/inject.css"]
+      "css": ["dist/inject.min.css"]
     },
     {
       "matches": ["https://www.jiosaavn.com/*"],
       "js": [
-        "js/jquery.min.js",
-        "js/filesaver.min.js",
-        "js/jszip.min.js",
-        "js/id3.min.js",
-        "downloader.js",
-        "src/inject.js"
+        "dist/jquery.min.js",
+        "dist/filesaver.min.js",
+        "dist/jszip.min.js",
+        "dist/id3.min.js",
+        "dist/downloader.min.js",
+        "dist/inject.min.js"
       ]
     }
   ],
-  "web_accessible_resources": ["downloader.js"]
+  "web_accessible_resources": ["dist/downloader.min.js"]
 }

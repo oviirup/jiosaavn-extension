@@ -1,4 +1,4 @@
 # VsCode folder
-.vscode/
-
-.test*
+/.vscode
+*.cahce
+*.log
