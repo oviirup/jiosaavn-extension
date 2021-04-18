@@ -47,8 +47,6 @@ This extension cannot hosted be in chrome webstore due to obvious reasons. You c
 - You will see a button called **Load Unpacked Extension...** click that
 - Select the extracted folder and click **Open**
 
-![How to install](https://i.ibb.co/8DTVhZQ/capture.gif)
-
   <small>
   Note: <strong>Developer mode</strong> is required to enable the extension. You can see a toggle button promptly named "Developer Mode". Turn it on to enable the Developer mode.
 
