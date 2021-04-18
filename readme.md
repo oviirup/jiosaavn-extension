@@ -44,8 +44,10 @@ This extension cannot hosted be in chrome webstore due to obvious reasons. You c
 - Download the extension here : [download](https://github.com/GrayGalaxy/JioSaavn-Downloader/releases)
 - Extract the zip file
 - Go to chrome extensions page : [about://extensions/](about://extensions/)
-- You will see a button called "Load Unpacked Extension..." click that
-- Select the extracted folder and press "OK"
+- You will see a button called **Load Unpacked Extension...** click that
+- Select the extracted folder and click **Open**
+
+![How to install](https://i.ibb.co/8DTVhZQ/capture.gif)
 
   <small>
   Note: <strong>Developer mode</strong> is required to enable the extension. You can see a toggle button promptly named "Developer Mode". Turn it on to enable the Developer mode.
@@ -58,9 +60,7 @@ This extension cannot hosted be in chrome webstore due to obvious reasons. You c
 
 ### Overview
 
-The extension just fetches data from the jiosaavn server for necessary links to download the songs. It doesn't rely on any external or 3rd party services to fetch data, it does all the work in browser.
-
-This extension was originally created by [Naqushab Neyazee](https://github.com/naqushab) in this [repo](https://github.com/naqushab/saavn-downloader-extension).
+The extension just fetches data from the JioSaavn server for necessary links to download the songs. It doesn't rely on any external or 3rd party services to fetch data, it does all the work in browser.
 
 There is a [JioSaavn API](https://github.com/cachecleanerjeet/JiosaavnAPI) developed by [cachecleanerjeet](https://github.com/cachecleanerjeet) and fetching Songs Data via that API and then downloading it in Browser and adding perfect metadata in it.
 
@@ -74,7 +74,7 @@ Make sure you check out JioSaavn API page and the original extension repo and :s
 ### How it works
 
 ### - Song
-- When you press a download button on song it fetches data of song from the jiosaavn server to provide Links, Title, Album etc.
+- When you press a download button on song it fetches data of song from the JioSaavn server to provide Links, Title, Album etc.
 - Then it will send a request to this [custom API endpoint](corsdisabledsong.tuhinwin.workers.dev) and generate a download URL from server.
 - Then it will download the song asynchronously in background. as the download song will have a gibberish name and no song details.
 - Then it will download the album art asynchronously.
