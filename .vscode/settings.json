@@ -1,0 +1,15 @@
+{
+  "explorer.openEditors.visible": 0,
+  "es6-css-minify.jsMinPath": "/dist/",
+  "es6-css-minify.jsPostfix": "min",
+  "es6-css-minify.onSaveDelay": 100,
+  "es6-css-minify.minifyOnSave": "yes",
+  "liveSassCompile.settings.generateMap": false,
+  "liveSassCompile.settings.formats": [
+    {
+      "format": "compressed",
+      "extensionName": ".min.css",
+      "savePath": "/dist/"
+    }
+  ]
+}

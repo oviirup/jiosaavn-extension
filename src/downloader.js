@@ -1,13 +1,13 @@
 //#region //* sanitise
 // capitalise
-const capitalise = str => str.charAt(0).toUpperCase() + str.slice(1);
+const __c = str => str.charAt(0).toUpperCase() + str.slice(1);
 // Get Song Data
 const songData = (song, i) => {
 	const url = song.media_preview_url.replace('preview.saavncdn.com', 'aac.saavncdn.com');
 	const array = {
 		id: song.id,
-		title: capitalise(song.song),
-		album: capitalise(song.album),
+		title: __c(song.song),
+		album: __c(song.album),
 		prim_artists: song.primary_artists,
 		singers: song.singers,
 		image: song.image,
@@ -20,7 +20,7 @@ const songData = (song, i) => {
 	// inclusion list
 	if (i) array.track = i;
 	// Check if the language is empty
-	if (song.language && song.language != "unknown") array["language"] = song.language
+	if (song.language && song.language != "unknown") array["language"] = __c(song.language)
 	return array;
 }
 // Get Songs Array
@@ -111,7 +111,7 @@ const getSongBlob = (song, success, error) => {
 		getURLArrayBuffer(songUrl, (arrayBuffer) => {
 			const writer = new ID3Writer(arrayBuffer);
 			const { title, album, prim_artists, singers, year, language, track, label = '' } = song
-			if (language) writer.setFrame('TCON', [capitalise(language)]);
+			if (language) writer.setFrame('TCON', [__c(language)]);
 			if (track) writer.setFrame('TRCK', track)
 			writer.setFrame('TIT2', title)
 				.setFrame('TPE2', prim_artists.split(', '))
@@ -133,30 +133,33 @@ const getSongBlob = (song, success, error) => {
 //#endregion
 
 //#region //* Download a Single song with ID3 Meta Data (Song Album art and Artists)
-const downloadWithData = (song, callback) => {
-	getSongBlob(song, (blob) => {
-		// Save file
-		saveAs(blob, `${song.title}.mp3`);
-		callback();
-	});
+const downloadWithData = (song, onSuccess, onError) => {
+	getSongBlob(
+		song,
+		(blob) => {
+			// Save file
+			saveAs(blob, `${song.title}.mp3`);
+			onSuccess && onSuccess();
+		},
+		() => { onError && onError() }
+	)
 };
 //#endregion
 
 //#region //* Download Set of Songs as a Zip
-const downloadSongsAsZip = function (list, name) {
+const downloadSongsAsZip = function (list, name, onSuccess) {
 	// create a zip
 	var zip = new JSZip();
 	var num = 0
 	list.forEach((song, i) => {
 		// get a single song blob
 		getSongBlob(song, (blob) => {
-			// File name format
 			zip.file(`${song.title}.mp3`, blob);
-			// check if all files are downloaded
 			num++;
 			if (num === list.length) setTimeout(() => {
-				toast("Compressing & Zipping the Downloads");
+				// toast("Compressing & Zipping the Downloads");
 				downloadZip(zip, name);
+				onSuccess && onSuccess()
 			}, 1000);
 		}, () => num++);
 	});
@@ -176,7 +179,7 @@ const downloadZip = (zip, name, callback) => {
 //#region //* Show Progress
 const showProgress = (name, id, value) => {
 	if ($('#download-bar').find(`#${id}`).length == 0) {
-		const wrapper = $(`<div id="${id}" class="download-wrapper" style="--p:0.15"><div class="wrap"><svg class="progress" viewbox="0 0 24 24"><circle cx="12" cy="12" r="11"/><path d="M1.73,12.91 8.1,19.28 22.79,4.59"/></svg><p class="u-centi u-ellipsis u-color-js-gray-alt-light">${name}</p></div></div>`)
+		const wrapper = $(`<div id="${id}" class="download-wrapper" style="--p:0.15"><div class="wrap"><svg class="progress" viewbox="0 0 24 24"><circle cx="12" cy="12" r="11"/><circle cx="12" cy="12" r="11"/><path d="M1.73,12.91 8.1,19.28 22.79,4.59"/></svg><p class="u-centi u-ellipsis u-color-js-gray-alt-light">${name}</p></div></div>`)
 		$('#download-bar .body-scroll').append(wrapper)
 	}
 	const progress = $(`#download-bar #${id}`)

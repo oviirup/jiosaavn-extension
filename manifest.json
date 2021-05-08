@@ -1,6 +1,6 @@
 {
   "name": "JioSaavn Downloader ᴺᴱᵂ",
-  "version": "0.01",
+  "version": "0.5",
   "manifest_version": 2,
   "description": "You can now easily download songs, albums, playlist etc with just one click on jiosaavn.com",
   "icons": {
@@ -9,6 +9,7 @@
     "128": "icons/icon128.png"
   },
   "default_locale": "en",
+  "homepage_url": "https://www.jiosaavn.com/",
   "permissions": [
     "https://www.jiosaavn.com/*",
     "https://aa.cf.saavncdn.com/*",

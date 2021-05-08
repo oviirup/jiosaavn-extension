@@ -17,8 +17,10 @@
 .o-snippet__action-final
   padding-right: 8px
 
+#quality-dropdown .c-dropdown__header
+  min-width: 4em !important
 #quality-dropdown .c-dropdown__content
-  max-width: 200px !important
+  max-width: 12em !important
 
 #song-biterate
   display: flex
@@ -29,7 +31,8 @@
 
 .single_download_btn
   width: auto !important
-  padding-left: 11px !important
+  // @media (max-width: 61.25em)
+  
 .album_download_btn
   display: none !important
   .album &
@@ -48,11 +51,15 @@
   .c-aside--flyout
     top: 99px !important
     bottom: 118px !important
+    // transform: none !important
     article.o-snippet .o-snippet__item
       &:nth-last-of-type(3),&:nth-last-of-type(2)
-        width: 30px
+        width: 33px
 
 @media (max-width: 61.25em)
+  .o-snippet__item:first-child
+    display: none
+
   #download-bar
     bottom: 9.5em
 
@@ -61,7 +68,8 @@
     left: 11px
 
   .c-nav.c-nav--secondary
-    display: none !important
+    opacity: 0
+    pointer-events: none
 
   .c-player__entity
     margin-left: auto
@@ -72,7 +80,7 @@
   z-index: 99
   bottom: 6.5em
   left: 1em
-  background-color: #f6f6f6
+  background-color: #fff
   border: 1px solid #e9e9e9
   border-radius: 24px
   box-shadow: 0 0 12px 4px rgba(0,0, 0, .05)
@@ -130,7 +138,6 @@
     .body-scroll
       overflow-y: auto
 
-
 .download-wrapper
   padding: 0 12px
   max-height: 48px
@@ -159,6 +166,12 @@
     stroke-dasharray: 69.115 var(--v)
     stroke-dashoffset: 69.115
     transform: rotate(-90deg)
+
+  circle:first-of-type
+    stroke-dasharray: 0
+    stroke-dashoffset: 0
+    stroke: #eee
+
   path
     stroke-width: 4px
     stroke-dashoffset: 29.8

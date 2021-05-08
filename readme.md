@@ -16,18 +16,20 @@ Simple and effective extension to download Songs, Albums or Plylist from jiosaav
 
 ## How It Works
 
-This extension requires JioSaavn API in the backend to fetch Download Links in real time.
+It uses somewhat modified version of [JioSaavn API](https://github.com/cachecleanerjeet/JiosaavnAPI) developed by [cachecleanerjeet](https://github.com/cachecleanerjeet) to fetch Songs Data.
 
-It uses [JioSaavn API](https://github.com/cachecleanerjeet/JiosaavnAPI) developed by [cachecleanerjeet](https://github.com/cachecleanerjeet) to fetch Songs Data.
+It pulls data of selected song from official servers within the extension itself. It dows not require external API endpoints.
+
+<small>Previously This extension used JioSaavn API in the backend to fetch Download Links in real time.</small>
 
 After Fetching data it gives out MP3 file with neatly organized tags and album art with the help of `ID3.js`
 
 ## Features
 
-- Select Any Quality Downloads (Supports HQ 320kbps)
+- Select Any Quality Downloads (Supports HD 320kbps)
 - Download a Single Song
-- Download an Album
-- Download a Playlist
+- Download complete Album as zip
+- Download a Playlist of your choice
 - Blocks ADs and Promotions
 - Modifies some of the UI Elements.
 
@@ -78,10 +80,10 @@ Make sure you check out JioSaavn API page and the original extension repo and :s
 - Then it will download the album art asynchronously.
 - Finally it will add ID3 tags (Title, Singer, Cover, Composer and stuff) to the downloaded song.
 
-### - Album, Playlist <small>(not yet working. In progress)</small>
+### - Album, Playlist
 - On clicking the Download button it fetches lists of songs from server to donwload.
 - Then it downloads the songs one by one as mentionsed above.
 - We will make a virtual zip on memory and create a folder and add the songs there.
-- Finally you can Download it as Zip file.
+- Finally you can Download the Zip file.
 ___
 Made with :heart: in India.
