@@ -1,11 +1,11 @@
 
 //#region //* Single Download =====
 const add_song_download_btn = () => {
-	$('.single_download_btn').remove();
+	// $('.single_download_btn').remove();
 	// Add button in each song
 	$('li').find('figcaption').find('a.u-color-js-gray').each(function () {
-		// if ($(this).parents('article.o-snippet').find('.single_download_btn').length !== 0) return
-		const Button = $('<div class="o-snippet__item single_download_btn"><span class="u-link"><i class="o-icon--large u-pop-in o-icon-download"></i></span></div>');
+		if ($(this).parents('article.o-snippet').find('.single_download_btn').length !== 0) return
+		const Button = $('<div class="o-snippet__item single_download_btn"><span class="u-link"><i class="o-icon--large o-icon-download"></i></span></div>');
 		const icon = Button.find('span').find('i.o-icon--large');
 		try { var token = this.href.match(/.*\/(.*)/)[1] } catch (e) { return }
 		// CLick Action
@@ -96,7 +96,7 @@ const createDownloadQuality = () => {
 	var bitrates = ['320', '192', '128', '64', '32', '16'];
 	menuItem.find('.curr_biterate').first().text(localStorage.download_bitrate + ' kbps');
 	bitrates = bitrates.map(function (rate) {
-		var el = $('<li class="o-list-select__item" >' + rate + ' kbps</li>');
+		var el = $(`<li class='o-list-select__item'>${rate} kbps</li>`);
 		if (rate === localStorage.download_bitrate) el.addClass('selected')
 		// Click Action
 		el.on('click', (e) => {
@@ -105,7 +105,7 @@ const createDownloadQuality = () => {
 			$(e.target).parent().find('.selected').removeClass('selected')
 			$(e.target).addClass('selected');
 			// Change label
-			menuItem.find('.curr_biterate').first().text(localStorage.download_bitrate + ' kbps');
+			menuItem.find('.curr_biterate').first().text(`${localStorage.download_bitrate} kbps`);
 			// Display Toast
 			toast(`Download Quality changed to ${localStorage.download_bitrate}kbps`)
 		});
@@ -131,51 +131,57 @@ const download_progress = () => {
 }
 //#endregion
 
-//#region //? Run on Plugin Initialization
-var initPlugin = () => {
-	add_song_download_btn();
-	add_album_download_btn();
-	add_playlist_download_btn();
-	hideAds();
-};
-
 // Hide ads and promotions
 var hideAds = () => {
 	$('body').removeClass('promo')
 	$('.banner').removeClass('banner')
-	const ads = ['.ad', '.c-promo', '.c-ad', '.c-banner']
-	ads.forEach(el => $(el).remove())
+	const ads = ['.ad', '.c-promo', '.c-ad', '.c-banner', '.c-player__ad']
+	ads.forEach(el => { if (el) $(el).remove() })
 };
-
-$(document).ready(() => {
-	setTimeout(() => {
-		initPlugin();
-		download_progress();
-		createDownloadQuality();
-	}, 500);
-	// check if classes of the .page-wrap changes then add the buttons again
-	var oldSongListLen = 0;
-	var inter = setInterval(() => {
-		if ($('ol.o-list-bare').find('li').length) {
-			if ($('#download-bar .body-scroll').children().length == 0) $('#download-bar').removeClass('active')
-			var songListLen = $('ol.o-list-bare').find('li').length;
-			if (songListLen !== oldSongListLen) initPlugin();
-			oldSongListLen = songListLen;
-		}
-	}, 2000);
-});
-//#endregion
 
 //#region //? Toast Alert
 const toast = (message) => {
+	// create container
 	$('<div class="c-toast__msg" />').html(message)
-		.appendTo($('<div class="c-toast__row" />')
+		.appendTo($('<div class="c-toast__row cStm" />')
 			.appendTo($('.c-player ~ .c-toast')))
-	const msgContainer = $('.c-player ~ .c-toast .c-toast__row')
+	const msgContainer = $('.c-player ~ .c-toast .c-toast__row.cStm')
 	setTimeout(() => msgContainer.addClass('active'), 0)
 	setTimeout(() => {
 		msgContainer.removeClass('active')
 		msgContainer.on('animationend transitionend', e => e.target.remove())
 	}, 3000)
 }
+//#endregion
+
+//#region //? Run on Plugin Initialization
+var initPlugin = () => {
+	hideAds();
+	add_song_download_btn();
+	add_album_download_btn();
+	add_playlist_download_btn();
+};
+
+
+$(document).ready(() => {
+	initPlugin();
+	download_progress();
+	createDownloadQuality();
+	// Create toast to notify
+	toast('Plugin is active and Functional')
+	// hide download bar if no current downloads
+	setInterval(() => {
+		if ($('#download-bar .body-scroll').children().length == 0) $('#download-bar').removeClass('active')
+	}, 2000);
+	// check if classes of the .page-wrap changes then add the buttons again
+	var oldSongListLen = 0;
+	// update on list change
+	setInterval(() => {
+		if ($('ol.o-list-bare').find('li').length) {
+			var songListLen = $('ol.o-list-bare').find('li').length;
+			if (songListLen !== oldSongListLen) initPlugin();
+			oldSongListLen = songListLen;
+		}
+	}, 1000);
+});
 //#endregion

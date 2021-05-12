@@ -31,8 +31,7 @@
 
 .single_download_btn
   width: auto !important
-  // @media (max-width: 61.25em)
-  
+
 .album_download_btn
   display: none !important
   .album &
@@ -42,38 +41,6 @@
   display: none !important
   .s &,.featured &
     display: inline-block !important
-
-@media (min-width: 61.25em)
-  .c-search:not(.active)
-    right: 27em !important
-    left: 20em !important
-
-  .c-aside--flyout
-    top: 99px !important
-    bottom: 118px !important
-    // transform: none !important
-    article.o-snippet .o-snippet__item
-      &:nth-last-of-type(3),&:nth-last-of-type(2)
-        width: 33px
-
-@media (max-width: 61.25em)
-  .o-snippet__item:first-child
-    display: none
-
-  #download-bar
-    bottom: 9.5em
-
-  #quality-dropdown
-    right: auto
-    left: 11px
-
-  .c-nav.c-nav--secondary
-    opacity: 0
-    pointer-events: none
-
-  .c-player__entity
-    margin-left: auto
-    margin-right: auto
 
 #download-bar
   position: fixed
@@ -137,6 +104,38 @@
       opacity: 1
     .body-scroll
       overflow-y: auto
+
+@media (min-width: 61.25em)
+  .c-aside--flyout
+    top: 99px !important
+    bottom: 118px !important
+    article.o-snippet .o-snippet__item
+      &:nth-last-of-type(3),&:nth-last-of-type(2)
+        width: 33px
+
+@media (min-width: 61.25em)
+  .c-search:not(.active)
+    right: 39%
+    left: 39%
+
+@media (max-width: 61.25em)
+  .o-snippet__item:first-child
+    display: none
+
+  #download-bar
+    bottom: 9.5em
+
+  #quality-dropdown
+    right: auto
+    left: 11px
+
+  .c-nav.c-nav--secondary
+    opacity: 0
+    pointer-events: none
+
+  .c-player__entity
+    margin-left: auto
+    margin-right: auto
 
 .download-wrapper
   padding: 0 12px
