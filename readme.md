@@ -6,17 +6,18 @@ Give it a if you love the extension.\
 [![GitHub stars](https://img.shields.io/github/stars/GrayGalaxy/JioSaavn-Downloader.svg?style=for-the-badge&logo=github&label=Star)](https://github.com/GrayGalaxy/JioSaavn-Downloader "Star it")
 
 Follow me if you want to be updated.\
-[![GitHub followers](https://img.shields.io/github/followers/GrayGalaxy.svg?style=for-the-badge&logo=github&label=Followers)][profile]
+[![GitHub followers](https://img.shields.io/github/followers/GrayGalaxy.svg?style=for-the-badge&logo=github&label=Followers "Followers")][profile]
 
 You can download the extension form the following [link][download].\
 <small>You can also go through how to install it if you are struggling.</small>\
-[![Download](https://img.shields.io/github/downloads/GrayGalaxy/jiosaavn-downloader/total?style=for-the-badge)][download]
+[![Current Release](https://img.shields.io/github/release/GrayGalaxy/jiosaavn-downloader?style=for-the-badge "Download Current Release")][download]
+[![Download](https://img.shields.io/github/downloads/GrayGalaxy/jiosaavn-downloader/total?style=for-the-badge "Go to Release Page")][release]
 
 ## Screenshots
 
 ![Song Quality Selector](https://i.ibb.co/XWfJZGZ/1.jpg)
 
-![Single Song Download](https://i.ibb.co/Mpvp4tw/2.jpg)
+![Single Song Download](https://i.ibb.co/bQ1qVZb/1.jpg)
 
 ## How It Works
 
@@ -47,9 +48,9 @@ After Fetching data it gives out MP3 file with neatly organized tags and album a
 
 This extension cannot hosted be in chrome webstore due to obvious reasons. You can manually install the extension just by following the steps...
 
-- Download the extension here : [download](https://github.com/GrayGalaxy/JioSaavn-Downloader/releases)
+- Download the extension here : [download][download]
 - Extract the zip file
-- Go to chrome extensions page : [about://extensions/](about://extensions/)
+- Go to chrome extensions page : [about://extensions/](about://extensions/ " ")
 - You will see a button called **Load Unpacked Extension...** click that
 - Select the extracted folder and click **Open**
 
@@ -95,12 +96,14 @@ Make sure you check out JioSaavn API page and the original extension repo and :s
 
 Made with :heart: in India.
 
-[download]: https://github.com/GrayGalaxy/JioSaavn-Downloader/releases
+![Visitor count](https://shields-io-visitor-counter.herokuapp.com/badge?page=GrayGalaxy.jiosaavn-downloader&style=for-the-badge&labelColor=000000&logo=GitHub&logoColor=FFFFFF&color=0d7e9b)
+
+[release]: https://github.com/GrayGalaxy/JioSaavn-Downloader/releases " "
+[download]: https://github.com/GrayGalaxy/jiosaavn-downloader/releases/latest " "
 [profile]: https://github.com/GrayGalaxy
 [a1]: https://github.com/cachecleanerjeet/JiosaavnAPI
 [a2]: https://github.com/cachecleanerjeet/
 [a3]: https://corsdisabledsong.tuhinwin.workers.dev/
-
 [d1]: https://github.com/jquery/jquery
 [d2]: https://github.com/aadsm/JavaScript-ID3-Reader
 [d3]: https://github.com/Stuk/jszip
