@@ -1,6 +1,10 @@
 //#region //* sanitise
 // capitalise
-const __c = str => str.charAt(0).toUpperCase() + str.slice(1);
+const __c = str => {
+	str = str.charAt(0).toUpperCase() + str.slice(1)
+	str = str.replace(/&#039;|&quot;/g, "'").replace(/\//g, "_")
+	return str
+};
 // Get Song Data
 const songData = (song, i) => {
 	const url = song.media_preview_url.replace('preview.saavncdn.com', 'aac.saavncdn.com');
@@ -63,6 +67,7 @@ const getSongsData = async (type, token, callback) => {
 				title: res.title || res.listname,
 				image: res.image,
 				songs: songsArray(res.songs, type == "album"),
+				type,
 			}
 			console.log('songs =>', result);
 			callback(result, true)
@@ -147,18 +152,26 @@ const downloadWithData = (song, onSuccess, onError) => {
 //#endregion
 
 //#region //* Download Set of Songs as a Zip
-const downloadSongsAsZip = function (list, name, onSuccess) {
+const downloadSongsAsZip = function (list, onSuccess) {
+	const { title, songs, image } = list
 	// create a zip
 	var zip = new JSZip();
 	var num = 0
-	list.forEach((song, i) => {
+	// Download cover image for albums
+	if (list.type == 'playlist') {
+		var cover = image.replace('c.saavncdn.com', 'corsdisabledimage.tuhinwin.workers.dev');
+		getURLArrayBuffer(cover, (image) => {
+			zip.file(`_cover_.jpg`, image);
+		})
+	}
+	songs.forEach((song, i) => {
 		// get a single song blob
 		getSongBlob(song, (blob) => {
 			zip.file(`${song.title}.mp3`, blob);
 			num++;
-			if (num === list.length) setTimeout(() => {
+			if (num === songs.length) setTimeout(() => {
 				// toast("Compressing & Zipping the Downloads");
-				downloadZip(zip, name);
+				downloadZip(zip, title);
 				onSuccess && onSuccess()
 			}, 1000);
 		}, () => num++);

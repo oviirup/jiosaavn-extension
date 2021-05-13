@@ -1,6 +1,6 @@
 {
   "name": "JioSaavn Downloader ᴺᴱᵂ",
-  "version": "0.5",
+  "version": "0.6",
   "manifest_version": 2,
   "description": "__MSG_description__",
   "icons": {
@@ -23,10 +23,10 @@
       "dist/filesaver.min.js",
       "dist/jszip.min.js",
       "dist/id3.min.js",
-      "dist/downloader.min.js",
-      "dist/inject.min.js"
+      "src/downloader.js",
+      "src/inject.js"
     ],
     "run_at": "document_start"
   }],
-  "web_accessible_resources": ["dist/downloader.min.js"]
+  "web_accessible_resources": ["src/downloader.js"]
 }

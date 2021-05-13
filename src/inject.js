@@ -50,7 +50,7 @@ const add_album_download_btn = () => {
 				// Display Toast
 				toast(`Now Downloading Album : ${result.title}`)
 				// Download zip file
-				downloadSongsAsZip(result.songs, result.title, () => {
+				downloadSongsAsZip(result, () => {
 					icon.addClass('o-icon-download').removeClass('o-icon-download-progress');
 					toast("Compressing & Zipping the Downloads");
 				})
@@ -65,17 +65,20 @@ const add_album_download_btn = () => {
 //#region //* Playlist Download =====
 const add_playlist_download_btn = () => {
 	const firstBtn = $('.o-flag__body .o-layout>.o-layout__item:first-of-type')
-	const Button = $('<p class="o-layout__item u-margin-bottom-none@sm playlist_download_btn"><a class="c-btn c-btn--tertiary c-btn--ghost c-btn--icon"><i class="o-icon--large o-icon-download"></i></a></p>');
+	const Button = $('<p class="o-layout__item u-margin-bottom-none@sm playlist_download_btn"><a class="c-btn c-btn--tertiary c-btn--ghost c-btn--icon"><i class="o-icon--large o-icon-download"></i></a></p>')
+	const icon = Button.find('i.o-icon--large')
 	// CLick Action
 	Button.on('click', () => {
 		const token = window.location.href.match(/.*\/(.*)/)[1]
+		icon.removeClass('o-icon-download').addClass('o-icon-download-progress')
 		// Get album data
 		getSongsData('playlist', token, (result, status) => {
 			if (status) {
 				// Display Toast
 				toast(`Now Downloading Playlist : ${result.title}`)
 				// Download Zip
-				downloadSongsAsZip(result.songs, result.title, () => {
+				downloadSongsAsZip(result, () => {
+					icon.addClass('o-icon-download').removeClass('o-icon-download-progress');
 					toast("Compressing & Zipping the Downloads");
 				})
 			} else toast('Cannot download this Playlist')
@@ -95,11 +98,11 @@ const createDownloadQuality = () => {
 	// Biterates
 	var bitrates = ['320', '192', '128', '64', '32', '16'];
 	menuItem.find('.curr_biterate').first().text(localStorage.download_bitrate + ' kbps');
-	bitrates = bitrates.map(function (rate) {
-		var el = $(`<li class='o-list-select__item'>${rate} kbps</li>`);
+	bitrates = bitrates.map(rate => {
+		const el = $(`<li class='o-list-select__item'>${rate} kbps</li>`);
 		if (rate === localStorage.download_bitrate) el.addClass('selected')
 		// Click Action
-		el.on('click', (e) => {
+		el.on('click', e => {
 			localStorage.download_bitrate = rate;
 			// Change Selected Maek
 			$(e.target).parent().find('.selected').removeClass('selected')
@@ -112,7 +115,7 @@ const createDownloadQuality = () => {
 		return el;
 	});
 	// Focus and Blur Action
-	$(document).on('click', function (e) {
+	$(document).on('click', e => {
 		if (!$(e.target).closest('#quality-dropdown').length) $('#quality-dropdown').removeClass('active')
 		else $('#quality-dropdown').toggleClass('active')
 	});
