@@ -1,17 +1,15 @@
-# JioSaavn Downloader
+# JioSaavn Downloader [![][sh_release1]][download] [![][sh_release2]][release]
 
-Simple and effective extension to download Songs, Albums or Plylist from jiosaavn.com with just one click. It also hides ads and promotions from JioSaavn Web, and slightly tweaks the UI.
+Simple and effective extension to download Songs, Albums or Playlist from jiosaavn.com with just one click. It also hides ads and promotions from JioSaavn Web, and slightly tweaks the UI.
 
 Give it a if you love the extension.\
-[![GitHub stars](https://img.shields.io/github/stars/GrayGalaxy/JioSaavn-Downloader.svg?style=for-the-badge&logo=github&label=Star)](https://github.com/GrayGalaxy/JioSaavn-Downloader "Star it")
+[![GitHub stars][sh_gh_stars]](https://github.com/GrayGalaxy/JioSaavn-Downloader "Star it")
 
 Follow me if you want to be updated.\
-[![GitHub followers](https://img.shields.io/github/followers/GrayGalaxy.svg?style=for-the-badge&logo=github&label=Followers "Followers")][profile]
+[![GitHub followers][sh_gh_followers]][profile]
 
 You can download the extension form the following [link][download].\
-<small>You can also go through how to install it if you are struggling.</small>\
-[![Current Release](https://img.shields.io/github/release/GrayGalaxy/jiosaavn-downloader?style=for-the-badge "Download Current Release")][download]
-[![Download](https://img.shields.io/github/downloads/GrayGalaxy/jiosaavn-downloader/total?style=for-the-badge "Go to Release Page")][release]
+<small>You can also go through how to install it if you are struggling.</small>
 
 ## Screenshots
 
@@ -87,10 +85,17 @@ Make sure you check out JioSaavn API page and the original extension repo and :s
 
 ### - Album, Playlist
 
-- On clicking the Download button it fetches lists of songs from server to donwload.
-- Then it downloads the songs one by one as mentionsed above.
+- On clicking the Download button it fetches lists of songs from server to download.
+- Then it downloads the songs one by one as mentioned above.
 - We will make a virtual zip on memory and create a folder and add the songs there.
 - Finally you can Download the Zip file.
+
+## Help me solve Issues
+
+[![][sh_issues_open]][issues]
+[![][sh_issues_closed]][issues]
+
+Post known issues in the [issues tab][issues]. It is not always possible to find out all the issues alone, and overtime there might be new issues that was previously undetected. Please post
 
 ---
 
@@ -100,6 +105,7 @@ Made with :heart: in India.
 
 [release]: https://github.com/GrayGalaxy/JioSaavn-Downloader/releases " "
 [download]: https://github.com/GrayGalaxy/jiosaavn-downloader/releases/latest " "
+[issues]: https://github.com/GrayGalaxy/jiosaavn-downloader/issues " "
 [profile]: https://github.com/GrayGalaxy
 [a1]: https://github.com/cachecleanerjeet/JiosaavnAPI
 [a2]: https://github.com/cachecleanerjeet/
@@ -107,3 +113,12 @@ Made with :heart: in India.
 [d1]: https://github.com/jquery/jquery
 [d2]: https://github.com/aadsm/JavaScript-ID3-Reader
 [d3]: https://github.com/Stuk/jszip
+
+<!-- Shields -->
+
+[sh_gh_stars]: https://img.shields.io/github/stars/GrayGalaxy/JioSaavn-Downloader.svg?style=for-the-badge&logo=github&label=Star
+[sh_gh_followers]: https://img.shields.io/github/followers/GrayGalaxy.svg?style=for-the-badge&logo=github&label=Followers
+[sh_release1]: https://img.shields.io/github/release/GrayGalaxy/jiosaavn-downloader?style=flat-square&label=Latest
+[sh_release2]: https://img.shields.io/github/downloads/GrayGalaxy/jiosaavn-downloader/total?style=flat-square&label=Downloads
+[sh_issues_open]: https://img.shields.io/github/issues-raw/GrayGalaxy/jiosaavn-downloader?style=flat-square&label=Open
+[sh_issues_closed]: https://img.shields.io/github/issues-closed-raw/GrayGalaxy/jiosaavn-downloader?style=flat-square&label=Closed
