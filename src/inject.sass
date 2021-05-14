@@ -17,11 +17,6 @@
 .o-snippet__action-final
   padding-right: 8px
 
-#quality-dropdown .c-dropdown__header
-  min-width: 4em !important
-#quality-dropdown .c-dropdown__content
-  max-width: 12em !important
-
 #song-biterate
   display: flex
   flex-direction: column
@@ -106,6 +101,10 @@
       overflow-y: auto
 
 @media (min-width: 61.25em)
+  #quality-dropdown .c-dropdown__header
+    min-width: 4em !important
+  #quality-dropdown .c-dropdown__content
+    max-width: 12em !important
   .c-aside--flyout
     top: 99px !important
     bottom: 118px !important
@@ -115,10 +114,14 @@
 
 @media (min-width: 61.25em)
   .c-search:not(.active)
-    right: 39%
-    left: 39%
+    right: 27em
+    left: 27em
 
 @media (max-width: 61.25em)
+  .c-nav.c-nav--secondary
+    display: none
+  figure.o-flag.o-flag--cover figcaption.o-flag__body
+    margin-bottom: 3em !important
   .o-snippet__item:first-child
     display: none
 
@@ -128,10 +131,12 @@
   #quality-dropdown
     right: auto
     left: 11px
-
-  .c-nav.c-nav--secondary
-    opacity: 0
-    pointer-events: none
+    .c-dropdown__content::after
+      content: ''
+      display: block
+      height: 3.25em
+      width: 100%
+      background: #2BC5B4
 
   .c-player__entity
     margin-left: auto

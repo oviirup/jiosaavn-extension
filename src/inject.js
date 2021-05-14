@@ -1,75 +1,68 @@
+// download n error function
+const downloadError = (icon, item) => {
+	if (item) toast(`Sorry! cannot download this ${item}`)
+	icon.removeClass('o-icon-download-progress').addClass('o-icon-download')
+	return
+}
 
 //#region //* Single Download =====
 const add_song_download_btn = () => {
-	// $('.single_download_btn').remove();
+	// $('.single_download_btn').remove()
 	// Add button in each song
 	$('li').find('figcaption').find('a.u-color-js-gray').each(function () {
 		if ($(this).parents('article.o-snippet').find('.single_download_btn').length !== 0) return
-		const Button = $('<div class="o-snippet__item single_download_btn"><span class="u-link"><i class="o-icon--large o-icon-download"></i></span></div>');
-		const icon = Button.find('span').find('i.o-icon--large');
+		const Button = $('<div class="o-snippet__item single_download_btn"><span class="u-link"><i class="o-icon--large o-icon-download"></i></span></div>')
+		const icon = Button.find('span').find('i.o-icon--large')
 		try { var token = this.href.match(/.*\/(.*)/)[1] } catch (e) { return }
 		// CLick Action
 		Button.on('click', (e) => {
-			e.preventDefault();
-			icon.removeClass('o-icon-download').addClass('o-icon-download-progress');
-			// On error function
-			const error = () => {
-				toast('Sorry! Cannot download this Song');
-				icon.removeClass('o-icon-download-progress').addClass('o-icon-download')
-			}
+			e.preventDefault()
+			icon.removeClass('o-icon-download').addClass('o-icon-download-progress')
 			// Get song Data
 			getSongsData('song', token, (result) => {
-				if (result) {
-					toast(`Now Downloading Song : ${result.title}`);
-					downloadWithData(
-						result,
-						() => icon.removeClass('o-icon-download-progress').addClass('o-icon-download'),
-						() => error()
-					)
-				} else error()
+				if (!result) downloadError(icon, 'Song')
+				toast(`Now Downloading Song : ${result.title}`)
+				downloadWithData(
+					result,
+					() => icon.removeClass('o-icon-download-progress').addClass('o-icon-download'),
+					() => downloadError(icon, 'Song')
+				)
 			})
-		});
+		})
 		// Add Button 
 		$(this).parents('article.o-snippet').find('.o-snippet__item:nth-last-of-type(2)').before(Button)
-	});
-};
+	})
+}
 //#endregion
 
 //#region //* Album Download =====
 const add_album_download_btn = () => {
 	const firstBtn = $('.o-flag__body .o-layout>.o-layout__item:first-of-type')
-	const Button = $('<p class="o-layout__item u-margin-bottom-none@sm album_download_btn"><a class="c-btn c-btn--tertiary c-btn--ghost c-btn--icon"><i class="o-icon--large o-icon-download"></i></a></p>');
-	const icon = Button.find('i.o-icon--large');
+	const Button = $('<p class="o-layout__item u-margin-bottom-none@sm album_download_btn"><a class="c-btn c-btn--tertiary c-btn--ghost c-btn--icon"><i class="o-icon--large o-icon-download"></i></a></p>')
+	const icon = Button.find('i.o-icon--large')
 	// CLick Action
 	Button.on('click', () => {
 		const token = window.location.href.match(/.*\/(.*)/)[1]
-		icon.removeClass('o-icon-download').addClass('o-icon-download-progress');
+		icon.removeClass('o-icon-download').addClass('o-icon-download-progress')
 		// Get album data
-		getSongsData('album', token, (result) => {
-			if (!result) {
-				toast('Sorry! Cannot download this Album');
-				icon.removeClass('o-icon-download-progress').addClass('o-icon-download')
-				return
-			}
+		getSongsData('album', token, res => {
+			if (!res) downloadError(icon, 'Album')
 			// Display Toast
-			toast(`Now Downloading Album : ${result.title}`)
+			toast(`Now Downloading Album : ${res.title}`)
 			// Download zip file
 			downloadSongsAsZip(
-				result,
+				res,
 				() => {
-					icon.addClass('o-icon-download').removeClass('o-icon-download-progress');
-					toast("Compressing & Zipping the Downloads");
+					icon.addClass('o-icon-download').removeClass('o-icon-download-progress')
+					toast("Compressing & Zipping the Downloads")
 				},
-				() => {
-					icon.addClass('o-icon-download').removeClass('o-icon-download-progress');
-					toast("Unable to download the album !");
-				}
+				() => { downloadError(icon, 'Album') }
 			)
 		})
-	});
+	})
 	if (firstBtn.parent().find($('.album_download_btn')).length == 0)
 		firstBtn.after(Button)
-};
+}
 //#endregion
 
 //#region //* Playlist Download =====
@@ -82,67 +75,69 @@ const add_playlist_download_btn = () => {
 		const token = window.location.href.match(/.*\/(.*)/)[1]
 		icon.removeClass('o-icon-download').addClass('o-icon-download-progress')
 		// Get album data
-		getSongsData('playlist', token, (result) => {
-			if (!result) {
-				toast('Sorry! Cannot download this Playlist');
+		getSongsData('playlist', token, res => {
+			if (!res) {
+				toast('Sorry! Cannot download this Playlist')
 				icon.removeClass('o-icon-download-progress').addClass('o-icon-download')
 				return
 			}
 			// Display Toast
-			toast(`Now Downloading Playlist : ${result.title}`)
+			toast(`Now Downloading Playlist : ${res.title}`)
 			// Download Zip
-			downloadSongsAsZip(
-				result,
+			downloadSongsAsZip(res,
 				() => {
-					icon.addClass('o-icon-download').removeClass('o-icon-download-progress');
-					toast("Compressing & Zipping the Downloads");
+					icon.addClass('o-icon-download').removeClass('o-icon-download-progress')
+					toast("Compressing & Zipping the Downloads")
 				},
 				() => {
-					icon.addClass('o-icon-download').removeClass('o-icon-download-progress');
-					toast("Unable to download the playlist !");
+					icon.addClass('o-icon-download').removeClass('o-icon-download-progress')
+					toast("Unable to download the playlist !")
 				})
 		})
-	});
+	})
 	if (firstBtn.parent().find($('.playlist_download_btn')).length == 0)
 		firstBtn.after(Button)
-};
+}
 //#endregion
 
 //#region //? Add Download Quality selector on the Menu..
 const createDownloadQuality = () => {
 	var
 		menuItem = $('<aside id="quality-dropdown" class="c-dropdown u-margin-right@sm"><div class="c-dropdown__header"><span class="c-dropdown__type"><span class="u-visible-visually@lg"></span>Qiality</span> <span class="c-dropdown__select curr_biterate"></span></div></aside>'),
-		dropDown = $('<div class="c-dropdown__content"><div class="u-padding@sm"><h5 class="u-deci u-margin-bottom-none@sm">Download Quality</h5><p class="u-centi u-color-js-gray-alt-light u-margin-bottom-none@sm"><em>Pick a prefered quality</em></p></div><div class="o-message o-message--error">You must select a bitrate</div></div>'),
+		dropDown = $('<div class="c-dropdown__content"><div class="u-padding@sm"><h5 class="u-deci u-margin-bottom-none@sm">Download Quality</h5><p class="u-centi u-color-js-gray-alt-light u-margin-bottom-none@sm"><em>Pick a Preferred Quality</em></p></div><div class="o-message o-message--error">You must select a bitrate</div></div>'),
 		dropDownList = $('<form id="song-biterate"><section class="u-scroll u-3/5-max-vh"><ul class="o-list-select"></ul></section></form>')
 	// Biterates
-	var bitrates = ['320', '192', '128', '64', '32', '16'];
-	menuItem.find('.curr_biterate').first().text(localStorage.download_bitrate + ' kbps');
+	var bitrates = ['320', '192', '128', '64', '32', '16']
+	menuItem.find('.curr_biterate').first().text(localStorage.bitrate + ' kbps')
 	bitrates = bitrates.map(rate => {
-		const el = $(`<li class='o-list-select__item'>${rate} kbps</li>`);
-		if (rate === localStorage.download_bitrate) el.addClass('selected')
+		const el = $(`<li class='o-list-select__item'>${rate} kbps</li>`)
+		if (rate === localStorage.bitrate) el.addClass('selected')
 		// Click Action
 		el.on('click', e => {
-			localStorage.download_bitrate = rate;
+			localStorage.bitrate = rate
 			// Change Selected Maek
 			$(e.target).parent().find('.selected').removeClass('selected')
-			$(e.target).addClass('selected');
+			$(e.target).addClass('selected')
 			// Change label
-			menuItem.find('.curr_biterate').first().text(`${localStorage.download_bitrate} kbps`);
+			menuItem.find('.curr_biterate').first().text(`${localStorage.bitrate} kbps`)
 			// Display Toast
-			toast(`Download Quality changed to ${localStorage.download_bitrate}kbps`)
-		});
-		return el;
-	});
+			toast(`Download Quality changed to ${localStorage.bitrate}kbps`)
+		})
+		return el
+	})
 	// Focus and Blur Action
 	$(document).on('click', e => {
 		if (!$(e.target).closest('#quality-dropdown').length) $('#quality-dropdown').removeClass('active')
 		else $('#quality-dropdown').toggleClass('active')
-	});
-	dropDownList.append(bitrates);
-	dropDown.append(dropDownList);
-	menuItem.append(dropDown);
-	$(menuItem).insertAfter($('#language-dropdown'))
-};
+	})
+	dropDownList.append(bitrates)
+	dropDown.append(dropDownList)
+	menuItem.append(dropDown)
+	if ($('#language-dropdown').length)
+		$(menuItem).insertAfter($('#language-dropdown'))
+	else
+		$('header.c-header .o-layout__item').last().append(menuItem)
+}
 //#endregion
 
 //#region //? Download progress
@@ -159,7 +154,7 @@ var hideAds = () => {
 	$('.banner').removeClass('banner')
 	const ads = ['.ad', '.c-promo', '.c-ad', '.c-banner', '.c-player__ad']
 	ads.forEach(el => { if (el) $(el).remove() })
-};
+}
 
 //#region //? Toast Alert
 const toast = (message) => {
@@ -178,33 +173,33 @@ const toast = (message) => {
 
 //#region //? Run on Plugin Initialization
 var initPlugin = () => {
-	localStorage.download_bitrate = localStorage.download_bitrate || 320
-	hideAds();
-	add_song_download_btn();
-	add_album_download_btn();
-	add_playlist_download_btn();
-};
+	localStorage.bitrate = localStorage.bitrate || 320
+	hideAds()
+	add_song_download_btn()
+	add_album_download_btn()
+	add_playlist_download_btn()
+}
 
 
 $(document).ready(() => {
-	initPlugin();
-	download_progress();
-	createDownloadQuality();
+	initPlugin()
+	download_progress()
+	createDownloadQuality()
 	// Create toast to notify
 	toast('Plugin is active and Functional')
 	// hide download bar if no current downloads
 	setInterval(() => {
 		if ($('#download-bar .body-scroll').children().length == 0) $('#download-bar').removeClass('active')
-	}, 2000);
+	}, 2000)
 	// check if classes of the .page-wrap changes then add the buttons again
-	var oldSongListLen = 0;
+	var oldSongListLen = 0
 	// update on list change
 	setInterval(() => {
 		if ($('ol.o-list-bare').find('li').length) {
-			var songListLen = $('ol.o-list-bare').find('li').length;
-			if (songListLen !== oldSongListLen) initPlugin();
-			oldSongListLen = songListLen;
+			var songListLen = $('ol.o-list-bare').find('li').length
+			if (songListLen !== oldSongListLen) initPlugin()
+			oldSongListLen = songListLen
 		}
-	}, 1000);
-});
+	}, 1000)
+})
 //#endregion

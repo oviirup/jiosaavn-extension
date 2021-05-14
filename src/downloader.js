@@ -1,15 +1,21 @@
-//#region //* sanitise
-// capitalise
+//#region //* sanitize
+// sanitize name
 const __c = str => {
 	str = str.charAt(0).toUpperCase() + str.slice(1)
-	str = str.replace(/&#039;|&quot;/g, "'").replace(/\//g, "_")
+	str = str.replace(/&#039|&quot/g, "'").replace(/\//g, "_")
 	return str
-};
+}
+// check availability
+const __isAvailable = (song) => {
+	let available = true
+	if (!song.media_preview_url) available = false
+	if (song.disabled === 'true') available = false
+	return available
+}
 // Get Song Data
 const songData = (song, i) => {
-	if (!song.media_preview_url) return
-	if (song.disabled === 'true') return
-	const url = song.media_preview_url.replace('preview.saavncdn.com', 'aac.saavncdn.com');
+	if (!__isAvailable(song)) return
+	const url = song.media_preview_url.replace('preview.saavncdn.com', 'aac.saavncdn.com')
 	const array = {
 		id: song.id,
 		title: __c(song.song),
@@ -18,109 +24,110 @@ const songData = (song, i) => {
 		singers: song.singers,
 		image: song.image,
 		url: url.replace('_96_p', '_160'),
-		hd_content: song["320kbps"],
+		hd: song["320kbps"] === "true",
 		year: song.year,
 		date: song.release_date,
 		buffer_url: { "96": url, "160": url.replace('_96_p', '_160'), "320": url.replace('_96_p', '_320') },
 	}
-	// inclusion list
-	if (i) array.track = i;
-	// Check if the language is empty
-	if (song.language && song.language != "unknown") array["language"] = __c(song.language)
-	return array;
+	if (i) array.track = i
+	if (song.language && song.language != "unknown")
+		array["language"] = __c(song.language)
+	return array
 }
 // Get Songs Array
-const songsArray = (source, track) => {
-	var songs = [], i = 1;
-	// get list of songs
+const songsArray = (source, track = false) => {
+	var songs = [], i = 1
 	source.forEach((song) => {
-		if (song.media_preview_url && song.disabled !== 'true')
+		if (__isAvailable(song))
 			songs.push(songData(song, track && i++))
-	});
-	return songs;
+	})
+	return songs
 }
 
-// sanitise response JSON
-const responseJSON = (response) => JSON.parse(JSON.stringify(response).replace(/&amp;/gi, "&").replace(/&copy;/gi, "©").replace(/150x150/gi, "500x500").replace(/&#039;/, "'"));
+// sanitize response JSON
+const __json = (response) => JSON.parse(JSON.stringify(response).replace(/&amp/gi, "&").replace(/&copy/gi, "©").replace(/150x150/gi, "500x500").replace(/&#039/, "'"))
 //#endregion
 
-//#region //* Get Downlaod URL from Server
+//#region //* Get Download URL from Server
 // get ID from token
 const getTheID = (token, type) => {
-	const url = `https://www.jiosaavn.com/api.php?__call=webapi.get&ctx=wap6dot0&api_version=4&_format=json&_marker=0%3F_marker%3D0&type=${type}&token=${token}`;
+	const url = `https://www.jiosaavn.com/api.php?__call=webapi.get&ctx=wap6dot0&api_version=4&_format=json&_marker=0%3F_marker%3D0&type=${type}&token=${token}`
 	const id = fetch(url).then(res => res.json()).then(res => type == "song" ? res.songs[0].id : res.id)
 	return id
 }
-// Dwonload Playlist or Album
-const getSongsData = async (type, token, callback) => {
+// Download Playlist or Album
+const getSongsData = async (type, token, callback = () => { }) => {
 	// get the id
-	var id = await getTheID(token, type), data = {}
+	var id = await getTheID(token, type), data = {}, result = false
 	// Create data accordingly
-	if (type == "album") data = { "albumid": id, "__call": "content.getAlbumDetails" }
-	if (type == "playlist") data = { "listid": id, "__call": "playlist.getDetails" }
-	if (type == "song") data = { "pids": id, "__call": "song.getDetails" }
+	if (type === "album") data = { "albumid": id, "__call": "content.getAlbumDetails" }
+	if (type === "playlist") data = { "listid": id, "__call": "playlist.getDetails" }
+	if (type === "song") data = { "pids": id, "__call": "song.getDetails" }
 	// Call to saavn server
 	$.ajax({
 		url: "https://www.jiosaavn.com/api.php?_format=json&_marker=0",
 		dataType: "json", data,
-		success: (res) => {
-			res = responseJSON(res)
-			var result = {}
-			if (type == "song") result = songData(res[id])
-			else result = {
-				id: res.albumid || res.listid,
-				title: res.title || res.listname,
-				image: res.image,
-				songs: songsArray(res.songs, type == "album"),
-				type,
+		success: (res, status) => {
+			if (status !== 'success') return
+			res = __json(res)
+			// organize the response
+			if (type === "song") {
+				if (!__isAvailable(res[id])) return
+				result = songData(res[id])
+			} else {
+				const songs = songsArray(res.songs, type === "album")
+				result = songs && {
+					songs, type,
+					id: res.albumid || res.listid,
+					title: res.title || res.listname,
+					image: res.image,
+				}
 			}
-			console.log('songs =>', result);
-			callback(result)
-		},
-		error: () => callback()
-	});
+		}
+	}).always(() => {
+		console.log('songs =>', result)
+		callback(result)
+	})
 }
 //#endregion
 
 //#region //* XHR Request
-// Get URL Response as an ArrayBuffer Object
-const getURLArrayBuffer = (url, onload, onprogress, onerror) => {
-	const xhr = new XMLHttpRequest();
-	xhr.open('GET', url, true);
-	xhr.responseType = 'arraybuffer';
-	if (onprogress) xhr.onprogress = e => {
-		const progress = e.loaded / e.total;
-		onprogress(progress < 1 ? progress : false);
-	};
+const getURLArrayBuffer = (url, onLoad = () => { }, onProgress = () => { }, onError = () => { }) => {
+	const xhr = new XMLHttpRequest()
+	xhr.open('GET', url, true)
+	xhr.responseType = 'arraybuffer'
+	if (onProgress) xhr.onprogress = e => {
+		const progress = e.loaded / e.total
+		onProgress(progress < 1 ? progress : false)
+	}
 	xhr.onload = () => {
-		if (xhr.status === 200) {
-			onload(xhr.response)
-		} else {
-			onprogress && onprogress(false);
-			onerror && onerror();
+		if (xhr.status === 200) onLoad(xhr.response)
+		else {
+			onProgress(false)
+			onError()
 		}
-	};
-	xhr.send();
-};
+	}
+	xhr.send()
+}
 //#endregion
 
 //#region //* Get Async Downloaded blob of the a Single Song
-const getSongBlob = (song, success, error) => {
-	// Get biterate
-	const bit = parseInt(localStorage.download_bitrate);
+const getSongBlob = (song, onSuccess = () => { }, onError = () => { }) => {
+	// Get bitrate
+	const bit = parseInt(localStorage.bitrate)
 	// get cover image
-	var cover = song.image.replace('c.saavncdn.com', 'corsdisabledimage.tuhinwin.workers.dev');
-	getURLArrayBuffer(cover, (coverArrayBuffer) => {
+	var coverUrl = song.image.replace('c.saavncdn.com', 'corsdisabledimage.tuhinwin.workers.dev')
+	getURLArrayBuffer(coverUrl, (cover) => {
 		const url_raw = song.url.replace('aac.saavncdn.com', 'corsdisabledsong.tuhinwin.workers.dev')
-		// ctreate extension based on bitrate
+		// create extension based on bitrate
 		var extension = '.mp3'
-		if (bit <= 64 || (bit == 320 && song.hd_content)) extension = `_${bit}.mp3`;
-		// sanitise url of the song
-		const songUrl = url_raw.substr(0, url_raw.lastIndexOf('_')) + extension;
+		if (bit <= 64 || (bit == 320 && song.hd)) extension = `_${bit}.mp3`
+		// sanitize url of the song
+		const songUrl = url_raw.substr(0, url_raw.lastIndexOf('_')) + extension
 		getURLArrayBuffer(songUrl, (arrayBuffer) => {
-			const writer = new ID3Writer(arrayBuffer);
+			const writer = new ID3Writer(arrayBuffer)
 			const { title, album, prim_artists, singers, year, language, track, label = '' } = song
-			if (language) writer.setFrame('TCON', [__c(language)]);
+			if (language) writer.setFrame('TCON', [__c(language)])
 			if (track) writer.setFrame('TRCK', track)
 			writer.setFrame('TIT2', title)
 				.setFrame('TPE2', prim_artists.split(', '))
@@ -129,30 +136,29 @@ const getSongBlob = (song, success, error) => {
 				.setFrame('TYER', year)
 				.setFrame('TBPM', bit)
 				.setFrame('TPUB', label)
-				.setFrame('APIC', { type: 3, data: coverArrayBuffer, description: title });
-			writer.addTag();
-			const blob = writer.getBlob();
-			success(blob);
+				.setFrame('APIC', { type: 3, data: cover, description: title })
+			writer.addTag()
+			const blob = writer.getBlob()
+			onSuccess(blob)
 		},
 			(value) => showProgress(song.title, song.id, value),
-			() => error && error()
-		);
-	});
-};
+			() => onError()
+		)
+	})
+}
 //#endregion
 
 //#region //* Download a Single song with ID3 Meta Data (Song Album art and Artists)
-const downloadWithData = (song, onSuccess, onError) => {
+const downloadWithData = (song, onSuccess = () => { }, onError = () => { }) => {
 	getSongBlob(
 		song,
 		(blob) => {
-			// Save file
-			saveAs(blob, `${song.title}.mp3`);
-			onSuccess && onSuccess();
+			saveAs(blob, `${song.title}.mp3`)
+			onSuccess()
 		},
-		() => { onError && onError() }
+		() => onError()
 	)
-};
+}
 //#endregion
 
 //#region //* Download Set of Songs as a Zip
@@ -163,9 +169,9 @@ const downloadSongsAsZip = function (list, onSuccess = () => { }, onError = () =
 	var a = 0, b = 0, c = 0
 	// Download cover image for albums
 	if (list.type == 'playlist') {
-		var cover = image.replace('c.saavncdn.com', 'corsdisabledimage.tuhinwin.workers.dev');
+		var cover = image.replace('c.saavncdn.com', 'corsdisabledimage.tuhinwin.workers.dev')
 		getURLArrayBuffer(cover, (image) => {
-			zip.file(`_cover_.jpg`, image);
+			zip.file(`_cover_.jpg`, image)
 		})
 	}
 	songs.forEach((song) => {
@@ -191,24 +197,25 @@ const downloadSongsAsZip = function (list, onSuccess = () => { }, onError = () =
 const downloadZip = (zip, name, callback = () => { }) => {
 	zip.generateAsync({ type: "blob" })
 		.then((blob) => {
-			saveAs(blob, name);
-			callback();
-		});
-};
+			saveAs(blob, name)
+			callback()
+		})
+}
 //#endregion
 
 //#region //* Show Progress
 const showProgress = (name, id, value) => {
-	if ($('#download-bar').find(`#${id}`).length == 0) {
+	const bar = $('#download-bar')
+	if (bar.find(`#${id}`).length == 0) {
 		const wrapper = $(`<div id="${id}" class="download-wrapper" style="--p:0.15"><div class="wrap"><svg class="progress" viewbox="0 0 24 24"><circle cx="12" cy="12" r="11"/><circle cx="12" cy="12" r="11"/><path d="M1.73,12.91 8.1,19.28 22.79,4.59"/></svg><p class="u-centi u-ellipsis u-color-js-gray-alt-light">${name}</p></div></div>`)
-		$('#download-bar .body-scroll').append(wrapper)
+		bar.find('.body-scroll').append(wrapper)
 	}
 	const progress = $(`#download-bar #${id}`)
 	progress.css("--p", value)
-	$('#download-bar').addClass('active')
+	bar.addClass('active')
 	if (!value) {
 		progress.addClass('done hide')
-		setTimeout(() => { progress.remove() }, 3250);
+		setTimeout(() => { progress.remove() }, 3250)
 	}
 }
 //#endregion
