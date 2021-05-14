@@ -7,6 +7,7 @@ const __c = str => {
 };
 // Get Song Data
 const songData = (song, i) => {
+	if (!song.media_preview_url) return
 	const url = song.media_preview_url.replace('preview.saavncdn.com', 'aac.saavncdn.com');
 	const array = {
 		id: song.id,
@@ -31,7 +32,10 @@ const songData = (song, i) => {
 const songsArray = (source, track) => {
 	var songs = [], i = 1;
 	// get list of songs
-	source.forEach((song) => songs.push(songData(song, track && i++)));
+	source.forEach((song) => {
+		if (song.media_preview_url)
+			songs.push(songData(song, track && i++))
+	});
 	return songs;
 }
 
