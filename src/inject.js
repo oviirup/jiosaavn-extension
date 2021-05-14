@@ -45,16 +45,26 @@ const add_album_download_btn = () => {
 		const token = window.location.href.match(/.*\/(.*)/)[1]
 		icon.removeClass('o-icon-download').addClass('o-icon-download-progress');
 		// Get album data
-		getSongsData('album', token, (result, status) => {
-			if (status) {
-				// Display Toast
-				toast(`Now Downloading Album : ${result.title}`)
-				// Download zip file
-				downloadSongsAsZip(result, () => {
+		getSongsData('album', token, (result) => {
+			if (!result) {
+				toast('Sorry! Cannot download this Album');
+				icon.removeClass('o-icon-download-progress').addClass('o-icon-download')
+				return
+			}
+			// Display Toast
+			toast(`Now Downloading Album : ${result.title}`)
+			// Download zip file
+			downloadSongsAsZip(
+				result,
+				() => {
 					icon.addClass('o-icon-download').removeClass('o-icon-download-progress');
 					toast("Compressing & Zipping the Downloads");
-				})
-			} else toast('Cannot download this Album')
+				},
+				() => {
+					icon.addClass('o-icon-download').removeClass('o-icon-download-progress');
+					toast("Unable to download the album !");
+				}
+			)
 		})
 	});
 	if (firstBtn.parent().find($('.album_download_btn')).length == 0)
@@ -72,16 +82,25 @@ const add_playlist_download_btn = () => {
 		const token = window.location.href.match(/.*\/(.*)/)[1]
 		icon.removeClass('o-icon-download').addClass('o-icon-download-progress')
 		// Get album data
-		getSongsData('playlist', token, (result, status) => {
-			if (status) {
-				// Display Toast
-				toast(`Now Downloading Playlist : ${result.title}`)
-				// Download Zip
-				downloadSongsAsZip(result, () => {
+		getSongsData('playlist', token, (result) => {
+			if (!result) {
+				toast('Sorry! Cannot download this Playlist');
+				icon.removeClass('o-icon-download-progress').addClass('o-icon-download')
+				return
+			}
+			// Display Toast
+			toast(`Now Downloading Playlist : ${result.title}`)
+			// Download Zip
+			downloadSongsAsZip(
+				result,
+				() => {
 					icon.addClass('o-icon-download').removeClass('o-icon-download-progress');
 					toast("Compressing & Zipping the Downloads");
+				},
+				() => {
+					icon.addClass('o-icon-download').removeClass('o-icon-download-progress');
+					toast("Unable to download the playlist !");
 				})
-			} else toast('Cannot download this Playlist')
 		})
 	});
 	if (firstBtn.parent().find($('.playlist_download_btn')).length == 0)
@@ -159,6 +178,7 @@ const toast = (message) => {
 
 //#region //? Run on Plugin Initialization
 var initPlugin = () => {
+	localStorage.download_bitrate = localStorage.download_bitrate || 320
 	hideAds();
 	add_song_download_btn();
 	add_album_download_btn();

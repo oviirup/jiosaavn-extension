@@ -70,9 +70,9 @@ const getSongsData = async (type, token, callback) => {
 				type,
 			}
 			console.log('songs =>', result);
-			callback(result, true)
+			callback(result)
 		},
-		error: (res) => callback(res, false)
+		error: () => callback()
 	});
 }
 //#endregion
@@ -91,7 +91,6 @@ const getURLArrayBuffer = (url, onload, onprogress, onerror) => {
 		if (xhr.status === 200) {
 			onload(xhr.response)
 		} else {
-			console.warn("Requested URL Forbiden !")
 			onprogress && onprogress(false);
 			onerror && onerror();
 		}
@@ -152,11 +151,11 @@ const downloadWithData = (song, onSuccess, onError) => {
 //#endregion
 
 //#region //* Download Set of Songs as a Zip
-const downloadSongsAsZip = function (list, onSuccess) {
+const downloadSongsAsZip = function (list, onSuccess = () => { }, onError = () => { }) {
 	const { title, songs, image } = list
 	// create a zip
-	var zip = new JSZip();
-	var num = 0
+	var zip = new JSZip()
+	var a = 0, b = 0, c = 0
 	// Download cover image for albums
 	if (list.type == 'playlist') {
 		var cover = image.replace('c.saavncdn.com', 'corsdisabledimage.tuhinwin.workers.dev');
@@ -164,19 +163,24 @@ const downloadSongsAsZip = function (list, onSuccess) {
 			zip.file(`_cover_.jpg`, image);
 		})
 	}
-	songs.forEach((song, i) => {
+	songs.forEach((song) => {
 		// get a single song blob
-		getSongBlob(song, (blob) => {
-			zip.file(`${song.title}.mp3`, blob);
-			num++;
-			if (num === songs.length) setTimeout(() => {
-				// toast("Compressing & Zipping the Downloads");
-				downloadZip(zip, title);
-				onSuccess && onSuccess()
-			}, 1000);
-		}, () => num++);
-	});
-};
+		getSongBlob(
+			song,
+			(blob) => {
+				zip.file(`${song.title}.mp3`, blob)
+				++a
+				if ((a + b) === songs.length && a !== 0) setTimeout(() => {
+					downloadZip(zip, title)
+					onSuccess()
+					if (b !== 0) toast('Some of the songs are not downloaded')
+				}, 1000)
+			},
+			() => {
+				if (++b === songs.length) onError()
+			})
+	})
+}
 //#endregion
 
 //#region //* Download a Zip blob as File via FileSaver
