@@ -18,8 +18,8 @@ const add_song_download_btn = () => {
 				icon.removeClass('o-icon-download-progress').addClass('o-icon-download')
 			}
 			// Get song Data
-			getSongsData('song', token, (result, status) => {
-				if (status) {
+			getSongsData('song', token, (result) => {
+				if (result) {
 					toast(`Now Downloading Song : ${result.title}`);
 					downloadWithData(
 						result,

@@ -8,6 +8,7 @@ const __c = str => {
 // Get Song Data
 const songData = (song, i) => {
 	if (!song.media_preview_url) return
+	if (song.disabled === 'true') return
 	const url = song.media_preview_url.replace('preview.saavncdn.com', 'aac.saavncdn.com');
 	const array = {
 		id: song.id,
@@ -33,7 +34,7 @@ const songsArray = (source, track) => {
 	var songs = [], i = 1;
 	// get list of songs
 	source.forEach((song) => {
-		if (song.media_preview_url)
+		if (song.media_preview_url && song.disabled !== 'true')
 			songs.push(songData(song, track && i++))
 	});
 	return songs;
@@ -175,8 +176,7 @@ const downloadSongsAsZip = function (list, onSuccess = () => { }, onError = () =
 				zip.file(`${song.title}.mp3`, blob)
 				++a
 				if ((a + b) === songs.length && a !== 0) setTimeout(() => {
-					downloadZip(zip, title)
-					onSuccess()
+					downloadZip(zip, title, onSuccess())
 					if (b !== 0) toast('Some of the songs are not downloaded')
 				}, 1000)
 			},
@@ -188,7 +188,7 @@ const downloadSongsAsZip = function (list, onSuccess = () => { }, onError = () =
 //#endregion
 
 //#region //* Download a Zip blob as File via FileSaver
-const downloadZip = (zip, name, callback) => {
+const downloadZip = (zip, name, callback = () => { }) => {
 	zip.generateAsync({ type: "blob" })
 		.then((blob) => {
 			saveAs(blob, name);
