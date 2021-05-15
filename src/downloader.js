@@ -2,7 +2,7 @@
 // sanitize name
 const __c = str => {
 	str = str.charAt(0).toUpperCase() + str.slice(1)
-	str = str.replace(/&#039|&quot/g, "'").replace(/\//g, "_")
+	str = str.replace(/&#039\;|&quot/g, "'").replace(/\//g, "_")
 	return str
 }
 // check availability
@@ -163,33 +163,37 @@ const downloadWithData = (song, onSuccess = () => { }, onError = () => { }) => {
 
 //#region //* Download Set of Songs as a Zip
 const downloadSongsAsZip = function (list, onSuccess = () => { }, onError = () => { }) {
-	const { title, songs, image } = list
+	const { title, songs, image } = list, n = songs.length
+	if (n === 0) return onError()
 	// create a zip
 	var zip = new JSZip()
-	var a = 0, b = 0, c = 0
+	var a = 0, b = 0, err = {}
 	// Download cover image for albums
-	if (list.type == 'playlist') {
+	if (list.type == 'playlist' && image.includes('c.saavncdn.com')) {
 		var cover = image.replace('c.saavncdn.com', 'corsdisabledimage.tuhinwin.workers.dev')
-		getURLArrayBuffer(cover, (image) => {
-			zip.file(`_cover_.jpg`, image)
-		})
+		getURLArrayBuffer(cover, (image) => zip.file(`_cover_.jpg`, image))
 	}
-	songs.forEach((song) => {
-		// get a single song blob
+	const count = () => $('#download-bar label').attr({ 'data-a': a, 'data-c': n })
+	count()
+	// get song blob
+	songs.forEach((song, i) => {
 		getSongBlob(
 			song,
-			(blob) => {
-				zip.file(`${song.title}.mp3`, blob)
-				++a
-				if ((a + b) === songs.length && a !== 0) setTimeout(() => {
-					downloadZip(zip, title, onSuccess())
-					if (b !== 0) toast('Some of the songs are not downloaded')
-				}, 1000)
-			},
-			() => {
-				if (++b === songs.length) onError()
-			})
+			(blob) => { ++a; count(); zip.file(`${song.title}.mp3`, blob) },
+			() => { ++b; err = { ...err, [`${i + 1}`]: song.title } })
 	})
+	// Download the zip file
+	const download = setInterval(() => {
+		$('#download-bar label').attr({ 'data-a': a, 'data-c': n })
+		if (a + b !== n) return
+		clearInterval(download)
+		if (b === n) onError(err)
+		else if (a !== 0) setTimeout(() => {
+			zip.generateAsync({ type: "blob" }).then((blob) => saveAs(blob, title))
+			onSuccess(err)
+		}, 1000);
+	}, 500)
+	download
 }
 //#endregion
 

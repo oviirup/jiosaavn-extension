@@ -27,14 +27,9 @@
 .single_download_btn
   width: auto !important
 
-.album_download_btn
+.list_download_btn
   display: none !important
-  .album &
-    display: inline-block !important
-
-.playlist_download_btn
-  display: none !important
-  .s &,.featured &
+  &[data-list]
     display: inline-block !important
 
 #download-bar
@@ -50,7 +45,7 @@
   flex-direction: column
   max-height: 0
   opacity: 0
-  width: 48px
+  width: 0
   max-width: 16em
   overflow: hidden
   transition: max-height 250ms, opacity 500ms,width 500ms, border-radius 250ms
@@ -84,6 +79,22 @@
       margin-left: 5px
       transition: opacity 250ms
       transition-delay: 1s
+      flex-grow: 1
+      display: flex
+      align-items: center
+      &[data-c]::before
+        order: 1
+        content: attr(data-a)
+        margin: 0 4px 0 auto
+        font-weight: lighter
+      &[data-c]::after
+        order: 2
+        content: ' / 'attr(data-c)
+        font-weight: lighter
+        font-size: small
+        vertical-align: sub
+        opacity: .5
+
   &.active
     opacity: 1
     max-height: 48px
@@ -131,13 +142,6 @@
   #quality-dropdown
     right: auto
     left: 11px
-    .c-dropdown__content::after
-      content: ''
-      display: block
-      height: 3.25em
-      width: 100%
-      background: #2BC5B4
-
   .c-player__entity
     margin-left: auto
     margin-right: auto

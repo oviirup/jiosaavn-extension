@@ -1,8 +1,9 @@
-// download n error function
-const downloadError = (icon, item) => {
-	if (item) toast(`Sorry! cannot download this ${item}`)
-	icon.removeClass('o-icon-download-progress').addClass('o-icon-download')
-	return
+// download complete function
+const __done = (icon, item, msg, err = false) => {
+	toast(msg)
+	toast(item && `Sorry! cannot download this ${item}`)
+	icon?.removeClass('o-icon-download-progress').addClass('o-icon-download')
+	if (!$.isEmptyObject(err)) console.log('Not Downloaded =>', err);
 }
 
 //#region //* Single Download =====
@@ -20,12 +21,12 @@ const add_song_download_btn = () => {
 			icon.removeClass('o-icon-download').addClass('o-icon-download-progress')
 			// Get song Data
 			getSongsData('song', token, (result) => {
-				if (!result) downloadError(icon, 'Song')
+				if (!result) return __done(icon, 'Song')
 				toast(`Now Downloading Song : ${result.title}`)
 				downloadWithData(
 					result,
-					() => icon.removeClass('o-icon-download-progress').addClass('o-icon-download'),
-					() => downloadError(icon, 'Song')
+					() => __done(icon),
+					() => __done(icon, 'Song')
 				)
 			})
 		})
@@ -35,68 +36,38 @@ const add_song_download_btn = () => {
 }
 //#endregion
 
-//#region //* Album Download =====
-const add_album_download_btn = () => {
-	const firstBtn = $('.o-flag__body .o-layout>.o-layout__item:first-of-type')
-	const Button = $('<p class="o-layout__item u-margin-bottom-none@sm album_download_btn"><a class="c-btn c-btn--tertiary c-btn--ghost c-btn--icon"><i class="o-icon--large o-icon-download"></i></a></p>')
-	const icon = Button.find('i.o-icon--large')
-	// CLick Action
-	Button.on('click', () => {
-		const token = window.location.href.match(/.*\/(.*)/)[1]
-		icon.removeClass('o-icon-download').addClass('o-icon-download-progress')
-		// Get album data
-		getSongsData('album', token, res => {
-			if (!res) downloadError(icon, 'Album')
-			// Display Toast
-			toast(`Now Downloading Album : ${res.title}`)
-			// Download zip file
-			downloadSongsAsZip(
-				res,
-				() => {
-					icon.addClass('o-icon-download').removeClass('o-icon-download-progress')
-					toast("Compressing & Zipping the Downloads")
-				},
-				() => { downloadError(icon, 'Album') }
-			)
-		})
-	})
-	if (firstBtn.parent().find($('.album_download_btn')).length == 0)
-		firstBtn.after(Button)
-}
-//#endregion
-
 //#region //* Playlist Download =====
-const add_playlist_download_btn = () => {
+const add_list_download_btn = () => {
 	const firstBtn = $('.o-flag__body .o-layout>.o-layout__item:first-of-type')
-	const Button = $('<p class="o-layout__item u-margin-bottom-none@sm playlist_download_btn"><a class="c-btn c-btn--tertiary c-btn--ghost c-btn--icon"><i class="o-icon--large o-icon-download"></i></a></p>')
+	if (firstBtn.parent().find($('.list_download_btn')).length !== 0) return
+	// create the button
+	const Button = $('<p class="o-layout__item u-margin-bottom-none@sm list_download_btn" data-list><a class="c-btn c-btn--tertiary c-btn--ghost c-btn--icon"><i class="o-icon--large o-icon-download"></i></a></p>')
 	const icon = Button.find('i.o-icon--large')
+	// detect type
+	let type, r = (name) => $(`#root > .${name}`).length
+	if (r('album')) type = 'album'
+	else if (r('s') || r('featured')) type = 'playlist'
+	else return
+	Button.attr('data-list', type)
 	// CLick Action
 	Button.on('click', () => {
 		const token = window.location.href.match(/.*\/(.*)/)[1]
 		icon.removeClass('o-icon-download').addClass('o-icon-download-progress')
 		// Get album data
-		getSongsData('playlist', token, res => {
-			if (!res) {
-				toast('Sorry! Cannot download this Playlist')
-				icon.removeClass('o-icon-download-progress').addClass('o-icon-download')
-				return
-			}
+		getSongsData(type, token, res => {
+			if (!res) return __done(icon, 'Playlist')
 			// Display Toast
 			toast(`Now Downloading Playlist : ${res.title}`)
 			// Download Zip
-			downloadSongsAsZip(res,
-				() => {
-					icon.addClass('o-icon-download').removeClass('o-icon-download-progress')
-					toast("Compressing & Zipping the Downloads")
-				},
-				() => {
-					icon.addClass('o-icon-download').removeClass('o-icon-download-progress')
-					toast("Unable to download the playlist !")
-				})
+			downloadSongsAsZip(
+				res,
+				(err) => __done(icon, false, 'Compressing & Zipping the Downloads', err),
+				(err) => __done(icon, __c(type), false, err)
+			)
 		})
 	})
-	if (firstBtn.parent().find($('.playlist_download_btn')).length == 0)
-		firstBtn.after(Button)
+	// if (firstBtn.parent().find($('.playlist_download_btn')).length == 0)
+	firstBtn.after(Button)
 }
 //#endregion
 
@@ -158,6 +129,7 @@ var hideAds = () => {
 
 //#region //? Toast Alert
 const toast = (message) => {
+	if (!message) return
 	// create container
 	$('<div class="c-toast__msg" />').html(message)
 		.appendTo($('<div class="c-toast__row cStm" />')
@@ -173,15 +145,15 @@ const toast = (message) => {
 
 //#region //? Run on Plugin Initialization
 var initPlugin = () => {
-	localStorage.bitrate = localStorage.bitrate || 320
+	console.clear()
 	hideAds()
 	add_song_download_btn()
-	add_album_download_btn()
-	add_playlist_download_btn()
+	// add_album_download_btn()
+	add_list_download_btn()
 }
 
-
 $(document).ready(() => {
+	localStorage.bitrate = localStorage.bitrate || 320
 	initPlugin()
 	download_progress()
 	createDownloadQuality()
@@ -192,14 +164,17 @@ $(document).ready(() => {
 		if ($('#download-bar .body-scroll').children().length == 0) $('#download-bar').removeClass('active')
 	}, 2000)
 	// check if classes of the .page-wrap changes then add the buttons again
-	var oldSongListLen = 0
-	// update on list change
+	var a = 0, b, p = window.location.href, q
+	// detect changes
 	setInterval(() => {
-		if ($('ol.o-list-bare').find('li').length) {
-			var songListLen = $('ol.o-list-bare').find('li').length
-			if (songListLen !== oldSongListLen) initPlugin()
-			oldSongListLen = songListLen
-		}
+		if ($('#download-bar .body-scroll').children().length == 0)
+			$('#download-bar').removeClass('active').find('label').removeAttr('data-c')
+
+		b = $('ol.o-list-bare').find('li').length || 0
+		q = window.location.href
+
+		if (b !== a) { initPlugin(); a = b }
+		if (p !== q) { initPlugin(); p = q }
 	}, 1000)
 })
 //#endregion

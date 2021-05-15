@@ -15,7 +15,7 @@ You can download the extension form the following [link][download].\
 
 ![Song Quality Selector](https://i.ibb.co/XWfJZGZ/1.jpg)
 
-![Single Song Download](https://i.ibb.co/bQ1qVZb/1.jpg)
+![Single Song Download](https://i.ibb.co/444dJB0/1.jpg)
 
 ## How It Works
 
