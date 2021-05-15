@@ -17,11 +17,6 @@
 .o-snippet__action-final
   padding-right: 8px
 
-#quality-dropdown .c-dropdown__header
-  min-width: 4em !important
-#quality-dropdown .c-dropdown__content
-  max-width: 12em !important
-
 #song-biterate
   display: flex
   flex-direction: column
@@ -32,14 +27,9 @@
 .single_download_btn
   width: auto !important
 
-.album_download_btn
+.list_download_btn
   display: none !important
-  .album &
-    display: inline-block !important
-
-.playlist_download_btn
-  display: none !important
-  .s &,.featured &
+  &[data-list]
     display: inline-block !important
 
 #download-bar
@@ -55,7 +45,7 @@
   flex-direction: column
   max-height: 0
   opacity: 0
-  width: 48px
+  width: 0
   max-width: 16em
   overflow: hidden
   transition: max-height 250ms, opacity 500ms,width 500ms, border-radius 250ms
@@ -89,6 +79,22 @@
       margin-left: 5px
       transition: opacity 250ms
       transition-delay: 1s
+      flex-grow: 1
+      display: flex
+      align-items: center
+      &[data-c]::before
+        order: 1
+        content: attr(data-a)
+        margin: 0 4px 0 auto
+        font-weight: lighter
+      &[data-c]::after
+        order: 2
+        content: ' / 'attr(data-c)
+        font-weight: lighter
+        font-size: small
+        vertical-align: sub
+        opacity: .5
+
   &.active
     opacity: 1
     max-height: 48px
@@ -106,6 +112,10 @@
       overflow-y: auto
 
 @media (min-width: 61.25em)
+  #quality-dropdown .c-dropdown__header
+    min-width: 4em !important
+  #quality-dropdown .c-dropdown__content
+    max-width: 12em !important
   .c-aside--flyout
     top: 99px !important
     bottom: 118px !important
@@ -115,10 +125,14 @@
 
 @media (min-width: 61.25em)
   .c-search:not(.active)
-    right: 39%
-    left: 39%
+    right: 27em
+    left: 27em
 
 @media (max-width: 61.25em)
+  .c-nav.c-nav--secondary
+    display: none
+  figure.o-flag.o-flag--cover figcaption.o-flag__body
+    margin-bottom: 3em !important
   .o-snippet__item:first-child
     display: none
 
@@ -128,11 +142,6 @@
   #quality-dropdown
     right: auto
     left: 11px
-
-  .c-nav.c-nav--secondary
-    opacity: 0
-    pointer-events: none
-
   .c-player__entity
     margin-left: auto
     margin-right: auto
