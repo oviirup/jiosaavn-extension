@@ -1,5 +1,6 @@
+const _page = (name) => $(`#root > .${name}`).length
 // download complete function
-const __done = (icon, item, msg, err = false) => {
+const _done = (icon, item, msg, err = false) => {
 	toast(msg)
 	toast(item && `Sorry! cannot download this ${item}`)
 	icon?.removeClass('o-icon-download-progress').addClass('o-icon-download')
@@ -8,7 +9,6 @@ const __done = (icon, item, msg, err = false) => {
 
 //#region //* Single Download =====
 const add_song_download_btn = () => {
-	// $('.single_download_btn').remove()
 	// Add button in each song
 	$('li').find('figcaption').find('a.u-color-js-gray').each(function () {
 		if ($(this).parents('article.o-snippet').find('.single_download_btn').length !== 0) return
@@ -21,12 +21,12 @@ const add_song_download_btn = () => {
 			icon.removeClass('o-icon-download').addClass('o-icon-download-progress')
 			// Get song Data
 			getSongsData('song', token, (result) => {
-				if (!result) return __done(icon, 'Song')
+				if (!result) return _done(icon, 'Song')
 				toast(`Now Downloading Song : ${result.title}`)
 				downloadWithData(
 					result,
-					() => __done(icon),
-					() => __done(icon, 'Song')
+					() => _done(icon),
+					() => _done(icon, 'Song')
 				)
 			})
 		})
@@ -41,32 +41,30 @@ const add_list_download_btn = () => {
 	const firstBtn = $('.o-flag__body .o-layout>.o-layout__item:first-of-type')
 	if (firstBtn.parent().find($('.list_download_btn')).length !== 0) return
 	// create the button
-	const Button = $('<p class="o-layout__item u-margin-bottom-none@sm list_download_btn" data-list><a class="c-btn c-btn--tertiary c-btn--ghost c-btn--icon"><i class="o-icon--large o-icon-download"></i></a></p>')
+	const Button = $('<p class="o-layout__item u-margin-bottom-none@sm list_download_btn"><a class="c-btn c-btn--tertiary c-btn--ghost c-btn--icon"><i class="o-icon--large o-icon-download"></i></a></p>')
 	const icon = Button.find('i.o-icon--large')
 	// detect type
-	let type, r = (name) => $(`#root > .${name}`).length
-	if (r('album')) type = 'album'
-	else if (r('s') || r('featured')) type = 'playlist'
+	let type
+	if (_page('album')) type = 'album'
+	else if (_page('s') || _page('featured')) type = 'playlist'
 	else return
-	Button.attr('data-list', type)
 	// CLick Action
 	Button.on('click', () => {
 		const token = window.location.href.match(/.*\/(.*)/)[1]
 		icon.removeClass('o-icon-download').addClass('o-icon-download-progress')
 		// Get album data
 		getSongsData(type, token, res => {
-			if (!res) return __done(icon, 'Playlist')
+			if (!res) return _done(icon, 'Playlist')
 			// Display Toast
 			toast(`Now Downloading Playlist : ${res.title}`)
 			// Download Zip
 			downloadSongsAsZip(
 				res,
-				(err) => __done(icon, false, 'Compressing & Zipping the Downloads', err),
-				(err) => __done(icon, __c(type), false, err)
+				(err) => _done(icon, false, 'Compressing & Zipping the Downloads', err),
+				(err) => _done(icon, __c(type), false, err)
 			)
 		})
 	})
-	// if (firstBtn.parent().find($('.playlist_download_btn')).length == 0)
 	firstBtn.after(Button)
 }
 //#endregion
@@ -78,21 +76,20 @@ const createDownloadQuality = () => {
 		dropDown = $('<div class="c-dropdown__content"><div class="u-padding@sm"><h5 class="u-deci u-margin-bottom-none@sm">Download Quality</h5><p class="u-centi u-color-js-gray-alt-light u-margin-bottom-none@sm"><em>Pick a Preferred Quality</em></p></div><div class="o-message o-message--error">You must select a bitrate</div></div>'),
 		dropDownList = $('<form id="song-biterate"><section class="u-scroll u-3/5-max-vh"><ul class="o-list-select"></ul></section></form>')
 	// Biterates
-	var bitrates = ['320', '192', '128', '64', '32', '16']
-	menuItem.find('.curr_biterate').first().text(localStorage.bitrate + ' kbps')
-	bitrates = bitrates.map(rate => {
-		const el = $(`<li class='o-list-select__item'>${rate} kbps</li>`)
-		if (rate === localStorage.bitrate) el.addClass('selected')
+	let bitrates = [['Low', '12'], ['Good', '48'], ['Fair', '96'], ['Best', '160'], ['Extreme', '320'],]
+	bitrates = bitrates.map(([name, rate]) => {
+		const el = $(`<li class='o-list-select__item'>${name}</li>`)
+		if (rate === localStorage.bitrate) {
+			el.addClass('selected')
+			menuItem.find('.curr_biterate').first().text(name)
+		}
 		// Click Action
 		el.on('click', e => {
 			localStorage.bitrate = rate
-			// Change Selected Maek
 			$(e.target).parent().find('.selected').removeClass('selected')
 			$(e.target).addClass('selected')
-			// Change label
-			menuItem.find('.curr_biterate').first().text(`${localStorage.bitrate} kbps`)
-			// Display Toast
-			toast(`Download Quality changed to ${localStorage.bitrate}kbps`)
+			menuItem.find('.curr_biterate').first().text(name)
+			toast(`Download Quality set to <strong>${name}</strong>`)
 		})
 		return el
 	})

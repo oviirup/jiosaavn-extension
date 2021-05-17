@@ -26,15 +26,17 @@
 
 .single_download_btn
   width: auto !important
+  .shows &
+    display: none 
 
 .list_download_btn
   display: none !important
-  &[data-list]
+  .s &, .album &, .featured &
     display: inline-block !important
 
 #download-bar
   position: fixed
-  z-index: 99
+  z-index: 3
   bottom: 6.5em
   left: 1em
   background-color: #fff
@@ -113,7 +115,7 @@
 
 @media (min-width: 61.25em)
   #quality-dropdown .c-dropdown__header
-    min-width: 4em !important
+    min-width: 3em !important
   #quality-dropdown .c-dropdown__content
     max-width: 12em !important
   .c-aside--flyout
@@ -121,7 +123,7 @@
     bottom: 118px !important
     article.o-snippet .o-snippet__item
       &:nth-last-of-type(3),&:nth-last-of-type(2)
-        width: 33px
+        width: 33px !important
 
 @media (min-width: 61.25em)
   .c-search:not(.active)
