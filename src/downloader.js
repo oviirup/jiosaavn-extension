@@ -1,4 +1,25 @@
-//#region //* XHR Request
+// const proxy = 'http://localhost:3000'
+const proxy = 'https://jiosaavnex.vercel.app'
+// functions
+const _file = str => str.replace(/\./g, ',').replace(/\//g, "_")
+const _url = (url, bit) => url.replace(/https:\/\/.*.com(.*)/, (a, b) => {
+	if (bit) return `${proxy}/song${b}`.replace(/(.*)_\d{2,3}.mp4/, bit == 128 ? `$1.mp3` : `$1_${bit}.mp3`)
+	else return `${proxy}/image${b}`
+})
+
+// Get songs data
+const getSongsData = (button, type, token, callback = () => { }) => {
+	// button.find('i.o-icon--large').removeClass('o-icon-download').addClass('o-icon-download-progress')
+	let result = false, data = { type, token }
+	// Call to saavn server
+	$.ajax({
+		url: `${proxy}/info`, dataType: "json", data, success: (res) => result = res
+	}).always(() => {
+		console.log('songs =>', result)
+		callback(result)
+	})
+}
+// get Array Buffer from url
 const getURLArrayBuffer = (url, onLoad = () => { }, onProgress = () => { }, onError = () => { }) => {
 	const xhr = new XMLHttpRequest()
 	xhr.open('GET', url, true)
@@ -9,49 +30,49 @@ const getURLArrayBuffer = (url, onLoad = () => { }, onProgress = () => { }, onEr
 	}
 	xhr.onload = () => {
 		if (xhr.status === 200) onLoad(xhr.response)
-		else {
-			onProgress(false)
-			onError()
-		}
+		else { onProgress(false); onError() }
 	}
+	xhr.onerror = () => onError()
 	xhr.send()
 }
-//#endregion
-
-//#region //* Get Async Downloaded blob of the a Single Song
+// Get Async Downloaded blob of the a Single Song
 const getSongBlob = async (song, onSuccess = () => { }, onError = () => { }) => {
 	// Get bitrate
-	const bit = parseInt(localStorage.bitrate)
-	// get cover image
-	if (!song.available) return onError()
-	var cover = song.image.replace('c.saavncdn.com', 'corsdisabledimage.tuhinwin.workers.dev')
-	cover = await (await fetch(cover)).arrayBuffer()
-	const url_raw = song.url.replace('aac.saavncdn.com', 'corsdisabledsong.tuhinwin.workers.dev')
-	// create extension based on bitrate
-	var extension = '.mp3'
-	if (bit <= 64 || (bit == 320 && song.hd)) extension = `_${bit}.mp3`
-	// sanitize url of the song
-	const songUrl = url_raw.substr(0, url_raw.lastIndexOf('_')) + extension
-	getURLArrayBuffer(songUrl, (arrayBuffer) => {
-		const writer = new ID3Writer(arrayBuffer)
-		const { title, album, artists_p, artists, year, language, track, label = '' } = song
-		if (language) writer.setFrame('TCON', [_c(language)])
-		if (track) writer.setFrame('TRCK', track)
-		writer.setFrame('TIT2', title)
-			.setFrame('TPE2', artists_p.split(', '))
-			.setFrame('TPE1', artists.split(', '))
-			.setFrame('TALB', album)
-			.setFrame('TYER', year)
-			.setFrame('TBPM', bit)
-			.setFrame('TPUB', label)
-			.setFrame('APIC', { type: 3, data: cover, description: title })
-		writer.addTag()
-		const blob = writer.getBlob()
-		onSuccess(blob)
-	},
-		(value) => showProgress(song.title, song.id, value),
-		() => onError()
-	)
+	let bitrate = parseInt(localStorage.bitrate),
+		bitArray = [16, 32, 64, 128, 192, 320];
+	// prepare to download and convert
+	const coverUrl = _url(song.image)
+	const cover = await (await fetch(coverUrl)).arrayBuffer()
+	// Rebuffed if song is unavailable
+	const reBuffer = (b = 0) => {
+		let bit = bitArray[b], songUrl = _url(song.url, bit)
+		// Add tags to downloaded song
+		getURLArrayBuffer(songUrl,
+			(arrayBuffer) => {
+				const writer = new ID3Writer(arrayBuffer)
+				const { title, album, artists_p, artists, year, label } = song
+				if (song.language) writer.setFrame('TCON', [song.language])
+				if (song.track) writer.setFrame('TRCK', song.track)
+				writer.setFrame('TIT2', title)
+					.setFrame('TPE2', artists_p.split(', '))
+					.setFrame('TPE1', artists.split(', '))
+					.setFrame('TALB', album)
+					.setFrame('TYER', year)
+					.setFrame('TPUB', label)
+					.setFrame('APIC', { type: 3, data: cover, description: title })
+				writer.addTag()
+				const blob = writer.getBlob()
+				onSuccess(blob)
+			},
+			(value) => showProgress(song.title, song.id, value),
+			() => {
+				if (bitrate <= 64 && b > 0) return reBuffer(++b)
+				else if (b < bitArray.length) return reBuffer(--b)
+				onError()
+			}
+		)
+	}
+	reBuffer(bitArray.indexOf(bitrate))
 }
 //#endregion
 
@@ -60,7 +81,7 @@ const downloadWithData = (song, onSuccess = () => { }, onError = () => { }) => {
 	getSongBlob(
 		song,
 		(blob) => {
-			saveAs(blob, `${song.title}.mp3`)
+			saveAs(blob, `${_file(song.title)}.mp3`)
 			onSuccess()
 		},
 		() => onError()
@@ -77,8 +98,7 @@ const downloadSongsAsZip = function (list, onSuccess = () => { }, onError = () =
 	var a = 0, b = 0, err = {}
 	// Download cover image for albums
 	if (list.type == 'playlist' && image.includes('c.saavncdn.com')) {
-		var cover = image.replace('c.saavncdn.com', 'corsdisabledimage.tuhinwin.workers.dev')
-		getURLArrayBuffer(cover, (image) => zip.file(`_cover_.jpg`, image))
+		getURLArrayBuffer(_u(cover), (image) => zip.file(`_cover_.jpg`, image))
 	}
 	const count = () => $('#download-bar label').attr({ 'data-a': a, 'data-c': n })
 	count()
@@ -93,13 +113,13 @@ const downloadSongsAsZip = function (list, onSuccess = () => { }, onError = () =
 	const download = setInterval(() => {
 		$('#download-bar label').attr({ 'data-a': a, 'data-c': n })
 		if (a + b !== n) return
-		clearInterval(download)
 		if (b === n) onError(err)
 		else if (a !== 0) setTimeout(() => {
 			if (b !== 0) toast('Some songs are not downloaded')
 			zip.generateAsync({ type: "blob" }).then((blob) => saveAs(blob, _file(title)))
 			onSuccess(err)
 		}, 1000);
+		clearInterval(download)
 	}, 500)
 	download
 }

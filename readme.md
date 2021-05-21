@@ -6,6 +6,7 @@ Give it a star if you love the extension.\
 [Follow][profile] me if you want to get updates of my repos.
 
 You can download the extension form the following [link][download].\
+You can go to the [_Changelogs_][changelog] to have a look at the upcoming features
 <small>You can also go through how to install it if you are struggling.</small>
 
 ## Screenshots
@@ -72,7 +73,7 @@ Make sure you check out JioSaavn API page and the original extension repo and :s
 
 - When you press a download button on song it fetches data of song from the JioSaavn server to provide Links, Title, Album etc.
 - Then it will send a request to this [custom API endpoint][a3] and generate a download URL from server.\
-<small>! In future updates reliance on external endpoints will be removed</small>
+  <small>! In future updates reliance on external endpoints will be removed</small>
 - Then it will download the song asynchronously in background. as the download song will have a gibberish name and no song details.
 - Then it will download the album art asynchronously.
 - Finally it will add ID3 tags (Title, Singer, Cover, Composer and stuff) to the downloaded song.
@@ -90,20 +91,20 @@ Make sure you check out JioSaavn API page and the original extension repo and :s
 [![][sh_issues_open]][issues]
 [![][sh_issues_closed]][issues]
 
-Post known issues in the [issues tab][issues]. It is not always possible to find out all the issues alone, and overtime there might be new issues that was previously undetected. Please post
+If you have some suggestions or you ran into some problems you can post it to the [issues tab][issues]. It is not always possible to find out all the issues alone, and overtime there might be new issues that was previously undetected.\
+<small>Make sure to read other issues also before posting a new issue. One of might relate to your problem</small>
 
 ---
 
 Made with :heart: in India.
 
-![Visitor count](https://shields-io-visitor-counter.herokuapp.com/badge?page=GrayGalaxy.jiosaavn-downloader&style=for-the-badge&labelColor=000000&logo=GitHub&logoColor=FFFFFF&color=0d7e9b)
-
 [star]: https://github.com/GrayGalaxy/JioSaavn-Downloader "Star it"
 [release]: https://github.com/GrayGalaxy/JioSaavn-Downloader/releases " "
 [download]: https://github.com/GrayGalaxy/jiosaavn-downloader/releases/download/v0.7/release.zip "Download"
+[changelog]: https://github.com/GrayGalaxy/jiosaavn-downloader/blob/beta/changelog.md
 [issues]: https://github.com/GrayGalaxy/jiosaavn-downloader/issues " "
 [profile]: https://github.com/GrayGalaxy
-[a3]: https://corsdisabledsong.tuhinwin.workers.dev/
+[a3]: https://jiosaavnex.vercel.app/
 [d1]: https://github.com/jquery/jquery
 [d2]: https://github.com/aadsm/JavaScript-ID3-Reader
 [d3]: https://github.com/Stuk/jszip

@@ -1,10 +1,8 @@
 ## Upcoming features
 
 - [ ] ![][sh_w] Add cancel download button (issue [#4](https://github.com/GrayGalaxy/jiosaavn-downloader/issues/4))
-- [ ] ![][sh_w] User FFMPEG to convert songs within the browser
-- [ ] ![][sh_q] Select download format ie. MP3, AAC, WAV
-- [ ] Download current Radio
-- [ ] Download podcast
+- [ ] ![][sh_q] Download current Radio
+- [ ] ![][sh_q] Download podcast
 - [ ] Download Top songs of artist
 - [ ] Dark Theme
 - [ ] Download few items at a time.\
