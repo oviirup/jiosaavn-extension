@@ -1,14 +1,13 @@
+const _page = (name) => $(`#root > .${name}`).length
 // download complete function
-const __done = (icon, item, msg, err = false) => {
+const _done = (icon, item, msg, err = false) => {
 	toast(msg)
-	toast(item && `Sorry! cannot download this ${item}`)
+	toast(item && `Sorry! cannot download this <i class='cap'>${item}</i>`)
 	icon?.removeClass('o-icon-download-progress').addClass('o-icon-download')
 	if (!$.isEmptyObject(err)) console.log('Not Downloaded =>', err);
 }
-
-//#region //* Single Download =====
+// Single Download =====
 const add_song_download_btn = () => {
-	// $('.single_download_btn').remove()
 	// Add button in each song
 	$('li').find('figcaption').find('a.u-color-js-gray').each(function () {
 		if ($(this).parents('article.o-snippet').find('.single_download_btn').length !== 0) return
@@ -20,13 +19,13 @@ const add_song_download_btn = () => {
 			e.preventDefault()
 			icon.removeClass('o-icon-download').addClass('o-icon-download-progress')
 			// Get song Data
-			getSongsData('song', token, (result) => {
-				if (!result) return __done(icon, 'Song')
+			getSongsData(Button, 'song', token, (result) => {
+				if (!result) return _done(icon, 'Song')
 				toast(`Now Downloading Song : ${result.title}`)
 				downloadWithData(
 					result,
-					() => __done(icon),
-					() => __done(icon, 'Song')
+					() => _done(icon),
+					() => _done(icon, 'Song')
 				)
 			})
 		})
@@ -34,65 +33,58 @@ const add_song_download_btn = () => {
 		$(this).parents('article.o-snippet').find('.o-snippet__item:nth-last-of-type(2)').before(Button)
 	})
 }
-//#endregion
-
-//#region //* Playlist Download =====
+// Playlist Download =====
 const add_list_download_btn = () => {
 	const firstBtn = $('.o-flag__body .o-layout>.o-layout__item:first-of-type')
 	if (firstBtn.parent().find($('.list_download_btn')).length !== 0) return
 	// create the button
-	const Button = $('<p class="o-layout__item u-margin-bottom-none@sm list_download_btn" data-list><a class="c-btn c-btn--tertiary c-btn--ghost c-btn--icon"><i class="o-icon--large o-icon-download"></i></a></p>')
+	const Button = $('<p class="o-layout__item u-margin-bottom-none@sm list_download_btn"><a class="c-btn c-btn--tertiary c-btn--ghost c-btn--icon"><i class="o-icon--large o-icon-download"></i></a></p>')
 	const icon = Button.find('i.o-icon--large')
 	// detect type
-	let type, r = (name) => $(`#root > .${name}`).length
-	if (r('album')) type = 'album'
-	else if (r('s') || r('featured')) type = 'playlist'
+	let type
+	if (_page('album')) type = 'album'
+	else if (_page('s') || _page('featured')) type = 'playlist'
 	else return
-	Button.attr('data-list', type)
 	// CLick Action
 	Button.on('click', () => {
 		const token = window.location.href.match(/.*\/(.*)/)[1]
 		icon.removeClass('o-icon-download').addClass('o-icon-download-progress')
 		// Get album data
-		getSongsData(type, token, res => {
-			if (!res) return __done(icon, 'Playlist')
+		getSongsData(Button, type, token, res => {
+			if (!res) return _done(icon, 'Playlist')
 			// Display Toast
 			toast(`Now Downloading Playlist : ${res.title}`)
 			// Download Zip
 			downloadSongsAsZip(
 				res,
-				(err) => __done(icon, false, 'Compressing & Zipping the Downloads', err),
-				(err) => __done(icon, __c(type), false, err)
+				(err) => _done(icon, false, 'Compressing & Zipping the Downloads', err),
+				(err) => _done(icon, type, false, err)
 			)
 		})
 	})
-	// if (firstBtn.parent().find($('.playlist_download_btn')).length == 0)
 	firstBtn.after(Button)
 }
-//#endregion
-
-//#region //? Add Download Quality selector on the Menu..
+// Add Download Quality selector on the Menu..
 const createDownloadQuality = () => {
 	var
 		menuItem = $('<aside id="quality-dropdown" class="c-dropdown u-margin-right@sm"><div class="c-dropdown__header"><span class="c-dropdown__type"><span class="u-visible-visually@lg"></span>Qiality</span> <span class="c-dropdown__select curr_biterate"></span></div></aside>'),
 		dropDown = $('<div class="c-dropdown__content"><div class="u-padding@sm"><h5 class="u-deci u-margin-bottom-none@sm">Download Quality</h5><p class="u-centi u-color-js-gray-alt-light u-margin-bottom-none@sm"><em>Pick a Preferred Quality</em></p></div><div class="o-message o-message--error">You must select a bitrate</div></div>'),
 		dropDownList = $('<form id="song-biterate"><section class="u-scroll u-3/5-max-vh"><ul class="o-list-select"></ul></section></form>')
 	// Biterates
-	var bitrates = ['320', '192', '128', '64', '32', '16']
-	menuItem.find('.curr_biterate').first().text(localStorage.bitrate + ' kbps')
-	bitrates = bitrates.map(rate => {
+	let bitrates = ['320', '192', '128', '64', '32', '16'];
+	bitrates = bitrates.map((rate) => {
 		const el = $(`<li class='o-list-select__item'>${rate} kbps</li>`)
-		if (rate === localStorage.bitrate) el.addClass('selected')
+		if (rate === localStorage.bitrate) {
+			el.addClass('selected')
+			menuItem.find('.curr_biterate').first().text(`${rate} kbps`)
+		}
 		// Click Action
 		el.on('click', e => {
 			localStorage.bitrate = rate
-			// Change Selected Maek
 			$(e.target).parent().find('.selected').removeClass('selected')
 			$(e.target).addClass('selected')
-			// Change label
-			menuItem.find('.curr_biterate').first().text(`${localStorage.bitrate} kbps`)
-			// Display Toast
-			toast(`Download Quality changed to ${localStorage.bitrate}kbps`)
+			menuItem.find('.curr_biterate').first().text(`${rate} kbps`)
+			toast(`Download Quality set to <strong>${rate} kbps</strong>`)
 		})
 		return el
 	})
@@ -109,16 +101,12 @@ const createDownloadQuality = () => {
 	else
 		$('header.c-header .o-layout__item').last().append(menuItem)
 }
-//#endregion
-
-//#region //? Download progress
+// Download progress
 const download_progress = () => {
 	const wrapper = `<div id="download-bar"><div class="body-scroll"></div><div class="head"><i class="o-icon-download icon"></i><label>Downloads</label></div></div>`
 	if ($('#download-bar').length == 0)
 		$('.c-player').after(wrapper)
 }
-//#endregion
-
 // Hide ads and promotions
 var hideAds = () => {
 	$('body').removeClass('promo')
@@ -126,8 +114,7 @@ var hideAds = () => {
 	const ads = ['.ad', '.c-promo', '.c-ad', '.c-banner', '.c-player__ad']
 	ads.forEach(el => { if (el) $(el).remove() })
 }
-
-//#region //? Toast Alert
+//Toast Alert
 const toast = (message) => {
 	if (!message) return
 	// create container
@@ -141,9 +128,7 @@ const toast = (message) => {
 		msgContainer.on('animationend transitionend', e => e.target.remove())
 	}, 3000)
 }
-//#endregion
-
-//#region //? Run on Plugin Initialization
+// Run on Plugin Initialization
 var initPlugin = () => {
 	console.clear()
 	hideAds()
@@ -151,7 +136,7 @@ var initPlugin = () => {
 	// add_album_download_btn()
 	add_list_download_btn()
 }
-
+// Ready state
 $(document).ready(() => {
 	localStorage.bitrate = localStorage.bitrate || 320
 	initPlugin()
@@ -169,12 +154,9 @@ $(document).ready(() => {
 	setInterval(() => {
 		if ($('#download-bar .body-scroll').children().length == 0)
 			$('#download-bar').removeClass('active').find('label').removeAttr('data-c')
-
 		b = $('ol.o-list-bare').find('li').length || 0
 		q = window.location.href
-
 		if (b !== a) { initPlugin(); a = b }
 		if (p !== q) { initPlugin(); p = q }
 	}, 1000)
 })
-//#endregion
