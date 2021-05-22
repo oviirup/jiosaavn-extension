@@ -4,9 +4,7 @@
 - [ ] ![][sh_q] Download current Radio
 - [ ] ![][sh_q] Download podcast
 - [ ] Download Top songs of artist
-- [ ] Dark Theme
-- [ ] Download few items at a time.\
-<small>This feature prevents high resource usage for long lists</small>
+- [ ] Download few items at a time.
 - [ ] Confirmation to download already downloaded song
 - [ ] Create Firefox extension
 
@@ -42,6 +40,7 @@
 - Toast message
 - Remove ad banners
 
+[v0.7.3]: https://github.com/GrayGalaxy/jiosaavn-downloader/releases/download/v0.7.3/release.zip "Download v0.7.3"
 [v0.7]: https://github.com/GrayGalaxy/jiosaavn-downloader/releases/download/v0.7/release.zip "Download v0.7"
 [v0.6]: https://github.com/GrayGalaxy/jiosaavn-downloader/releases/download/v0.6/release.zip "Download v0.6"
 [v0.5]: https://github.com/GrayGalaxy/jiosaavn-downloader/releases/tag/v0.5 "Download"
@@ -52,6 +51,8 @@
 [sh_w]: https://img.shields.io/badge/-Working%20on%20It-brightgreen/?style=flat-square
 [sh_q]: https://img.shields.io/badge/-Queued-yellow?style=flat-square
 [sh_l]: https://img.shields.io/github/release/GrayGalaxy/jiosaavn-downloader?color=success&label=Latest&style=flat-square "Download Latest Release"
+[sh0.7.3]: https://img.shields.io/badge/Release-v0.7.3-blue?style=flat-square
+[sh0.7]: https://img.shields.io/badge/Release-v0.7-blue?style=flat-square
 [sh0.6]: https://img.shields.io/badge/Release-v0.6-blue?style=flat-square
 [sh0.5]: https://img.shields.io/badge/Release-v0.5-blue?style=flat-square
 [sh0.1]: https://img.shields.io/badge/Release-v0.1-blue?style=flat-square

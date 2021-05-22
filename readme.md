@@ -31,7 +31,7 @@ After Fetching data it gives out MP3 file with neatly organized tags and album a
 - Blocks ADs and Promotions
 - Modifies some of the UI Elements.
 
-<small>For upcoming features you can refer to [Changelog](https://github.com/GrayGalaxy/jiosaavn-downloader/blob/alpha/changelog.md)</small>
+<small>For upcoming features you can refer to [Changelog](https://github.com/GrayGalaxy/jiosaavn-downloader/blob/beta/changelog.md)</small>
 
 ## How to use It
 
@@ -55,11 +55,9 @@ This extension cannot hosted be in Chrome webstore due to obvious reasons. You c
 
 ## Behind the Scenes
 
-### Overview
+The extension just fetches data from the JioSaavn server for necessary links to download the songs. Then it grabs the song in mp3 format from the backend services.
 
-The extension just fetches data from the JioSaavn server for necessary links to download the songs. It doesn't rely on any external or 3rd party services to fetch data, it does all the work in browser.
-
-Make sure you check out JioSaavn API page and the original extension repo and :star: it if you like. People do not earn anything from this and spend their precious time developing it and release it for free. A small praise, a good mention makes them feel good and it doesn't cost anything. See right sidebar for the list of contributors to the repo.
+Make sure you check out [JioSaavn API][a1] and [Jiosaavn Downloader Extension][a2] repo and :star: it if you like. People do not earn a penny from this and spend their precious time developing it and release it for free. A small praise, a good mention makes them feel good and it doesn't cost anything. See right sidebar for the list of contributors to the repo.
 
 ### Dependencies
 
@@ -69,16 +67,16 @@ Make sure you check out JioSaavn API page and the original extension repo and :s
 
 ### How it works
 
-### - Song
+#### Song
 
 - When you press a download button on song it fetches data of song from the JioSaavn server to provide Links, Title, Album etc.
 - Then it will send a request to this [custom API endpoint][a3] and generate a download URL from server.\
-  <small>! In future updates reliance on external endpoints will be removed</small>
+  <small>This helps to avoid CORS errors if we try to fetch from browser</small>
 - Then it will download the song asynchronously in background. as the download song will have a gibberish name and no song details.
 - Then it will download the album art asynchronously.
 - Finally it will add ID3 tags (Title, Singer, Cover, Composer and stuff) to the downloaded song.
 
-### - Album, Playlist
+#### Album, Playlist
 
 - On clicking the Download button it fetches lists of songs from server to download.
 - Then it downloads the songs one by one as mentioned above.
@@ -100,10 +98,12 @@ Made with :heart: in India.
 
 [star]: https://github.com/GrayGalaxy/JioSaavn-Downloader "Star it"
 [release]: https://github.com/GrayGalaxy/JioSaavn-Downloader/releases " "
-[download]: https://github.com/GrayGalaxy/jiosaavn-downloader/releases/download/v0.7/release.zip "Download"
+[download]: https://github.com/GrayGalaxy/jiosaavn-downloader/releases/download/v0.7.3/release.zip "Download"
 [changelog]: https://github.com/GrayGalaxy/jiosaavn-downloader/blob/beta/changelog.md
 [issues]: https://github.com/GrayGalaxy/jiosaavn-downloader/issues " "
 [profile]: https://github.com/GrayGalaxy
+[a1]: https://github.com/cachecleanerjeet/JiosaavnAPI "By @cachecleanerjeet"
+[a2]: https://github.com/naqushab/saavn-downloader-extension "By @naqushab"
 [a3]: https://jiosaavnex.vercel.app/
 [d1]: https://github.com/jquery/jquery
 [d2]: https://github.com/aadsm/JavaScript-ID3-Reader

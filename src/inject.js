@@ -76,7 +76,7 @@ const createDownloadQuality = () => {
 		const el = $(`<li class='o-list-select__item'>${rate} kbps</li>`)
 		if (rate === localStorage.bitrate) {
 			el.addClass('selected')
-			menuItem.find('.curr_biterate').first().text(name)
+			menuItem.find('.curr_biterate').first().text(`${rate} kbps`)
 		}
 		// Click Action
 		el.on('click', e => {

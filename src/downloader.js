@@ -24,7 +24,7 @@ const getURLArrayBuffer = (url, onLoad = () => { }, onProgress = () => { }, onEr
 	const xhr = new XMLHttpRequest()
 	xhr.open('GET', url, true)
 	xhr.responseType = 'arraybuffer'
-	if (onProgress) xhr.onprogress = e => {
+	xhr.onprogress = e => {
 		const progress = e.loaded / e.total
 		onProgress(progress < 1 ? progress : false)
 	}
