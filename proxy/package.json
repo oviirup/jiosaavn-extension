@@ -1,0 +1,11 @@
+{
+	"name": "jiosaavn-proxy",
+	"version": "0.2.1",
+	"description": "This is the proxy to jiosaavn cdn",
+	"main": "api/index.js",
+	"author": "Avirup Ghosh",
+	"license": "MIT",
+	"dependencies": {
+		"axios": "^0.21.1"
+	}
+}

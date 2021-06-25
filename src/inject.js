@@ -19,13 +19,13 @@ const add_song_download_btn = () => {
 			e.preventDefault()
 			icon.removeClass('o-icon-download').addClass('o-icon-download-progress')
 			// Get song Data
-			getSongsData(Button, 'song', token, (result) => {
+			getSongsData('song', token, (result) => {
 				if (!result) return _done(icon, 'Song')
 				toast(`Now Downloading Song : ${result.title}`)
 				downloadWithData(
 					result,
 					() => _done(icon),
-					() => _done(icon, 'Song')
+					(e) => _done(icon, e && 'Song')
 				)
 			})
 		})
@@ -50,7 +50,7 @@ const add_list_download_btn = () => {
 		const token = window.location.href.match(/.*\/(.*)/)[1]
 		icon.removeClass('o-icon-download').addClass('o-icon-download-progress')
 		// Get album data
-		getSongsData(Button, type, token, res => {
+		getSongsData(type, token, res => {
 			if (!res) return _done(icon, 'Playlist')
 			// Display Toast
 			toast(`Now Downloading Playlist : ${res.title}`)
@@ -58,7 +58,7 @@ const add_list_download_btn = () => {
 			downloadSongsAsZip(
 				res,
 				(err) => _done(icon, false, 'Compressing & Zipping the Downloads', err),
-				(err) => _done(icon, type, false, err)
+				(err) => _done(icon, _c(type), false, err)
 			)
 		})
 	})
@@ -114,7 +114,10 @@ var hideAds = () => {
 	const ads = ['.ad', '.c-promo', '.c-ad', '.c-banner', '.c-player__ad']
 	ads.forEach(el => { if (el) $(el).remove() })
 }
-//Toast Alert
+/**
+ * Toast Alert
+ * @param {String} message 
+ */
 const toast = (message) => {
 	if (!message) return
 	// create container
@@ -146,14 +149,13 @@ $(document).ready(() => {
 	toast('Plugin is active and Functional')
 	// hide download bar if no current downloads
 	setInterval(() => {
-		if ($('#download-bar .body-scroll').children().length == 0) $('#download-bar').removeClass('active')
+		if ($('#download-bar .body-scroll').children().length == 0)
+			$('#download-bar').removeClass('active').find('label').removeAttr('data-c')
 	}, 2000)
 	// check if classes of the .page-wrap changes then add the buttons again
 	var a = 0, b, p = window.location.href, q
 	// detect changes
 	setInterval(() => {
-		if ($('#download-bar .body-scroll').children().length == 0)
-			$('#download-bar').removeClass('active').find('label').removeAttr('data-c')
 		b = $('ol.o-list-bare').find('li').length || 0
 		q = window.location.href
 		if (b !== a) { initPlugin(); a = b }

@@ -1,42 +1,44 @@
 // const proxy = 'http://localhost:3000'
-const proxy = 'https://jiosaavnex.vercel.app'
+const proxy = 'https://saavnex.vercel.app'
+
 // functions
 const _file = str => str.replace(/\./g, ',').replace(/\//g, "_")
-const _url = (url, bit) => url.replace(/https:\/\/.*.com(.*)/, (a, b) => {
-	if (bit) return `${proxy}/song${b}`.replace(/(.*)_\d{2,3}.mp4/, bit == 128 ? `$1.mp3` : `$1_${bit}.mp3`)
+const _url = (url, bit) => url.replace(/https:\/\/.*\.com(.*)/, (a, b) => {
+	let replaceWith = bit == 128 ? `$1.mp3` : `$1_${bit}.mp3`
+	if (bit) return `${proxy}/song${b}`.replace(/(.*)_\d{2,3}.mp4/, replaceWith)
 	else return `${proxy}/image${b}`
 })
 
-// Get songs data
-const getSongsData = (button, type, token, callback = () => { }) => {
-	// button.find('i.o-icon--large').removeClass('o-icon-download').addClass('o-icon-download-progress')
-	let result = false, data = { type, token }
-	// Call to saavn server
-	$.ajax({
-		url: `${proxy}/info`, dataType: "json", data, success: (res) => result = res
-	}).always(() => {
-		console.log('songs =>', result)
-		callback(result)
-	})
-}
-// get Array Buffer from url
+/**
+ * Get Array Buffer from url
+ * @param {string} url 
+ * @param {function} onLoad 
+ * @param {function} onProgress 
+ * @param {function} onError 
+ */
 const getURLArrayBuffer = (url, onLoad = () => { }, onProgress = () => { }, onError = () => { }) => {
 	const xhr = new XMLHttpRequest()
 	xhr.open('GET', url, true)
 	xhr.responseType = 'arraybuffer'
-	xhr.onprogress = e => {
-		const progress = e.loaded / e.total
-		onProgress(progress < 1 ? progress : false)
-	}
+	xhr.onprogress = e => onProgress(e)
 	xhr.onload = () => {
 		if (xhr.status === 200) onLoad(xhr.response)
-		else { onProgress(false); onError() }
+		else { onProgress(false); onError(true) }
 	}
-	xhr.onerror = () => onError()
+	xhr.onabort = () => onError(false)
+	xhr.onerror = () => onError(true)
 	xhr.send()
 }
-// Get Async Downloaded blob of the a Single Song
+
+/**
+ * Get Async Downloaded blob of the a Single Song
+ * @param {object} song 
+ * @param {function} onSuccess 
+ * @param {function} onError 
+ * @returns blob
+ */
 const getSongBlob = async (song, onSuccess = () => { }, onError = () => { }) => {
+	if (song.disabled === true) return onError()
 	// Get bitrate
 	let bitrate = parseInt(localStorage.bitrate),
 		bitArray = [16, 32, 64, 128, 192, 320];
@@ -65,18 +67,22 @@ const getSongBlob = async (song, onSuccess = () => { }, onError = () => { }) => 
 				onSuccess(blob)
 			},
 			(value) => showProgress(song.title, song.id, value),
-			() => {
-				if (bitrate <= 64 && b > 0) return reBuffer(++b)
-				else if (b < bitArray.length) return reBuffer(--b)
-				onError()
+			(e) => {
+				if (e && bitrate <= 64 && ++b < bitArray.length) return reBuffer(b)
+				else if (e && --b > 0) return reBuffer(b)
+				onError(e)
 			}
 		)
 	}
 	reBuffer(bitArray.indexOf(bitrate))
 }
-//#endregion
 
-//#region //* Download a Single song with ID3 Meta Data (Song Album art and Artists)
+/**
+ * Download a Single song with ID3 Meta Data
+ * @param {array} song 
+ * @param {function} onSuccess 
+ * @param {function} onError 
+ */
 const downloadWithData = (song, onSuccess = () => { }, onError = () => { }) => {
 	getSongBlob(
 		song,
@@ -84,12 +90,17 @@ const downloadWithData = (song, onSuccess = () => { }, onError = () => { }) => {
 			saveAs(blob, `${_file(song.title)}.mp3`)
 			onSuccess()
 		},
-		() => onError()
+		(e) => onError(e)
 	)
 }
-//#endregion
 
-//#region //* Download Set of Songs as a Zip
+/**
+ * Download Set of Songs as a Zip
+ * @param {array} list 
+ * @param {function} onSuccess 
+ * @param {function} onError 
+ *  
+ */
 const downloadSongsAsZip = function (list, onSuccess = () => { }, onError = () => { }) {
 	const { title, songs, image } = list, n = songs.length
 	if (n === 0) return onError()
@@ -98,7 +109,7 @@ const downloadSongsAsZip = function (list, onSuccess = () => { }, onError = () =
 	var a = 0, b = 0, err = {}
 	// Download cover image for albums
 	if (list.type == 'playlist' && image.includes('c.saavncdn.com')) {
-		getURLArrayBuffer(_u(cover), (image) => zip.file(`_cover_.jpg`, image))
+		getURLArrayBuffer(_url(image), (image) => zip.file(`_cover_.jpg`, image))
 	}
 	const count = () => $('#download-bar label').attr({ 'data-a': a, 'data-c': n })
 	count()
@@ -121,23 +132,34 @@ const downloadSongsAsZip = function (list, onSuccess = () => { }, onError = () =
 		}, 1000);
 		clearInterval(download)
 	}, 500)
-	download
 }
-//#endregion
 
-//#region //* Show Progress
-const showProgress = (name, id, value) => {
+/**
+ * Show Progress
+ * @param {string} name 
+ * @param {string | number} id 
+ * @param {number | boolean} value 
+ */
+const showProgress = (name, id, p) => {
+	const value = (p.loaded / p.total) || null
 	const bar = $('#download-bar')
 	if (bar.find(`#${id}`).length == 0) {
-		const wrapper = $(`<div id="${id}" class="download-wrapper" style="--p:0.15"><div class="wrap"><svg class="progress" viewbox="0 0 24 24"><circle cx="12" cy="12" r="11"/><circle cx="12" cy="12" r="11"/><path d="M1.73,12.91 8.1,19.28 22.79,4.59"/></svg><p class="u-centi u-ellipsis u-color-js-gray-alt-light">${name}</p></div></div>`)
+		const wrapper = $(`<div id="${id}" class="download-wrapper" style="--p:0.15"><div class="wrap"><svg class="progress" viewbox="0 0 24 24"><circle cx="12" cy="12" r="11"/><circle cx="12" cy="12" r="11"/><path d="M1.73,12.91 8.1,19.28 22.79,4.59"/></svg><p class="u-centi u-ellipsis u-color-js-gray-alt-light">${name}</p><span class="u-link"><i class="o-icon--large o-icon-close"></i></span></div></div>`)
 		bar.find('.body-scroll').append(wrapper)
 	}
 	const progress = $(`#download-bar #${id}`)
+	const abort = progress.find('.u-link')
 	progress.css("--p", value)
-	bar.addClass('active')
-	if (!value) {
-		progress.addClass('done hide')
+	// Close
+	const close = (done) => {
+		progress.addClass('hide')
+		if (done) progress.addClass('done')
 		setTimeout(() => { progress.remove() }, 3250)
 	}
+	if (value && value < 1) bar.addClass('active')
+	else close(true)
+	// Abort
+	abort.click(() => {
+		p.currentTarget.abort(); close()
+	})
 }
-//#endregion

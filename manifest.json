@@ -1,7 +1,7 @@
 {
   "name": "JioSaavn Downloader ᴺᴱᵂ",
-  "version": "0.7.3",
-  "manifest_version": 2,
+  "version": "0.7.4",
+  "manifest_version": 3,
   "description": "__MSG_description__",
   "icons": {
     "16": "icons/icon16.png",
@@ -10,11 +10,6 @@
   },
   "default_locale": "en",
   "homepage_url": "https://www.jiosaavn.com/",
-  "permissions": [
-    "https://www.jiosaavn.com/*",
-    "https://aa.cf.saavncdn.com/*",
-    "https://c.saavncdn.com/*"
-  ],
   "content_scripts": [{
     "matches": ["https://www.jiosaavn.com/*"],
     "css": ["dist/inject.min.css"],
@@ -23,6 +18,7 @@
       "dist/filesaver.min.js",
       "dist/jszip.min.js",
       "dist/id3.min.js",
+      "src/api.js",
       "src/downloader.js",
       "src/inject.js"
     ],

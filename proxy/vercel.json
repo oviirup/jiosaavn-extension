@@ -1,0 +1,13 @@
+{
+	"rewrites": [{
+		"source": "/image(.*)",
+		"destination": "/api/image"
+	}, {
+		"source": "/song(.*)",
+		"destination": "/api/song"
+	}],
+	"redirects": [{
+		"source": "(\/|\/song|image|\/?)",
+		"destination": "https://github.com/GrayGalaxy/jiosaavn-downloader"
+	}]
+}
