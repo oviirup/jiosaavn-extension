@@ -1,4 +1,6 @@
-# JioSaavn Downloader Chrome Extension <br> [![GitHub stars][sh_gh_stars]][star] [![][sh_release1]][release] [![][sh_release2]][release]
+# JioSaavn Downloader ![][sh_chrome]
+![][sh_gh_stars] ![][sh_version] [![][sh_downloads]][release]
+
 
 Simple and effective extension to download Songs, Albums or Playlist from JioSaavn.com with just one click. It also hides ads and promotions from JioSaavn Web, and slightly tweaks the UI.
 
@@ -96,7 +98,6 @@ If you have some suggestions or you ran into some problems you can post it to th
 
 Made with :heart: in India.
 
-[star]: https://github.com/GrayGalaxy/jiosaavn-downloader "Star it"
 [release]: https://github.com/GrayGalaxy/jiosaavn-downloader/releases " "
 [download]: https://github.com/GrayGalaxy/jiosaavn-downloader/releases/download/v0.7.3/release.zip "Download"
 [changelog]: https://github.com/GrayGalaxy/jiosaavn-downloader/blob/beta/changelog.md
@@ -111,8 +112,9 @@ Made with :heart: in India.
 
 <!-- Shields -->
 
-[sh_gh_stars]: https://img.shields.io/github/stars/GrayGalaxy/jiosaavn-downloader.svg?style=flat-square&logo=github&label=Stars
-[sh_release1]: https://img.shields.io/github/v/tag/graygalaxy/jiosaavn-downloader?include_prereleases&style=flat-square&label=Latest
-[sh_release2]: https://img.shields.io/github/downloads/GrayGalaxy/jiosaavn-downloader/total?style=flat-square&label=Downloads
-[sh_issues_open]: https://img.shields.io/github/issues-raw/GrayGalaxy/jiosaavn-downloader?style=flat-square&label=Open
-[sh_issues_closed]: https://img.shields.io/github/issues-closed-raw/GrayGalaxy/jiosaavn-downloader?style=flat-square&label=Closed
+[sh_gh_stars]: https://img.shields.io/github/stars/GrayGalaxy/jiosaavn-downloader.svg?logo=github&label=Stars
+[sh_chrome]: https://img.shields.io/badge/-Chrome-black?logo=google-chrome&logoColor=white
+[sh_version]: https://img.shields.io/github/manifest-json/v/graygalaxy/jiosaavn-downloader
+[sh_downloads]: https://img.shields.io/github/downloads/GrayGalaxy/jiosaavn-downloader/total?label=Downloads
+[sh_issues_open]: https://img.shields.io/github/issues-raw/GrayGalaxy/jiosaavn-downloader?label=Open
+[sh_issues_closed]: https://img.shields.io/github/issues-closed-raw/GrayGalaxy/jiosaavn-downloader?label=Closed

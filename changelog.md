@@ -8,7 +8,7 @@
 - [ ] Confirmation to download already downloaded song
 - [ ] Create Firefox extension
 
-## v0.7 [![][sh_l]][v0.7]
+## Version 0.7 ![][sh_l]
 
 - Added download count for Album or Playlist download,
 - Console log for songs that did not download,
@@ -18,14 +18,14 @@
 - Issues fixed [#3], [#5], [#6], [#7]
 - Other minor changes
 
-## v0.6 [![][sh0.6]][v0.6]
+## Version 0.6
 
 - Addressed issue [#2]
 - Improved toast function
 - File name problem fixed
 - Get cover image when downloading Playlist
 
-## v0.5 [![][sh0.5]][v0.5]
+## Version 0.5
 
 - Album download functional
 - Added track information for album download
@@ -34,29 +34,18 @@
 - Removed dependency on external api endpoints
 - Other minor improvements
 
-## v0.1 [![][sh0.1]][v0.1] ![][sh_i]
+## Version 0.1 ![][sh_i]
 
 - Song download button
 - Toast message
 - Remove ad banners
 
-[v0.7.3]: https://github.com/GrayGalaxy/jiosaavn-downloader/releases/download/v0.7.3/release.zip "Download v0.7.3"
-[v0.7]: https://github.com/GrayGalaxy/jiosaavn-downloader/releases/download/v0.7/release.zip "Download v0.7"
-[v0.6]: https://github.com/GrayGalaxy/jiosaavn-downloader/releases/download/v0.6/release.zip "Download v0.6"
-[v0.5]: https://github.com/GrayGalaxy/jiosaavn-downloader/releases/tag/v0.5 "Download"
-[v0.1]: https://github.com/GrayGalaxy/jiosaavn-downloader/releases/tag/v0.1 "Download"
-
 <!-- Shields -->
 
-[sh_w]: https://img.shields.io/badge/-Working%20on%20It-brightgreen/?style=flat-square
-[sh_q]: https://img.shields.io/badge/-Queued-yellow?style=flat-square
-[sh_l]: https://img.shields.io/github/release/GrayGalaxy/jiosaavn-downloader?color=success&label=Latest&style=flat-square "Download Latest Release"
-[sh0.7.3]: https://img.shields.io/badge/Release-v0.7.3-blue?style=flat-square
-[sh0.7]: https://img.shields.io/badge/Release-v0.7-blue?style=flat-square
-[sh0.6]: https://img.shields.io/badge/Release-v0.6-blue?style=flat-square
-[sh0.5]: https://img.shields.io/badge/Release-v0.5-blue?style=flat-square
-[sh0.1]: https://img.shields.io/badge/Release-v0.1-blue?style=flat-square
-[sh_i]: https://img.shields.io/static/v1?label=&message=Initial&color=critical&style=flat-square
+[sh_w]: https://img.shields.io/badge/-Working%20on%20It-brightgreen
+[sh_q]: https://img.shields.io/badge/-Queued-yellow
+[sh_l]: https://img.shields.io/static/v1?label=&message=Latest&color=success
+[sh_i]: https://img.shields.io/static/v1?label=&message=Initial&color=critical
 
 <!-- Issues -->
 
