@@ -1,24 +1,45 @@
+const proxy = 'http://localhost:3000'
+// const proxy = 'http://saavnex.vercel.app'
+
+// Uppercase first letter
 const _c = str => str[0].toUpperCase() + str.slice(1)
-const _json = (R) => JSON.parse(JSON.stringify(R).replace(/&amp/gi, "&").replace(/&copy/gi, "©").replace(/150x150/gi, "500x500").replace(/http:\/\//gi, 'https://').replace(/&#039\;|&quot\;/g, "'"))
+// Sanitize api request
+const _json = (R) => {
+	const str = JSON.stringify(R)
+		.replace(/&amp/gi, '&').replace(/&copy/gi, '©')
+		.replace(/&#039\;|&quot\;/gi, "'")
+		.replace(/150x150/g, '500x500')
+		.replace('http://c.saavncdn.com/', '')
+		.replace('http://preview.saavncdn.com/', '')
+	return JSON.parse(str)
+}
+/**
+ * Sanitize fetched data
+ * @param { Object } d object data to sanitize
+ * @param { 'song' | 'album' | 'playlist' } type 
+ * @param { Number | false } i either index the  song
+ * @returns Object | null
+ */
 const _song = (d, type, i = false) => {
 	if (type === 'song') {
-		const { id, image, label, year, ...s } = d.songs ? d.songs[0] : d
-		const url = s.media_preview_url?.replace(/(.*)preview.saavncdn(.*)_96_p.mp4/, '$1aac.saavncdn$2_96.mp4')
-		let array = {
-			id, image, label, year, url, type,
+		const { id, image, year, ...s } = d.songs ? d.songs[0] : d
+		const url = s.media_preview_url?.replace('_p.mp4', '.mp4')
+
+		let info = {
+			id, image, year, url, type,
 			title: _c(s.song),
 			album: _c(s.album),
 			artists_p: _c(s.primary_artists),
 			artists: s.singers,
 			language: 'Soundtrack',
-			token: s.perma_url?.replace(/.*\/(.*)/, '$1'),
-			hd: s["320kbps"] === "true",
-			dolby: s["is_dolby_content"],
 		}
-		if (i) array.track = i
-		if (s.disabled && s.disabled == 'true') array.disabled = s.disabled
-		if (s.language && s.language !== "unknown") array.language = _c(s.language)
-		return array
+		if (i)
+			info.track = i
+		if (s.disabled && s.disabled == 'true')
+			info.disabled = s.disabled
+		if (s.language && s.language !== 'unknown')
+			info.language = _c(s.language)
+		return info
 	} else {
 		let songs = []
 		d.songs.forEach((s, i) => songs.push(_song(s, 'song', ++i)))
@@ -26,7 +47,6 @@ const _song = (d, type, i = false) => {
 		return ({
 			type, songs,
 			image: d.image,
-			token: d.perma_url?.replace(/.*\/(.*)/, '$1'),
 			id: d.albumid || d.listid,
 			title: d.title || d.listname,
 		})
@@ -58,3 +78,21 @@ const getSongsData = (type, token, callback = () => { }) => {
 		callback(result)
 	})
 }
+
+/**
+ * URL sanitization
+ */
+const _url = (url) => ({
+	song: () => {
+		const bit = localStorage.bitrate || '96'
+		const ext = url.replace(/(.*)_96\.(mp\d|aac)/, `$1_${bit}.$2`)
+		return `${proxy}/song/${ext}`
+	},
+	image: () => {
+		const ext = url.replace('https://c.saavncdn.com/', '')
+		return `${proxy}/image/${ext}`
+	}
+})
+
+// Sanitize file name
+const _file = str => str.replace(/\./g, ',').replace(/\//g, "_")
