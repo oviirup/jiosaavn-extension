@@ -18,7 +18,7 @@
 .o-snippet__action-final
 	padding-right: 8px
 
-#song-biterate
+#song-bitrate
 	display: flex
 	flex-direction: column
 	width: 100%
@@ -26,9 +26,19 @@
 		width: 100%
 
 .single_download_btn
+	position: relative
 	width: auto !important
+	cursor: pointer
+	color: #2bc5b4 !important
 	.shows &
 		display: none
+	&.active .o-icon--large
+		color: transparent
+	svg
+		position: absolute
+		top: 50%
+		left: 50%
+		transform: translate(-50%,-50%)
 
 .list_download_btn
 	display: none !important
@@ -166,6 +176,10 @@
 		margin-left: auto
 		padding-left: 8px
 		font-size: .75em
+	&.hide
+		max-height: 0px
+
+.s_prg
 	svg
 		height: 24px
 		margin-right: 5px
@@ -176,10 +190,11 @@
 		stroke: #2bc5b4
 
 	circle
-		--v: calc(69.115 - 69.115 * var(--p) )
+		--cl: 69.115
+		--v: calc(var(--cl) - var(--cl) * var(--p,0) )
 		stroke-width: 2px
-		stroke-dasharray: 69.115 var(--v)
-		stroke-dashoffset: 69.115
+		stroke-dasharray: var(--cl) var(--v)
+		stroke-dashoffset: var(--cl)
 		transform: rotate(-90deg)
 
 	circle:first-of-type
@@ -193,7 +208,7 @@
 		stroke-dasharray: 29.8
 		transform: scale(.5)
 		transition: stroke-dashoffset 250ms 0ms cubic-bezier(0.4, 0, 0.6, 1)
+	&.done
+		--p: 1
 	&.done svg path
 		stroke-dashoffset: 0
-	&.hide
-		max-height: 0px
