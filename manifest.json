@@ -1,27 +1,21 @@
 {
-  "name": "JioSaavn Downloader ᴺᴱᵂ",
-  "version": "0.7.4",
-  "manifest_version": 3,
-  "description": "__MSG_description__",
-  "icons": {
-    "16": "icons/icon16.png",
-    "48": "icons/icon48.png",
-    "128": "icons/icon128.png"
-  },
-  "default_locale": "en",
-  "homepage_url": "https://www.jiosaavn.com/",
-  "content_scripts": [{
-    "matches": ["https://www.jiosaavn.com/*"],
-    "css": ["dist/inject.min.css"],
-    "js": [
-      "dist/jquery.min.js",
-      "dist/filesaver.min.js",
-      "dist/jszip.min.js",
-      "dist/id3.min.js",
-      "src/api.js",
-      "src/downloader.js",
-      "src/inject.js"
-    ],
-    "run_at": "document_start"
-  }]
+	"name": "JioSaavn Downloader ᴺᴱᵂ",
+	"version": "0.8.1",
+	"manifest_version": 3,
+	"description": "__MSG_description__",
+	"icons": {
+		"16": "icons/icon16.png",
+		"48": "icons/icon48.png",
+		"128": "icons/icon128.png"
+	},
+	"default_locale": "en",
+	"homepage_url": "https://www.jiosaavn.com/",
+	"content_scripts": [
+		{
+			"matches": ["https://www.jiosaavn.com/*"],
+			"css": ["dist/inject.min.css"],
+			"js": ["dist/jquery.min.js"],
+			"run_at": "document_start"
+		}
+	]
 }
