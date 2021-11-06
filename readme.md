@@ -55,8 +55,9 @@ This extension cannot hosted be in Chrome webstore due to obvious reasons. You c
 
 The extension just fetches data from the JioSaavn server for necessary links to download the songs. Then it grabs the song in mp3 or aac format from the backend services.
 
----
+[&#x21e1; Back to top](#)
 
+<br/><br/>
 Made with 💖 in India.
 
 [release]: https://github.com/GrayGalaxy/jiosaavn-downloader/releases ' '
@@ -67,5 +68,5 @@ Made with 💖 in India.
 
 [sh_gh_stars]: https://img.shields.io/github/stars/GrayGalaxy/jiosaavn-downloader.svg?logo=github&label=Stars
 [sh_chrome]: https://img.shields.io/badge/-Chrome-black?logo=google-chrome&logoColor=white
-[sh_version]: https://img.shields.io/github/manifest-json/v/graygalaxy/jiosaavn-downloader/main
+[sh_version]: https://img.shields.io/github/manifest-json/v/graygalaxy/jiosaavn-downloader/main?label=Version
 [sh_downloads]: https://img.shields.io/github/downloads/GrayGalaxy/jiosaavn-downloader/total?label=Downloads
