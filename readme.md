@@ -22,6 +22,8 @@ You can download the extension form the following [link][download].\
 
 This extension is still in development, some of its features are still in the making.
 
+![JioSaavn Dark Mode][img_1]
+
 ## How It Works
 
 It fetches data from the api endpoints of JioSaavn, organizes them in useful manner. All this happens within the browser and does not rely on external servers.
@@ -47,13 +49,13 @@ This extension cannot hosted be in Chrome webstore due to obvious reasons. You c
 - You will see a button called **Load Unpacked Extension...** click that
 - Select the extracted folder and click **Open**\
   <small>
-  Note: <strong>Developer mode</strong> is required to enable the extension. You can see a toggle button promptly named "Developer Mode". Turn it on to enable the Developer mode.<br>
-  You might get turn off developer mode notification every time you open the browser if you are using Stable versions of chrome. You can use Chrome Dev or Canary of that notification annoys you.
+  Note: <strong>Developer mode</strong> is required to enable the extension. You can see a toggle button promptly named "Developer Mode". Turn on to enable the Developer mode.<br>
+  You might get "turn off developer mode" notification every time you open the browser if you are using Stable versions of chrome. You can use Chrome Dev or Canary of that notification annoys you.
   </small>
 
 ## Behind the Scenes
 
-The extension just fetches data from the JioSaavn server for necessary links to download the songs. Then it grabs the song in mp3 or aac format from the backend services.
+The extension fetches data from the JioSaavn server for necessary links to download the songs. Then it grabs the song in mp3 or aac format from the backend services.
 
 [&#x21e1; Back to top](#)
 
@@ -63,6 +65,10 @@ Made with 💖 in India.
 [release]: https://github.com/GrayGalaxy/jiosaavn-downloader/releases ' '
 [download]: https://github.com/GrayGalaxy/jiosaavn-downloader/releases/download/v0.7.3/release.zip 'Download'
 [profile]: https://github.com/GrayGalaxy
+
+<!--Images -->
+
+[img_1]: https://user-images.githubusercontent.com/49820575/141001515-13309a02-81f7-44d5-9aa6-1325cb2d6612.jpg
 
 <!-- Shields -->
 
