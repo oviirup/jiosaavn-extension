@@ -1,0 +1,49 @@
+// :root
+// 	--bg-1: #f6f6f6
+// 	--border-c: #e9e9e9
+//	--text-1: #3e3e3e
+
+:root {
+	--bg-nav: #242526;
+	--bg-1: #18191a;
+	--bg-2: #242526;
+	--border-c: #292b2c;
+	--text-1: #eee;
+}
+
+%border-color {
+	border-color: var(--border-c) !important;
+}
+%background-color {
+	background: var(--bg-1) !important;
+	color: var(--text-1) !important;
+}
+
+body,
+html,
+.c-aside,
+.rbd-draggable-context {
+	@extend %background-color;
+}
+
+.c-header {
+	background-color: var(--bg-nav) !important;
+	counter-reset: var(--text-1) !important;
+	@extend %border-color;
+}
+
+.o-rule,
+.c-aside--flyout {
+	@extend %border-color;
+}
+
+.o-snippet:active,
+.o-snippet:focus,
+.o-snippet:hover {
+	background-color: var(--bg-2) !important;
+	@extend %border-color;
+}
+
+svg.u-placeholder rect {
+	fill: var(--bg-nav);
+}
