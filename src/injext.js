@@ -3,9 +3,7 @@ const hide_ads = () => {
 	$('body').removeClass('promo')
 	$('.banner').removeClass('banner')
 	const ads = ['.ad', '.c-promo', '.c-ad', '.c-banner', '.c-player__ad']
-	ads.forEach((el) => {
-		if (el) $(el).remove()
-	})
+	ads.forEach((el) => el && $(el).remove())
 }
 
 // Injext CSS
@@ -20,19 +18,28 @@ const injext_css = () => {
 			if (el.length > 0) el.addClass(r).removeClass(s)
 		})
 
-	setInterval(replace, 250)
+	// Initial Replace
+	replace()
+	// Mutation Observer
+	const obs = new MutationObserver(replace)
+	obs.observe($('#root')[0], { subtree: true, childList: true })
 }
 
 // Run on Plugin Initialization
 const initPlugin = () => {
-	console.clear()
 	hide_ads()
 	injext_css()
-	console.log(1)
 }
 
 $(document).ready(() => {
-	// setInterval(() => {
 	initPlugin()
-	// }, 1000)
+
+	// Detect Location change
+	let a = location.href
+	new MutationObserver(() => {
+		let b = location.href
+		if (a === b) return
+		a = b
+		initPlugin()
+	}).observe(document, { subtree: true, childList: true })
 })

@@ -11,6 +11,14 @@ html
 *
 	border-color: var(--border) !important
 
+::-webkit-scrollbar
+	width: 1rem
+	&-thumb
+		background: var(--bg-3)
+		border-radius: 10px
+		&:hover
+			background: var(--bg-2)
+
 %background-color
 	background: var(--bg-1) !important
 	color: var(--text-1) !important
@@ -98,10 +106,10 @@ svg.u-placeholder rect
 	border-color: var(--primary) !important
 	color: var(--primary) !important
 
-::-webkit-scrollbar
-	width: 1rem
-	&-thumb
-		background: var(--bg-3)
-		border-radius: 10px
-		&:hover
-			background: var(--bg-2)
+.c-aside--flyout .o-list-bare li
+	.o-snippet__item:nth-last-of-type(2)
+		width: auto !important
+		padding: 11px
+	&:not(:first-of-type) .o-snippet__item:nth-last-of-type(3)
+		width: auto !important
+		padding: 11px
