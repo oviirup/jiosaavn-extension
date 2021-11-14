@@ -1,6 +1,6 @@
 {
 	"name": "JioSaavn Downloader ᴺᴱᵂ",
-	"version": "0.8.4",
+	"version": "0.8.5",
 	"manifest_version": 3,
 	"description": "__MSG_description__",
 	"icons": {
@@ -13,9 +13,9 @@
 	"content_scripts": [
 		{
 			"matches": ["https://www.jiosaavn.com/*"],
-			"css": ["dist/theme.min.css"],
-			"js": ["dist/jquery.min.js", "src/injext.js"],
-			"run_at": "document_start"
+			"css": ["dist/theme.min.css", "dist/injext.min.css"],
+			"js": ["dist/jquery.min.js", "src/inject.js"],
+			"run_at": "document_end"
 		}
 	]
 }

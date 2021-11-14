@@ -2,7 +2,7 @@
 
 ![][sh_gh_stars] ![][sh_version] [![][sh_downloads]][release]
 
-Simple and effective extension to download Songs, Albums, or Playlists from _jioSaavn.com_ with just one click. It also hides ads and promotions from JioSaavn Web, and slightly tweaks the UI. Last but not least, it implements long-awaited dark mode.
+Simple and effective extension to download Songs, Albums, or Playlists from _jioSaavn.com_ with just one click. It also hides ads and promotions from JioSaavn Web, and slightly tweaks the UI. Last but not least, it implements long-awaited **dark mode**.
 
 Give it a star if you love the extension.\
 [Follow][profile] me if you want to get updates of my repos.
@@ -34,10 +34,12 @@ After Fetching data it gives out MP3 file with neatly organized tags and album a
 
 - Added Dark Mode
 - Select Any Quality Downloads (Supports HD 320kbps)
-- Download a Single Song
-- Download Album, Playlist as zip
+- Download a Single Song *
+- Download Album, Playlist as zip *
 - Blocks ADs and Promotions
 - Modifies some of the UI Elements.
+
+<small>* Working on it</small>
 
 ## Installation
 
@@ -52,10 +54,6 @@ This extension cannot hosted be in Chrome webstore due to obvious reasons. You c
   Note: <strong>Developer mode</strong> is required to enable the extension. You can see a toggle button promptly named "Developer Mode". Turn on to enable the Developer mode.<br>
   You might get "turn off developer mode" notification every time you open the browser if you are using Stable versions of chrome. You can use Chrome Dev or Canary of that notification annoys you.
   </small>
-
-## Behind the Scenes
-
-The extension fetches data from the JioSaavn server for necessary links to download the songs. Then it grabs the song in mp3 or aac format from the backend services.
 
 [&#x21e1; Back to top](#)
 
