@@ -14,7 +14,6 @@ const injext_css = () => {
 	]
 	const replace = () =>
 		search.forEach(([s, r]) => {
-			console.log(1)
 			const el = $(`.${s}`)
 			if (el.length > 0) el.addClass(r).removeClass(s)
 		})
@@ -48,8 +47,12 @@ const add_song_download_btn = () => {
 			$btn.icon = $btn.find('span').find('i.o-icon--large')
 			$btn.progress = $btn.find('span').find('svg.progress')
 
-			$btn.on('click', (e) => {
-				$btn.addClass('prog')
+			$btn.on('click', async (e) => {
+
+				const data = await get_songs_data('song', token)
+				if (data !== false) $btn.addClass('prog')
+				console.log(data);
+				download_song(data)
 			})
 
 			$(this).parents('article.o-snippet').find('.o-snippet__item:nth-last-of-type(2)').before($btn)

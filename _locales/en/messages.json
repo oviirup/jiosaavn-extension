@@ -1,18 +1,18 @@
 {
-  "description": {
-     "description": "",
-     "message": "You can now easily download songs, albums, playlist etc with just one click on jiosaavn.com"
-  },
-  "loading_name": {
-     "description": "",
-     "message": "JioSaavn Downloader"
-  },
-  "name": {
-     "description": "",
-     "message": "JioSaavn Downloader - Free song downloader"
-  },
-  "shortName": {
-     "description": "",
-     "message": "JioSaavn Downloader"
-  }
+	"description": {
+		"description": "",
+		"message": "You can now easily download songs, albums, playlist etc with just one click on jiosaavn.com"
+	},
+	"loading_name": {
+		"description": "",
+		"message": "JioSaavn Downloader"
+	},
+	"name": {
+		"description": "",
+		"message": "JioSaavn Downloader - Free song downloader"
+	},
+	"shortName": {
+		"description": "",
+		"message": "JioSaavn Downloader ᴺᴱᵂ"
+	}
 }
