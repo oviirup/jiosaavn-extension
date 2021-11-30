@@ -14,7 +14,13 @@
 		{
 			"matches": ["https://www.jiosaavn.com/*"],
 			"css": ["dist/theme.min.css", "dist/injext.min.css"],
-			"js": ["dist/jquery.min.js", "dist/filesaver.min.js", "src/downloader.js", "src/inject.js"]
+			"js": [
+				"dist/jquery.min.js",
+				"dist/jszip.min.js",
+				"dist/filesaver.min.js",
+				"src/downloader.js",
+				"src/inject.js"
+			]
 		}
 	]
 }

@@ -17,53 +17,44 @@ const injext_css = () => {
 			const el = $(`.${s}`)
 			if (el.length > 0) el.addClass(r).removeClass(s)
 		})
-	// Initial Replace
-	replace()
-	// Mutation Observer
-	const obs = new MutationObserver(replace)
-	obs.observe($('#root')[0], { subtree: true, childList: true })
+
+	new MutationObserver(replace)
+		.observe($('#root')[0], { subtree: true, childList: true })
 }
 
 const add_song_download_btn = () => {
 	// Mutation Observer
 	const add_button = async () => {
-		const $element = $('li figcaption a.link-gray')
-		if ($element.length < 1) return
+		const element = $('li figcaption a.link-gray')
+		if (element.length < 1) return
 
-		await $element.each(function () {
-			let $el = $(this),
-				class_name = 'jsdBTN_1',
-				token = $el.attr('href')?.match(/.*\/(.*)/)[1] || null
-			if ($el.find(`.${class_name}`).length > 0) return
+		await element.each(function () {
+			const $el = $(this), class_name = 'jsdBTN_1'
+			const token = $el.attr('href')?.match(/.*\/(.*)/)[1] || null
+			const $parent = $el.parents('article.o-snippet')
+			if ($parent.find(`.${class_name}`).length > 0) return
+			console.log(5);
 
 			const $btn = $(`
 			<div class='o-snippet__item ${class_name}' data-song=${token}>
 				<span class='u-link svd_dlI'><i class='o-icon--large o-icon-download'/></span>
-				<svg viewBox='0 0 24 24' class='jsdSVG_r'>
-					<circle cx='12' cy='12' r='11'/>
-				</svg>
+				<svg viewBox='0 0 24 24' class='jsdSVG_r'><circle cx='12' cy='12' r='11'/></svg>
 			</div>
 			`)
 			$btn.icon = $btn.find('span').find('i.o-icon--large')
 			$btn.progress = $btn.find('span').find('svg.progress')
 
 			$btn.on('click', async (e) => {
-
 				const data = await get_songs_data('song', token)
 				if (data !== false) $btn.addClass('prog')
-				console.log(data);
 				download_song(data)
 			})
-
-			$(this).parents('article.o-snippet').find('.o-snippet__item:nth-last-of-type(2)').before($btn)
+			$parent.find('.o-snippet__item:nth-last-of-type(2)').before($btn)
 		})
 	}
 
-	const obs = new MutationObserver(() => {
-		add_button()
-		obs.disconnect()
-	})
-	obs.observe($('#root')[0], { subtree: true, childList: true })
+	new MutationObserver(add_button)
+		.observe($('#root')[0], { subtree: true, childList: true })
 }
 
 // Run on Plugin Initialization

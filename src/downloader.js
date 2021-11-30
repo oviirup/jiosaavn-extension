@@ -13,21 +13,18 @@ const _json = (R) => {
 		.replace(/&copy/gi, '©')
 		.replace(/&#039\;|&quot\;/g, "'")
 		.replace(/150x150/gi, '500x500')
-		.replace('http://c.saavncdn', 'https://h.saavncdn')
-		.replace('http://preview.saavncdn', 'https://aac.saavncdn')
+		.replace('//c.saavncdn.com', `${proxy}/image`)
+		.replace('//preview.saavncdn.com', `${proxy}/song`)
 	return JSON.parse(string)
 }
 // Get song data and sanitize
 const _song = (d, type, i = false) => {
 	if (type === 'song') {
 		// Get Single song data
-		const { image, language = 'Soundtrack', ...s } = d.songs[0] || d
-
-		// const token = s.perma_url?.replace(/.*\/(.*)/, '$1')
-		const url = s.media_preview_url?.replace('_p.mp4', '.mp4')
-
+		const { image, label, language = 'Soundtrack', ...s } = d.songs[0] || d
+		const url = s.media_preview_url?.replace('96_p.mp4', '96.mp4')
 		let array = {
-			image, url,
+			image, url, label,
 			title: _c(s.song),
 			album: _c(s.album),
 			artists_p: _c(s.primary_artists),
@@ -74,14 +71,9 @@ const get_songs_data = async (type, token) => {
 	return result
 }
 
-
-const download_song = async ({ url, title }) => {
-
+const download_song = async (song) => {
+	const { url, title, album, artists_p, artists, year, label } = song
 	const buffer = await (await fetch(url)).arrayBuffer()
-
 	const blob = new Blob([buffer], { type: 'audio/mp4' })
-
-	saveAs(blob, `${_file(title)}.m4a`)
-
-
+	saveAs(blob, `${title}.m4a`)
 }
