@@ -1,13 +1,13 @@
-.c-aside--flyout .o-list-bare li
-	.o-snippet__item:nth-last-of-type(2)
-		width: auto !important
-		padding: 11px
-	&:not(:first-of-type) .o-snippet__item:nth-last-of-type(3)
-		width: auto !important
-		padding: 11px
-
 .jsdBTN_1
 	width: 30px !important
+
+.jsd_HScroll
+	margin: 0 auto
+	border: 1px solid var(--border)
+	background: var(--bg-1)
+	height: 26px
+	width: 75px
+	border-radius: 32px
 
 .jsdBTN_1,.jsdBTN_2
 	position: relative
@@ -56,19 +56,3 @@ svg.jsdSVG_r
 @keyframes rotate
 	100%
 		transform: rotate(360deg)
-
-@media (min-width: 61.25em)
-	.c-search:not(.active)
-		right: 28em
-		left: 28em
-
-@media (max-width: 61.25em)
-	.c-nav.c-nav--secondary
-		display: none
-	figure.o-flag.o-flag--cover figcaption.o-flag__body
-		margin-bottom: 3em !important
-	.o-snippet__item:first-child
-		display: none
-	.c-player__entity
-		margin-left: auto
-		margin-right: auto

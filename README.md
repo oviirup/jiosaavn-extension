@@ -2,12 +2,14 @@
 
 ![][sh_gh_stars] ![][sh_version] [![][sh_downloads]][release]
 
-Simple and effective extension to download Songs, Albums, or Playlists from _jioSaavn.com_ with just one click. It also hides ads and promotions from JioSaavn Web, and slightly tweaks the UI. Last but not least, it implements long-awaited **dark mode**.
+> This extension is still in the works. It is not yet ready for production use. It is still in the early stages of development. Many features are missing and bugs are still being worked on.
+
+Simple and effective extension to download Songs, Albums, or Playlists from _jioSaavn.com_ with just one click. It also hides ads and promotions from JioSaavn Web and slightly tweaks the UI. Last but not least, it implements long-awaited **dark mode**.
 
 Give it a star if you love the extension.\
-[Follow][profile] me if you want to get updates of my repos.
+[Follow][profile] me if you want to get updates on my repos.
 
-You can download the extension form the following [link][download].\
+You can download the extension from the following [link][download].\
 <small>You can also go through how to install it if you are struggling.</small>
 
 <details>
@@ -26,24 +28,24 @@ This extension is still in development, some of its features are still in the ma
 
 ## How It Works
 
-It fetches data from the api endpoints of JioSaavn, organizes them in useful manner. All this happens within the browser and does not rely on external servers.
+It fetches data from the API endpoints of JioSaavn, organizes them in a useful manner. All this happens within the browser and does not rely on external servers.
 
-After Fetching data it gives out MP3 file with neatly organized tags and album art with the help of `ID3.js`
+After Fetching data it gives out a MP3 file with neatly organized tags and album art with the help of `ID3.js`
 
 ## Features
 
 - Added Dark Mode
 - Select Any Quality Downloads (Supports HD 320kbps)
-- Download a Single Song *
-- Download Album, Playlist as zip *
+- Download a Single Song \*
+- Download Album, Playlist as zip \*
 - Blocks ADs and Promotions
 - Modifies some of the UI Elements.
 
-<small>* Working on it</small>
+<small>\* Working on it</small>
 
 ## Installation
 
-This extension cannot hosted be in Chrome webstore due to obvious reasons. You can manually install the extension just by following the steps...
+This extension cannot hosted be in Chrome Webstore due to obvious reasons. You can manually install the extension just by following the steps...
 
 - Download the extension here : [download][download]
 - Extract the zip file.
@@ -52,7 +54,7 @@ This extension cannot hosted be in Chrome webstore due to obvious reasons. You c
 - Select the extracted folder and click **Open**\
   <small>
   Note: <strong>Developer mode</strong> is required to enable the extension. You can see a toggle button promptly named "Developer Mode". Turn on to enable the Developer mode.<br>
-  You might get "turn off developer mode" notification every time you open the browser if you are using Stable versions of chrome. You can use Chrome Dev or Canary of that notification annoys you.
+  You might get a **Turn off Developer Mode** notification every time you open the browser if you are using Stable versions of chrome. You can use Chrome Dev or Canary if that notification annoys you.
   </small>
 
 [&#x21e1; Back to top](#)
