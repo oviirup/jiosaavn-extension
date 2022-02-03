@@ -6,17 +6,8 @@ import CopyPlugin from 'copy-webpack-plugin'
 
 const { resolve: resolvePackage } = createRequire(import.meta.url)
 
-const compileSASS = (content, path) => {
-	const css = renderSync({
-		file: path,
-		outputStyle: 'compressed',
-	}).css
-	return css.toString()
-}
-
 const config = (env, argv) => {
 	const isDev = argv.mode === 'development'
-
 	const options = {
 		entry: { downloader: './source/index' },
 		output: {
@@ -34,7 +25,15 @@ const config = (env, argv) => {
 				patterns: [
 					{ from: resolvePackage('webextension-polyfill') },
 					{ from: 'public' },
-					{ from: 'source/sass/inject.sass', to: 'inject.css', transform: compileSASS },
+					{
+						from: 'source/sass/*.sass',
+						to: '[name].css',
+						transform(c, p) {
+							const option = { file: p, outputStyle: 'compressed' }
+							return renderSync(option).css.toString()
+						},
+						globOptions: { ignore: ['**/_*.sass'] },
+					},
 				],
 			}),
 		],
@@ -46,6 +45,7 @@ const config = (env, argv) => {
 		},
 		devtool: isDev ? 'inline-source-map' : 'source-map',
 		optimization: { minimize: true },
+		stats: { all: false, errors: true },
 	}
 	return options
 }

@@ -68,7 +68,7 @@ Made with 💖 in India.
 
 <!--Images -->
 
-[img_1]: https://user-images.githubusercontent.com/49820575/141003468-cd7dccc8-1822-457e-b537-36b8fe4e0c31.jpg
+[img_1]: https://user-images.githubusercontent.com/49820575/152336823-7ae2fa07-56a2-438e-9ff3-46a1d69566c6.jpg
 
 <!-- Shields -->
 

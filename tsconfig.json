@@ -14,7 +14,6 @@
 		"jsx": "preserve",
 		"baseUrl": "./",
 		"noEmit": true,
-		"incremental": true,
 	},
 	"include": ["**/*.ts", "**/*.tsx", "webpack.config.js", "./source/types.d.ts"],
 	"exclude": ["node_modules", "build"]
