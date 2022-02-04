@@ -5,6 +5,7 @@
 	"description": "Easily download songs, albums, playlist etc with just one click on jiosaavn.com",
 	"icons": { "128": "icon.png" },
 	"homepage_url": "https://www.jiosaavn.com/",
+	"options_ui": { "open_in_tab": false, "page": "options.html" },
 	"content_scripts": [{
 		"matches": ["https://www.jiosaavn.com/*"],
 		"css": ["inject.css", "theme.css"],
