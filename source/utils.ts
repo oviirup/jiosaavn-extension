@@ -1,10 +1,17 @@
 import axios from 'axios'
-import { ApiV3, Song, List } from './types'
+import { saveAs } from 'file-saver'
+import browser from 'webextension-polyfill'
+import { ApiV3, Song, List, Bitrate } from './types'
+import JSZip from 'jszip'
 
 /** Uppercase first letter */
 export function _c(str: string): string {
 	str = str.trim()
 	return str.charAt(0).toUpperCase() + str.slice(1)
+}
+/** Sanitise File name */
+export function _file(str: string): string {
+	return str.trim().replace(/[^a-z0-9!@#$%^&()_+=_\-{}\[\],.~\s]/gi, '_')
 }
 /** Modifies the JSON output from JioSaavn API */
 export function _json(R: any): Object {
@@ -14,6 +21,7 @@ export function _json(R: any): Object {
 		.replace(/&#039;?|&quot;?/g, "'")
 		.replace(/http:/g, 'https:')
 		.replace(/preview\.saavn/g, 'aac.saavn')
+		.replace(/150x150\.jpg/g, '500x500.jpg')
 	return JSON.parse(string)
 }
 
@@ -67,4 +75,42 @@ export async function getSongData(
 		.then((res) =>  _json(res.data))
 		.catch((e) => undefined)
 	return response && _song(response, type)
+}
+
+export function getSongBlob(url: string, bitrate: Bitrate) {
+	return axios
+		.get(url, { responseType: 'arraybuffer' })
+		.then((s) => s.data)
+		.catch(() => null)
+}
+
+export async function downloadSong(data: Song, bit?: Bitrate) {
+	const quality = (await browser.storage.sync.get(['quality']))?.quality || '160'
+	if (!bit) bit = parseInt(quality) as Bitrate
+
+	const url = data.getURL(bit)
+	const buffer = await getSongBlob(url, bit)
+
+	if (!buffer) return
+	const fileName = _file(data.title)
+	const blob = new Blob([buffer], { type: 'audio/mp4' })
+	saveAs(blob, fileName)
+}
+
+export async function downloadList(data: List, bit?: Bitrate) {
+	const quality = (await browser.storage.sync.get(['quality']))?.quality || '160'
+	if (!bit) bit = parseInt(quality) as Bitrate
+
+	const zip = new JSZip()
+	const zipName = _file(data.title)
+	for (const song of data.songs) {
+		const url = song.getURL(bit)
+		const buffer = await getSongBlob(url, bit)
+
+		if (!buffer) return
+		const fileName = `${_file(song.title)}.m4a`
+		const blob = new Blob([buffer], { type: 'audio/mp4' })
+		zip.file(fileName, blob, { binary: true })
+	}
+	zip.generateAsync({ type: 'blob' }).then((blob) => saveAs(blob, _file(zipName)))
 }

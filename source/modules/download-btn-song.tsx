@@ -1,6 +1,6 @@
 import React from 'jsx-dom'
 import { observe } from 'selector-observer'
-import { getSongData } from '../utils'
+import { getSongData, downloadSong } from '../utils'
 import $ from 'jquery'
 
 interface ButtonProps extends React.AllHTMLAttributes<HTMLElement> {}
@@ -15,9 +15,6 @@ const Button: React.FC<ButtonProps> = (props) => {
 	)
 }
 
-console.log(1);
-
-
 observe('li figcaption a.link-gray', {
 	add(el) {
 		const $el = $(el)
@@ -30,12 +27,13 @@ observe('li figcaption a.link-gray', {
 		const $last = $parent.find('.o-snippet__item:nth-last-of-type(2)')
 
 		const attr = {
-			class: 'jsdBTN_1 o-layout__item u-margin-bottom-none@sm',
+			class: 'jsdBTN_1 o-snippet__item u-margin-bottom-none@sm',
 			style: { width: '30px' },
 			onClick: async () => {
 				const data = await getSongData(token, 'song')
 				if (!data) return
 				console.log(data)
+				downloadSong(data as any)
 			},
 		}
 		$last.before(<Button {...attr} />)

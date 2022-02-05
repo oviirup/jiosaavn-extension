@@ -3,8 +3,10 @@
 ![][sh_gh_stars] ![][sh_version] [![][sh_downloads]][release]
 
 > This extension is still in the works. It is not yet ready for production use. It is still in the early stages of development. Many features are missing and bugs are still being worked on.
+>
+> The Download is working right but currently the files have _no metatags_, and downloading depends on _CORS_ so you need to enable it in your browser using extensions.
 
-Simple and effective extension to download Songs, Albums, or Playlists from _jioSaavn.com_ with just one click. It also hides ads and promotions from JioSaavn Web and slightly tweaks the UI. Last but not least, it implements long-awaited **dark mode**.
+Simple and effective extension to download Songs, Albums, or Playlists from [jioSaavn.com](https://jioSaavn.com) with just one click. It also hides ads and promotions from JioSaavn Web and slightly tweaks the UI. Last but not least, it implements long-awaited **dark mode**.
 
 Give it a star if you love the extension.\
 [Follow][profile] me if you want to get updates on my repos.
@@ -30,40 +32,52 @@ This extension is still in development, some of its features are still in the ma
 
 It fetches data from the API endpoints of JioSaavn, organizes them in a useful manner. All this happens within the browser and does not rely on external servers.
 
-After Fetching data it gives out a MP3 file with neatly organized tags and album art with the help of `ID3.js`
+After Fetching data it gets the URL of the song, album, or playlist in your desired quality settings. Then it creates an HTTP request to the server to fetch the M4A file. This step requires the CORS to be enabled in your browser.
+
+In the case of a Playlist or an Album, it fetches the songs in the playlist and then downloads them one by one and puts them inside a zip file to download at once.
 
 ## Features
 
-- Added Dark Mode
-- Select Any Quality Downloads (Supports HD 320kbps)
-- Download a Single Song \*
-- Download Album, Playlist as zip \*
-- Blocks ADs and Promotions
-- Modifies some of the UI Elements.
-
-<small>\* Working on it</small>
+- [X] Added Dark Mode toggle.
+- [X] Select Any Quality Downloads\
+  Supports HD **320kbps**, Default: **160kbps**.
+- [X] Download a Single Song.
+- [X] Download Album, Playlist as ZIP file.
+- [X] Blocks ADs and Promotions.
+- [X] Modifies some of the UI Elements.
+- [ ] Download Top songs from Artists.
+- [ ] Download Podcast.
+- [ ] Add metadata to the songs.
 
 ## Installation
 
 This extension cannot hosted be in Chrome Webstore due to obvious reasons. You can manually install the extension just by following the steps...
 
+### Prerequisites :
+
+- [X] Developer Mode: Enable developer mode in your browser.\
+  Go to [about://extensions/][about_ext] and check **Developer Mode** checkbox.
+- [X] Download CORS unblock extension such as [Allow CORS unblocked][ext_cors]. This prevents any errors that may occur during downloading.\
+  In future builds the requirement of this extension will be removed.
+
+
+### Download and Install :
+
 - Download the extension here : [download][download]
 - Extract the zip file.
-- Go to chrome extensions page : [about://extensions/](about://extensions/ ' ')
+- Go to chrome extensions page : [about://extensions/][about_ext]
 - You will see a button called **Load Unpacked Extension...** click that
-- Select the extracted folder and click **Open**\
-  <small>
-  Note: <strong>Developer mode</strong> is required to enable the extension. You can see a toggle button promptly named "Developer Mode". Turn on to enable the Developer mode.<br>
-  You might get a **Turn off Developer Mode** notification every time you open the browser if you are using Stable versions of chrome. You can use Chrome Dev or Canary if that notification annoys you.
-  </small>
+- Select the extracted folder and click **Open**
 
 [&#x21e1; Back to top](#)
 
 <br/><br/>
 Made with 💖 in India.
 
+[about_ext]: about://extensions/
+[ext_cors]: https://chrome.google.com/webstore/detail/lfhmikememgdcahcdlaciloancbhjino
 [release]: https://github.com/GrayGalaxy/jiosaavn-downloader/releases ' '
-[download]: https://github.com/GrayGalaxy/jiosaavn-downloader/releases/download/v0.7.3/release.zip 'Download'
+[download]: https://github.com/GrayGalaxy/jiosaavn-downloader/releases/download/v22.2.5/release.zip 'Download'
 [profile]: https://github.com/GrayGalaxy
 
 <!--Images -->

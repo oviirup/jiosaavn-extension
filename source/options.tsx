@@ -56,7 +56,7 @@ const RadioBox: React.FC<InputElement> = (props) => {
 }
 
 $(document).ready(async () => {
-	const { theme, quality } = await browser.storage.sync.get(['theme', 'quality'])
+	const { theme, quality = 160 } = await browser.storage.sync.get(['theme', 'quality'])
 	const changeTheme = (e: any) => {
 		const theme = e.target.checked ? 'dark' : 'light'
 		browser.storage.sync.set({ theme })
@@ -67,7 +67,7 @@ $(document).ready(async () => {
 	}
 	console.log({ theme, quality })
 
-	const qualities = ['extreme', 'best', 'good', 'fair', 'low']
+	const qualities = { 320: 'Extreme', 160: 'Best', 96: 'Good', 48: 'Fair', 12: 'Low' }
 	ROOT!.appendChild(
 		<>
 			<Heading>Dark Mode</Heading>
@@ -75,12 +75,14 @@ $(document).ready(async () => {
 			<CheckBox checked={theme === 'dark'} onChange={changeTheme}>
 				Enable Dark mode
 			</CheckBox>
+			<small style={{ opacity: 0.5 }}>Currently the DarkMode ON by default.</small>
 			<Heading>Download Quality</Heading>
 			<p>Select the quality of audio you want to download. Extreame is preferred.</p>
 			<form onChange={changeQuality}>
-				{qualities.map((Q) => (
-					<RadioBox checked={quality == Q} value={Q} name='quality'>
-						{_c(Q)}
+				{Object.entries(qualities).map(([q, text]) => (
+					<RadioBox checked={quality == q} value={q} name='quality'>
+						{text}
+						<small style={{ opacity: 0.5 }}>({q} kbps)</small>
 					</RadioBox>
 				))}
 			</form>

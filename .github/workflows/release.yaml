@@ -16,7 +16,6 @@ jobs:
   Version:
     runs-on: ubuntu-latest
     outputs:
-      created: ${{ steps.daily-version.outputs.created }}
       version: ${{ steps.daily-version.outputs.version }}
     steps:
       - uses: actions/checkout@v2
@@ -25,7 +24,7 @@ jobs:
         id: daily-version
   Build:
     needs: Version
-    if: needs.Version.outputs.created
+    if: needs.Version.result == 'success'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -53,5 +52,5 @@ jobs:
           artifactContentType: 'zip'
           body: ${{ github.event.inputs.message || '' }}
           prerelease: ${{ github.event.inputs.prerelease }}
-          tag: ${{ needs.Version.outputs.version }}
+          tag: 'v${{ needs.Version.outputs.version }}'
           token: ${{ secrets.GITHUB_TOKEN }}

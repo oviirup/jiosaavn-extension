@@ -9,8 +9,10 @@
 		"build": "webpack --mode=production && tsc"
 	},
 	"devDependencies": {
+		"@types/file-saver": "^2.0.5",
 		"@types/jquery": "^3.5.13",
 		"@types/node": "^17.0.12",
+		"@types/webextension-polyfill": "^0.8.2",
 		"copy-webpack-plugin": "^10.2.0",
 		"esbuild-loader": "^2.18.0",
 		"node-sass": "^7.0.1",
@@ -20,8 +22,10 @@
 	},
 	"dependencies": {
 		"axios": "^0.24.0",
+		"file-saver": "^2.0.5",
 		"jquery": "^3.6.0",
 		"jsx-dom": "^8.0.1-beta.4",
+		"jszip": "^3.7.1",
 		"selector-observer": "^2.1.6",
 		"webextension-polyfill": "^0.8.0"
 	}

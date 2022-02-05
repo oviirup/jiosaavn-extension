@@ -48,3 +48,5 @@ export namespace ApiV3 {
 		songs: song[]
 	}
 }
+
+export type Bitrate = 12 | 48 | 96 | 160 | 320

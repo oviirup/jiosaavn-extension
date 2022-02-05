@@ -1,6 +1,6 @@
 import React from 'jsx-dom'
 import { observe } from 'selector-observer'
-import { getSongData } from '../utils'
+import { getSongData, downloadList } from '../utils'
 import $ from 'jquery'
 
 type T = 'playlist' | 'album'
@@ -32,6 +32,7 @@ const addButton = (el: Element, type: T) => {
 			const data = await getSongData(token, type as any)
 			if (!data) return
 			console.log(data)
+			downloadList(data as any)
 		},
 	}
 	$first.after(<Button {...attr} />)
