@@ -9,8 +9,10 @@ const Button: React.FC<ButtonProps> = (props) => {
 	// prettier-ignore
 	return (
 		<div {...attr}>
-			<span class='svd_dlI u-link'><i class='o-icon--large o-icon-download' /></span>
-			<svg viewBox='0 0 24 24' height='24' width='24' fill='none' class='jsdSVG_r' strokeWidth='2' strokeLinecap='round'><circle cx='12' cy='12' r='11' /></svg>
+			<span class='svd_dlI u-link'>
+				<i class='o-icon--large o-icon-download' />
+				<svg viewBox='0 0 24 24' height='24' width='24' fill='none' class='jsdSVG_r' strokeWidth='2' strokeLinecap='round'><circle cx='12' cy='12' r='11' /></svg>
+			</span>
 		</div>
 	)
 }
@@ -29,11 +31,13 @@ observe('li figcaption a.link-gray', {
 		const attr = {
 			class: 'jsdBTN_1 o-snippet__item u-margin-bottom-none@sm',
 			style: { width: '30px' },
-			onClick: async () => {
+			onClick: async (e: any) => {
+				e.target?.classList.add('prog')
 				const data = await getSongData(token, 'song')
 				if (!data) return
-				console.log(data)
-				downloadSong(data as any)
+				downloadSong(data as any).finally(() => {
+					e.target?.classList.remove('prog')
+				})
 			},
 		}
 		$last.before(<Button {...attr} />)

@@ -45,6 +45,7 @@ jobs:
           type: 'zip'
           directory: ${{ env.DIR }}
           filename: 'release.zip'
+          exclusions: '*LICENSE.txt'
       - name: Uploading Release
         uses: ncipollo/release-action@v1
         with:

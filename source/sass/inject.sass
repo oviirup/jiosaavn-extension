@@ -10,7 +10,11 @@
 	.c-player__entity
 		margin-left: auto
 		margin-right: auto
-.o-snippet__item figcaption
+figcaption h4
+	~ p:only-of-type, ~ p:nth-of-type(2)
+		opacity: .5
+
+main section	.o-snippet__item figcaption
 	> *
 		width: auto !important
 		margin: 0 !important
@@ -24,11 +28,9 @@
 			padding-right: 20px !important
 		p:only-of-type, h4
 			grid-row: 1 / span 2
-	p:nth-of-type(2)
-		opacity: .5
-		@media (max-width: 61em)
-			display: none
 @media (max-width: 61em)
+	main section .o-snippet__item figcaption p:nth-of-type(2)
+		display: none
 	.o-snippet__item
 		width: 35px !important
 	article.o-snippet.o-snippet--draggable
@@ -37,34 +39,12 @@
 		width: calc(100% + 26px ) !important
 	.c-rotator .o-layout__item
 		width: 162px !important
-.c-rotator .o-block__body p
-	opacity: .5
-.o-flag--action
-	.o-flag__img
-		cursor: pointer
-		margin-right: 1em
-	&:hover, &:focus-visible
-		.o-flag__img::before
-			background: #0008
-			display: block !important
-			height: 100% !important
-			width: 100% !important
-			opacity: 1 !important
-		.o-flag__img::after
-			opacity: 1 !important
 .c-aside--flyout .o-list-bare li
-	&:not(:first-of-type) .o-snippet__item:nth-last-of-type(3)
-		width: 36px !important
+	.o-snippet__item:not(:first-of-type)
+		width: 30px !important
 		padding: 11px 5px
-	.o-snippet__item
-		&:nth-last-of-type(2)
-			width: auto !important
-			padding: 11px 5px
-		figcaption
-			display: flex !important
-			flex-direction: column
-			h4
-				padding: 0
-			p
-				opacity: .5
+	.o-snippet__item:last-of-type
+		width: max-content !important
+	figcaption > *
+		margin: 0 !important
 @import './modules'

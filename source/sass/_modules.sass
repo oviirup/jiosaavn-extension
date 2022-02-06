@@ -1,35 +1,32 @@
 .jsdBTN_1,.jsdBTN_2
 	position: relative
 	cursor: pointer
-	&.prog:not(.done) svg.jsdSVG_r
+	> span
+		display: inline-flex
+		justify-content: center
+		align-items: center
+		pointer-events: none
+	&.prog svg.jsdSVG_r
 		display: block
-	&.prog:not(.done) .svd_dlI
+	&.prog i
 		display: none
 svg.jsdSVG_r
-	--c: 113.1
 	display: none
-	flex-shrink: 0
-	position: absolute
-	top: 50%
-	left: 50%
-	transform: translate(-50%,-50%)
 	circle
 		stroke: var(--text-3)
-		stroke-dasharray: 1, 200
-		stroke-dashoffset: 0
 		transform-origin: center
 	.prog & circle
 		animation: dash 1.5s ease-in-out infinite,rotate 2s linear infinite
 @keyframes dash
 	0%
-		stroke-dasharray: 1, 200
+		stroke-dasharray: 1, 100
 		stroke-dashoffset: 0
 	50%
-		stroke-dasharray: 89, 200
-		stroke-dashoffset: -35
+		stroke-dasharray: 47, 100
+		stroke-dashoffset: -18
 	100%
-		stroke-dasharray: 89, 200
-		stroke-dashoffset: -132
+		stroke-dasharray: 47, 100
+		stroke-dashoffset: -66
 @keyframes rotate
 	100%
 		transform: rotate(360deg)

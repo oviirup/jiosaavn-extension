@@ -1,6 +1,5 @@
 import React, { styled } from 'jsx-dom'
 import browser from 'webextension-polyfill'
-import { _c } from './utils'
 import $ from 'jquery'
 
 const ROOT = document.getElementById('root')

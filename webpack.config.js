@@ -9,7 +9,8 @@ const config = (env, argv) => {
 	return {
 		entry: {
 			downloader: './source/index',
-			options: './source/options',
+			options: './source/browser/options',
+			background: './source/browser/background',
 		},
 		output: { path: path.resolve('build') },
 		resolve: { extensions: ['.js', '.ts', '.tsx'] },
@@ -32,7 +33,7 @@ const config = (env, argv) => {
 		},
 		devtool: isDev && 'inline-source-map',
 		optimization: { minimize: true },
-		stats: { all: false, errors: true },
+		stats: 'minimal',
 	}
 }
 export default config

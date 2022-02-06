@@ -1,8 +1,8 @@
 {
 	"name": "JioSaavn Downloader ᴺᴱᵂ",
 	"version": "0.0.0",
-	"manifest_version": 3,
-	"description": "Easily download songs, albums, playlist etc with just one click on jiosaavn.com",
+	"manifest_version": 2,
+	"description": "Easily download songs, albums, playlist, etc with just one click on jiosaavn.com",
 	"icons": { "128": "icon.png" },
 	"homepage_url": "https://www.jiosaavn.com/",
 	"options_ui": { "open_in_tab": false, "page": "options.html" },
@@ -11,5 +11,6 @@
 		"css": ["inject.css", "theme.css"],
 		"js": ["browser-polyfill.js", "downloader.js"]
 	}],
-	"permissions": ["storage"]
+	"permissions": ["<all_urls>", "webRequest", "webRequestBlocking", "storage"],
+	"background": { "scripts": ["browser-polyfill.js","background.js"] }
 }

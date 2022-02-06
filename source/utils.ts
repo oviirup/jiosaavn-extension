@@ -10,8 +10,9 @@ export function _c(str: string): string {
 	return str.charAt(0).toUpperCase() + str.slice(1)
 }
 /** Sanitise File name */
-export function _file(str: string): string {
-	return str.trim().replace(/[^a-z0-9!@#$%^&()_+=_\-{}\[\],.~\s]/gi, '_')
+export function _file(str: string, ext?: string): string {
+	str = str.trim().replace(/[^a-z0-9!@#$%^&()_+=_\-{}\[\],.~\s]/gi, '_')
+	return ext ? `${str}.${ext}` : str
 }
 /** Modifies the JSON output from JioSaavn API */
 export function _json(R: any): Object {
@@ -77,40 +78,35 @@ export async function getSongData(
 	return response && _song(response, type)
 }
 
-export function getSongBlob(url: string, bitrate: Bitrate) {
+export async function getBlob(url: string, type: 'audio/mp4' | 'image/jpeg') {
+	if(!type) return console.log('No blob type specified')
 	return axios
 		.get(url, { responseType: 'arraybuffer' })
-		.then((s) => s.data)
+		.then((res) => new Blob([res.data], { type }))
 		.catch(() => null)
 }
 
 export async function downloadSong(data: Song, bit?: Bitrate) {
-	const quality = (await browser.storage.sync.get(['quality']))?.quality || '160'
+	const quality = (await browser.storage.sync.get(['quality']))?.quality
 	if (!bit) bit = parseInt(quality) as Bitrate
-
-	const url = data.getURL(bit)
-	const buffer = await getSongBlob(url, bit)
-
-	if (!buffer) return
-	const fileName = _file(data.title)
-	const blob = new Blob([buffer], { type: 'audio/mp4' })
-	saveAs(blob, fileName)
+	const blob = await getBlob(data.getURL(bit), 'audio/mp4')
+	if (blob) saveAs(blob, _file(data.title, 'm4a'))
 }
 
 export async function downloadList(data: List, bit?: Bitrate) {
-	const quality = (await browser.storage.sync.get(['quality']))?.quality || '160'
+	const quality = (await browser.storage.sync.get(['quality']))?.quality
 	if (!bit) bit = parseInt(quality) as Bitrate
 
 	const zip = new JSZip()
-	const zipName = _file(data.title)
+	const zipName = _file(data.title, 'zip')
+	// get all songs
 	for (const song of data.songs) {
-		const url = song.getURL(bit)
-		const buffer = await getSongBlob(url, bit)
-
-		if (!buffer) return
-		const fileName = `${_file(song.title)}.m4a`
-		const blob = new Blob([buffer], { type: 'audio/mp4' })
-		zip.file(fileName, blob, { binary: true })
+		const blob = await getBlob(song.getURL(bit), 'audio/mp4')
+		if (blob) zip.file(_file(song.title, 'm4a'), blob)
 	}
-	zip.generateAsync({ type: 'blob' }).then((blob) => saveAs(blob, _file(zipName)))
+	// get the cover image
+	const coverArt = await getBlob(data.image, 'image/jpeg')
+	if (coverArt) zip.file('cover.jpg', coverArt)
+	// create the zip file
+	zip.generateAsync({ type: 'blob' }).then((blob) => saveAs(blob, zipName))
 }
