@@ -1,6 +1,9 @@
 .disabled
 	cursor: not-allowed !important
 @media (max-width: 61.25em)
+	.o-snippet.active .o-snippet__item:first-child
+		width: 35px !important
+		display: block !important
 	.c-nav.c-nav--secondary
 		display: none
 	figure.o-flag.o-flag--cover figcaption.o-flag__body
@@ -13,16 +16,15 @@
 figcaption h4
 	~ p:only-of-type, ~ p:nth-of-type(2)
 		opacity: .5
-
 main section	.o-snippet__item figcaption
 	> *
 		width: auto !important
 		margin: 0 !important
+		text-align: left
 	@media (min-width: 61em)
 		display: grid !important
 		grid-template-columns: 1fr 1fr
-		h4
-			padding: 10px 20px 10px 0
+		align-items: center
 		p
 			grid-column: 2
 			padding-right: 20px !important
@@ -31,8 +33,6 @@ main section	.o-snippet__item figcaption
 @media (max-width: 61em)
 	main section .o-snippet__item figcaption p:nth-of-type(2)
 		display: none
-	.o-snippet__item
-		width: 35px !important
 	article.o-snippet.o-snippet--draggable
 		padding: 0 13px
 		margin-left: -13px
@@ -40,11 +40,12 @@ main section	.o-snippet__item figcaption
 	.c-rotator .o-layout__item
 		width: 162px !important
 .c-aside--flyout .o-list-bare li
-	.o-snippet__item:not(:first-of-type)
-		width: 30px !important
-		padding: 11px 5px
-	.o-snippet__item:last-of-type
-		width: max-content !important
 	figcaption > *
 		margin: 0 !important
+.c-select__list
+	padding: 0 !important
+.o-snippet__item
+	&:nth-last-of-type(2),&:nth-last-of-type(3)
+		width: 32px !important
+		padding: 11px 5px
 @import './modules'

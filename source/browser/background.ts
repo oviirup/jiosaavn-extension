@@ -12,9 +12,8 @@ const handlers: any = {}
 const cors = {
 	onHeaderReceived(details: RequestDetails) {
 		const host = details.url && new URL(details.url).hostname
-
 		if (!host.includes('saavncdn.com') && !host.includes('cdnsrv.jio.com')) return
-		console.log(details.url)
+		// enable cors
 		const { responseHeaders: H } = details
 		const find = H?.find(({ name }) => name.toLowerCase() === 'access-control-allow-origin')
 		if (find) find.value = '*'
@@ -25,7 +24,7 @@ const cors = {
 		cors.remove(id)
 		const newHandler = (details: RequestDetails) => cors.onHeaderReceived(details)
 		handlers[id] = newHandler
-		// Modufy response headers
+		// Modify response headers
 		browser.webRequest.onHeadersReceived.addListener(
 			newHandler,
 			{ urls: ['<all_urls>'], tabId: id },

@@ -1,13 +1,31 @@
+import React from 'jsx-dom'
 import axios from 'axios'
 import { saveAs } from 'file-saver'
 import browser from 'webextension-polyfill'
 import { ApiV3, Song, List, Bitrate } from './types'
 import JSZip from 'jszip'
 
+interface ButtonProps extends React.AllHTMLAttributes<HTMLElement> {
+	large?: boolean
+}
+export function Button(props: ButtonProps) {
+	const { large = false, ...attr } = props
+	const iconClass = large ? 'c-btn c-btn--tertiary c-btn--ghost c-btn--icon' : 'u-link'
+	// prettier-ignore
+	return (
+		<div {...attr}>
+			<span class={`jsdDlI ${iconClass}`}>
+				<i class='o-icon--large o-icon-download' />
+				<svg viewBox='0 0 24 24' height='24' width='24' fill='none' strokeWidth='2' strokeLinecap='round'><circle cx='12' cy='12' r='11' /></svg>
+			</span>
+		</div>
+	)
+}
+
 /** Uppercase first letter */
 export function _c(str: string): string {
-	str = str.trim()
-	return str.charAt(0).toUpperCase() + str.slice(1)
+	str = str?.trim()
+	return str && str.charAt(0).toUpperCase() + str.slice(1)
 }
 /** Sanitise File name */
 export function _file(str: string, ext?: string): string {
@@ -46,7 +64,7 @@ export function _song (
 			id, image, track, year, label, url, getURL,
 			title: _c(s.song),
 			album: _c(s.album),
-			artist: s.singers.split(',').map(_c),
+			artist: s.singers?.split(',').map(_c),
 			album_artist: s.primary_artists.split(',').map(_c),
 			genre: genre || _c(s.language || 'Soundtrack'),
 		} as Song
@@ -79,10 +97,10 @@ export async function getSongData(
 }
 
 export async function getBlob(url: string, type: 'audio/mp4' | 'image/jpeg') {
-	if(!type) return console.log('No blob type specified')
+	if (!type) return console.log('No blob type specified')
 	return axios
 		.get(url, { responseType: 'arraybuffer' })
-		.then((res) => new Blob([res.data], { type }))
+		.then((res) => new Blob([res.data], { type }) as Blob)
 		.catch(() => null)
 }
 

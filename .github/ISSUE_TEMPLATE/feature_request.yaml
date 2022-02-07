@@ -8,6 +8,8 @@ body:
     attributes:
       value: |
         Request a feature that helps to add more functionality or user-experience
+
+        - [X] Make sure to follow the [community guidllines](https://github.com/GrayGalaxy/graygalaxy/blob/main/code_of_conduct.md).
   - type: textarea
     id: describe
     attributes:
@@ -22,11 +24,3 @@ body:
       description: If you can think of some way you can apply the feature, please let us know (optional)
     validations:
       required: false
-  - type: checkboxes
-    id: terms
-    attributes:
-      label: Code of Conduct
-      description: By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/GrayGalaxy/jiosaavn-downloader/blob/main/CODE_OF_CONDUCT.md)
-      options:
-        - label: I agree to follow this project's Code of Conduct
-          required: true

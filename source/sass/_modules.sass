@@ -1,22 +1,26 @@
 .jsdBTN_1,.jsdBTN_2
 	position: relative
 	cursor: pointer
-	> span
-		display: inline-flex
-		justify-content: center
-		align-items: center
-		pointer-events: none
-	&.prog svg.jsdSVG_r
-		display: block
-	&.prog i
-		display: none
-svg.jsdSVG_r
-	display: none
-	circle
-		stroke: var(--text-3)
-		transform-origin: center
-	.prog & circle
-		animation: dash 1.5s ease-in-out infinite,rotate 2s linear infinite
+.jsdDlI
+	pointer-events: none
+	position: relative
+	.pending & i:before
+		content: 'J'
+	.progress & i
+		opacity: 0
+	.progress & svg
+		opacity: 1
+		circle
+			animation: dash 1.5s ease-in-out infinite,rotate 2s linear infinite
+	svg
+		position: absolute
+		top: 50%
+		left: 50%
+		transform: translate(-50%, -50%)
+		opacity: 0
+		circle
+			stroke: var(--text-3)
+			transform-origin: center
 @keyframes dash
 	0%
 		stroke-dasharray: 1, 100

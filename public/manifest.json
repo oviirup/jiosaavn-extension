@@ -11,6 +11,13 @@
 		"css": ["inject.css", "theme.css"],
 		"js": ["browser-polyfill.js", "downloader.js"]
 	}],
-	"permissions": ["<all_urls>", "webRequest", "webRequestBlocking", "storage"],
-	"background": { "scripts": ["browser-polyfill.js","background.js"] }
+	"permissions": [
+		"https://*.cdnsrv.jio.com/*",
+		"https://*.saavncdn.com/*",
+		"https://www.jiosaavn.com/*",
+		"webRequest",
+		"webRequestBlocking",
+		"storage"
+	],
+	"background": { "scripts": ["browser-polyfill.js", "background.js"] }
 }

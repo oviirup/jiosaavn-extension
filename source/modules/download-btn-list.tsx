@@ -1,28 +1,14 @@
 import React from 'jsx-dom'
 import { observe } from 'selector-observer'
-import { getSongData, downloadList } from '../utils'
+import { Button, getSongData, downloadList } from '../utils'
 import $ from 'jquery'
 
 type T = 'playlist' | 'album'
-interface ButtonProps extends React.AllHTMLAttributes<HTMLElement> {}
-const Button: React.FC<ButtonProps> = (props) => {
-	const { ...attr } = props
-	// prettier-ignore
-	return (
-		<div {...attr}>
-			<span class='svd_dlI c-btn c-btn--tertiary c-btn--ghost c-btn--icon'>
-				<i class='o-icon--large o-icon-download' />
-				<svg viewBox='0 0 24 24' height='24' width='24' fill='none' class='jsdSVG_r' strokeWidth='2' strokeLinecap='round'><circle cx='12' cy='12' r='11' /></svg>
-			</span>
-		</div>
-	)
-}
 
 const addButton = (el: Element, type: T) => {
 	const $el = $(el)
 	const href = window.location.href.match(/.*\/(.*)/)
-	const token = href ? href[1] : null
-
+	const token = href && href[1]
 	if (!token) return
 
 	const $first = $el.find('.o-layout__item:first-of-type')
@@ -31,16 +17,15 @@ const addButton = (el: Element, type: T) => {
 	const attr = {
 		class: 'jsdBTN_2 o-layout__item u-margin-bottom-none@sm',
 		onClick: async (e: any) => {
-			e.target?.classList.add('prog')
+			const $T = $(e.target)
+			$T.addClass('pending')
 			const data = await getSongData(token, type as any)
-			if (!data) return
-			console.log(data)
-			downloadList(data as any).finally(() => {
-				e.target?.classList.remove('prog')
-			})
+			$T.addClass('progress')
+			if (data) await downloadList(data as any)
+			$T.removeClass('pending').removeClass('progress')
 		},
 	}
-	$first.after(<Button {...attr} />)
+	$first.after(<Button large {...attr} data-token={token} />)
 }
 
 observe('figure .o-layout', {
