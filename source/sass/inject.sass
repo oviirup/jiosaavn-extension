@@ -1,11 +1,11 @@
 .disabled
 	cursor: not-allowed !important
+[data-menu-action="D"]
+	display: none !important
 @media (max-width: 61.25em)
-	.o-snippet.active .o-snippet__item:first-child
+	li>.o-snippet.active .o-snippet__item:first-child
 		width: 35px !important
 		display: block !important
-	.c-nav.c-nav--secondary
-		display: none
 	figure.o-flag.o-flag--cover figcaption.o-flag__body
 		margin-bottom: 3em !important
 	.o-snippet__item:first-child
@@ -16,10 +16,11 @@
 figcaption h4
 	~ p:only-of-type, ~ p:nth-of-type(2)
 		opacity: .5
-main section	.o-snippet__item figcaption
+main section .o-snippet__item figcaption
 	> *
 		width: auto !important
 		margin: 0 !important
+		padding-right: 20px !important
 		text-align: left
 	@media (min-width: 61em)
 		display: grid !important
@@ -27,7 +28,6 @@ main section	.o-snippet__item figcaption
 		align-items: center
 		p
 			grid-column: 2
-			padding-right: 20px !important
 		p:only-of-type, h4
 			grid-row: 1 / span 2
 @media (max-width: 61em)
@@ -37,8 +37,6 @@ main section	.o-snippet__item figcaption
 		padding: 0 13px
 		margin-left: -13px
 		width: calc(100% + 26px ) !important
-	.c-rotator .o-layout__item
-		width: 162px !important
 .c-aside--flyout .o-list-bare li
 	figcaption > *
 		margin: 0 !important

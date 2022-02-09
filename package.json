@@ -1,8 +1,8 @@
 {
 	"name": "jiosaavn-downloader",
-	"version": "0.1.0",
+	"version": "0.9.3",
 	"description": "Easily download songs, albums, playlists, etc. with just one click on jiosaavn.com",
-	"license": "MIT",
+	"license": "GPL-3.0-or-later",
 	"type": "module",
 	"scripts": {
 		"watch": "webpack --mode=development --watch && tsc --watch --preserveWatchOutput",
@@ -11,7 +11,6 @@
 	"devDependencies": {
 		"@types/file-saver": "^2.0.5",
 		"@types/jquery": "^3.5.13",
-		"@types/node": "^17.0.12",
 		"@types/webextension-polyfill": "^0.8.2",
 		"copy-webpack-plugin": "^10.2.0",
 		"esbuild-loader": "^2.18.0",

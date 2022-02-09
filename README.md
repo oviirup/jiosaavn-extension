@@ -19,8 +19,6 @@ You can download the extension from the following [link][download].\
 	<ul>
 		<li><a href='#how-it-works'>How It Works</a></li>
 		<li><a href='#features'>Features</a></li>
-		<li><a href='#installation'>Installation</a></li>
-		<li><a href='#behind-the-scenes'>Behind the Scenes</a></li>
 		<li><a href='#how-to-use'>How to Use</a></li>
 		<li><a href='#credits'>Credits</a></li>
 	</ul>
@@ -109,7 +107,7 @@ Made with 💖 in India.
 
 [about_ext]: about://extensions/
 [release]: https://github.com/GrayGalaxy/jiosaavn-downloader/releases ' '
-[download]: https://github.com/GrayGalaxy/jiosaavn-downloader/releases/download/v22.2.6/release.zip 'Download'
+[download]: https://github.com/GrayGalaxy/jiosaavn-downloader/releases/download/v22.2.9/release.zip 'Download'
 [profile]: https://github.com/GrayGalaxy
 
 <!--Images -->

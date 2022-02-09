@@ -8,10 +8,6 @@ on:
         description: Pre-release
         required: false
         type: boolean
-      message:
-        description: Message
-        type: string
-        required: false
 jobs:
   Version:
     runs-on: ubuntu-latest

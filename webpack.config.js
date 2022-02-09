@@ -20,10 +20,13 @@ const config = (env, argv) => {
 					{ from: resolvePackage('webextension-polyfill') },
 					{ from: 'public' },
 					{
-						from: 'source/sass/*.sass',
+						from: 'source/sass/*',
 						to: '[name].css',
-						transform: (c, file) => renderSync({ file, outputStyle: 'compressed' }).css.toString(),
-						globOptions: { ignore: ['**/_*.sass'] },
+						transform(c, file) {
+							const opt = { file, outputStyle: 'compressed' }
+							return renderSync(opt).css.toString()
+						},
+						globOptions: { ignore: ['**/_*.*'] },
 					},
 				],
 			}),

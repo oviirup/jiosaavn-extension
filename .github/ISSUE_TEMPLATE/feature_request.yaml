@@ -15,12 +15,16 @@ body:
     attributes:
       label: Describe the feature
       description: What would like to add as a feature?
+      placeholder: |
+        Explain the feature
     validations:
       required: true
   - type: textarea
     id: idea
     attributes:
       label: Suggest how to implement
-      description: If you can think of some way you can apply the feature, please let us know (optional)
+      description: If you can think of some way you can apply the feature, please let us know
+      placeholder: |
+        Give an idea how to aply the feature
     validations:
       required: false
