@@ -8,8 +8,16 @@ browser.runtime.onInstalled.addListener(() => {
 })
 
 // open jiosaavn on clicking the extension icon
-browser.browserAction.onClicked.addListener(() => {
-	browser.tabs.create({ url: 'https://www.jiosaavn.com/' })
+let c = 0, timer: any = null
+
+browser.browserAction.onClicked.addListener(async () => {
+	++c
+	timer && clearTimeout(timer)
+	timer = setTimeout(() => {
+		if (c > 1) browser.runtime.openOptionsPage()
+		else browser.tabs.create({ url: 'https://www.jiosaavn.com/' })
+		c = 0
+	}, 200)
 })
 
 const CSS = {

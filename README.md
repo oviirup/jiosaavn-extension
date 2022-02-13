@@ -53,6 +53,8 @@ In the case of a Playlist or an Album, it fetches the songs in the playlist and 
 
 This extension cannot hosted be in Chrome Webstore due to obvious reasons. You can manually install the extension just by following the steps...
 
+You can go to _jiosaavn.com_ just by **single-click** on the extension icon, no need to add extra bookmarks, and **double-click** to open the _extension options_.
+
 ### Prerequisites :
 
 - [x] Developer Mode: Enable developer mode in your browser.\
@@ -66,18 +68,20 @@ This extension cannot hosted be in Chrome Webstore due to obvious reasons. You c
 3. You will see a button called **Load Unpacked Extension...** click that
 4. Select the extracted folder and click **Open**
 
-**Note:** If you are downloaded the SourceCode, you can also install it by running the following command in your terminal :
+**Note:** If you downloaded the SourceCode, you can also install it by running the following command in your terminal (You will need Node.JS and npm installed on your machine) :
 
 ```
 npm install
 npm run build
 ```
 
-You will need Node.JS installed on your computer to run the build command.
+This will build the extension in `build` folder. Then you can manually install the extension.
 
 ### Customizing the Extension :
 
 The extension comes with an options page from where you can customize the extension. You can find it in the extensions menu, just **Right Click** on the extension icon and click on **Extension Options**. You will have several options like...
+
+Alternatively, you can open the options page by **double-clicking** on the extension icon in the toolbar.
 
 - **Dark Mode:** to toggle the dark mode.\
   Default: Enabled
@@ -103,6 +107,7 @@ Their Projects help me a lot in developing this extension.
 [&#x21e1; Back to top](#)
 
 ---
+
 Made with 💖 in India.
 
 [about_ext]: about://extensions/
