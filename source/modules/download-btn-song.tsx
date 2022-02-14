@@ -2,6 +2,7 @@ import React from 'jsx-dom'
 import { observe } from 'selector-observer'
 import { Button, getSongData, downloadSong } from '../utils'
 import $ from 'jquery'
+import { Song } from '../types'
 
 observe('li figcaption a.link-gray', {
 	add(el) {
@@ -14,16 +15,21 @@ observe('li figcaption a.link-gray', {
 		if ($parent.find('.jsdBTN_1').length) return
 		const $last = $parent.find('.o-snippet__item:nth-last-of-type(2)')
 
+		let cancel: any = null
 		const attr = {
 			class: 'jsdBTN_1 o-snippet__item u-margin-bottom-none@sm',
 			style: { width: '30px' },
 			onClick: async (e: any) => {
 				const $T = $(e.target)
 				$T.addClass('pending')
-				const data = await getSongData(token, 'song')
-				$T.addClass('progress')
-				if (!data) return
-				await downloadSong(data as any)
+				const data = await getSongData(token, 'song') as Song
+				if (data) {
+					if($T.hasClass('progress')) cancel()
+					else {
+						$T.addClass('progress')
+						await downloadSong(data, (c) => (cancel = c))
+					}
+				}
 				$T.removeClass('pending').removeClass('progress')
 			},
 		}
@@ -46,11 +52,11 @@ observe('#root > .song figure .o-layout', {
 			onClick: async (e: any) => {
 				const $T = $(e.target)
 				$T.addClass('pending')
-				console.log(token)
-
-				const data = await getSongData(token, 'song')
-				$T.addClass('progress')
-				if (data) await downloadSong(data as any)
+				const data = (await getSongData(token, 'song')) as Song
+				if (data){
+					$T.addClass('progress')
+					await downloadSong(data)
+				}
 				$T.removeClass('pending').removeClass('progress')
 			},
 		}

@@ -1,5 +1,5 @@
 import React from 'jsx-dom'
-import axios from 'axios'
+import axios, {  Canceler } from 'axios'
 import { saveAs } from 'file-saver'
 import browser from 'webextension-polyfill'
 import { ApiV3, Song, List, Bitrate } from './types'
@@ -11,12 +11,12 @@ interface ButtonProps extends React.AllHTMLAttributes<HTMLElement> {
 export function Button(props: ButtonProps) {
 	const { large = false, ...attr } = props
 	const iconClass = large ? 'c-btn c-btn--tertiary c-btn--ghost c-btn--icon' : 'u-link'
-	// prettier-ignore
+	const w = large ? 24 : 36
 	return (
 		<div {...attr}>
 			<span class={`jsdDlI ${iconClass}`}>
 				<i class='o-icon--large o-icon-download' />
-				<svg viewBox='0 0 24 24' height='24' width='24' fill='none' strokeWidth='2' strokeLinecap='round'><circle cx='12' cy='12' r='11' /></svg>
+				<svg viewBox={`0 0 ${w} ${w}`} height={w} width={w} fill='none' strokeWidth={large?2:1} strokeLinecap='round'><circle cx={w/2} cy={w/2} r={w/2-1} /></svg>
 			</span>
 		</div>
 	)
@@ -33,8 +33,8 @@ export function _file(str: string, ext?: string): string {
 	return ext ? `${str}.${ext}` : str
 }
 /** Modifies the JSON output from JioSaavn API */
-export function _json(R: any): Object {
-	const string = JSON.stringify(R)
+export function _json(obj: object): object {
+	const string = JSON.stringify(obj)
 		.replace(/&amp;?/gi, '&')
 		.replace(/&copy;?/gi, '©')
 		.replace(/&#039;?|&quot;?/g, "'")
@@ -44,14 +44,13 @@ export function _json(R: any): Object {
 	return JSON.parse(string)
 }
 
-// prettier-ignore
 /** Sanitise API output */
-export function _song (
+export function _song(
 	data: any,
 	type: 'song' | 'album' | 'palylist',
 	track?: number,
 	genre?: string
-) {
+): Song | List {
 	if (type === 'song') {
 		// Get song data
 		const d: ApiV3.song = data.songs ? data.songs[0] : data
@@ -67,7 +66,7 @@ export function _song (
 			artist: s.singers?.split(',').map(_c),
 			album_artist: s.primary_artists.split(',').map(_c),
 			genre: genre || _c(s.language || 'Soundtrack'),
-		} as Song
+		}
 	} else {
 		// Get Album / Playlist data
 		let songs: Song[] = data.songs.map((s: ApiV3.song, i: number) => {
@@ -77,11 +76,10 @@ export function _song (
 			songs,
 			image: data.image,
 			title: data.title || data.listname,
-		} as List
+		}
 	}
 }
 
-// prettier-ignore
 /** Get song data from server */
 export async function getSongData(
 	token: string,
@@ -96,24 +94,31 @@ export async function getSongData(
 	return response && _song(response, type)
 }
 
-export async function getBlob(url: string, type: 'audio/mp4' | 'image/jpeg') {
+export async function getBlob(
+	url: string,
+	type: 'audio/mp4' | 'image/jpeg',
+	cancelToken?: (c:Canceler) => void
+) {
 	if (!type) return console.log('No blob type specified')
 	return axios
-		.get(url, { responseType: 'arraybuffer' })
+		.get(url, {
+			responseType: 'arraybuffer',
+			cancelToken: new axios.CancelToken((c)=>{cancelToken && cancelToken(c)}),
+		})
 		.then((res) => new Blob([res.data], { type }) as Blob)
 		.catch(() => null)
 }
 
-export async function downloadSong(data: Song, bit?: Bitrate) {
+export async function downloadSong(data: Song, cancelToken?: (c: Canceler) => void) {
 	const quality = (await browser.storage.sync.get(['quality']))?.quality
-	if (!bit) bit = parseInt(quality) as Bitrate
-	const blob = await getBlob(data.getURL(bit), 'audio/mp4')
+	const bit = (parseInt(quality) || 128) as Bitrate
+	const blob = await getBlob(data.getURL(bit), 'audio/mp4', cancelToken)
 	if (blob) saveAs(blob, _file(data.title, 'm4a'))
 }
 
-export async function downloadList(data: List, bit?: Bitrate) {
+export async function downloadList(data: List, cancelToken?: (c: Canceler) => void) {
 	const quality = (await browser.storage.sync.get(['quality']))?.quality
-	if (!bit) bit = parseInt(quality) as Bitrate
+	const bit = parseInt(quality) as Bitrate
 
 	const zip = new JSZip()
 	const zipName = _file(data.title, 'zip')
