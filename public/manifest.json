@@ -11,7 +11,7 @@
 		"css": ["inject.css", "theme.css"],
 		"js": ["browser-polyfill.js", "downloader.js"]
 	}],
-	"permissions": ["<all_urls>", "webRequest", "webRequestBlocking", "storage"],
+	"permissions": ["<all_urls>", "webRequest", "webRequestBlocking", "storage", "tabs"],
 	"browser_action": { "default_icon": "icon.png" },
 	"background": { "scripts": ["browser-polyfill.js", "background.js"] }
 }

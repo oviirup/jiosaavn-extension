@@ -40,11 +40,12 @@ In the case of a Playlist or an Album, it fetches the songs in the playlist and 
 
 - [x] Added Dark Mode toggle.
 - [x] Select Any Quality Downloads\
-       Supports HD **320kbps**, Default: **160kbps**.
-- [x] Download a Single Song.
-- [x] Download Album, Playlist as ZIP file.
-- [x] Blocks ADs and Promotions.
+      Supports HD **320kbps**, Default: **160kbps**.
+- [x] Download a **Songs**.
+- [x] Download **Album**, **Playlist** as ZIP file.
+- [x] **Blocks ADs** and Promotions.
 - [x] Modifies some of the UI Elements.
+- [x] **Cancel Download** button for songs.
 - [ ] Download Top songs from Artists.
 - [ ] Download Podcast.
 - [ ] Add metadata to the songs.
@@ -112,7 +113,7 @@ Made with 💖 in India.
 
 [about_ext]: about://extensions/
 [release]: https://github.com/GrayGalaxy/jiosaavn-downloader/releases ' '
-[download]: https://github.com/GrayGalaxy/jiosaavn-downloader/releases/download/v22.2.9/release.zip 'Download'
+[download]: https://github.com/GrayGalaxy/jiosaavn-downloader/releases/download/v22.2.14/release.zip 'Download'
 [profile]: https://github.com/GrayGalaxy
 
 <!--Images -->

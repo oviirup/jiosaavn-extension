@@ -1,6 +1,6 @@
 {
 	"name": "jiosaavn-downloader",
-	"version": "0.9.3",
+	"version": "1.2.6",
 	"description": "Easily download songs, albums, playlists, etc. with just one click on jiosaavn.com",
 	"license": "GPL-3.0-or-later",
 	"type": "module",

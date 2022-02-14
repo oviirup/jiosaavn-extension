@@ -9,7 +9,6 @@ browser.runtime.onInstalled.addListener(() => {
 
 // open jiosaavn on clicking the extension icon
 let c = 0, timer: any = null
-
 browser.browserAction.onClicked.addListener(async () => {
 	++c
 	timer && clearTimeout(timer)
@@ -24,6 +23,11 @@ const CSS = {
 	light: ':root{--primary:#2cd8c4;--bg-1:#f6f6f6;--bg-2:#eee;--bg-3:#bbb;--border:#e9e9e9;--text-1:#3e3e3e;--text-2:#555;--text-3:#888}',
 	dark: ':root{--primary:#2cd8c4;--bg-1:#18191a;--bg-2:#242526;--bg-3:#2e3031;--border:#292b2c;--text-1:#eee;--text-2:#888;--text-3:#555}',
 }
+
+const adURLS = [
+	'https://staticfe.saavn.com/web6/admanager/*',
+	'https://*.doubleclick.net/pagead/*'
+]
 
 const handlers: any = {}
 interface RequestDetails extends browser.WebRequest.OnHeadersReceivedDetailsType {}
@@ -45,6 +49,12 @@ const cors = {
 			{ urls: ['https://*.cdnsrv.jio.com/*', 'https://*.saavncdn.com/*'], tabId: id },
 			['blocking', 'responseHeaders', 'extraHeaders']
 		)
+		// proper adblocker support
+		browser.webRequest.onBeforeRequest.addListener(
+			()=>({cancel:true}),
+			{ urls: adURLS, tabId: id },
+			['blocking']
+		)
 	},
 	remove(id: number) {
 		browser.webRequest.onHeadersReceived.removeListener(handlers[id])
@@ -54,19 +64,19 @@ const cors = {
 
 // Run only on jiosaavn.com
 browser.tabs.onUpdated.addListener((id, info) => {
-	if (info?.status == 'loading')
-		browser.tabs.get(id).then((tab) => {
-			const host = tab.url && new URL(tab.url).hostname
-			if (!host?.includes('jiosaavn.com')) return
-			if (id in handlers) cors.remove(id)
-			cors.install(id)
-			browser.storage.sync.get('theme').then((i) => {
-				const theme: 'light' | 'dark' = i.theme || 'light'
-				browser.tabs.insertCSS({ runAt: 'document_start', code: CSS[theme] })
-			})
+	if (info?.status !== 'loading') return
+	browser.tabs.get(id).then((tab) => {
+		const host = tab.url && new URL(tab.url).hostname
+		if (!host?.includes('jiosaavn.com')) return
+		if (id in handlers) cors.remove(id)
+		cors.install(id)
+		browser.storage.sync.get('theme').then((i) => {
+			const theme: 'light' | 'dark' = i.theme || 'light'
+			browser.tabs.insertCSS({ runAt: 'document_start', code: CSS[theme] })
 		})
+	})
 })
 
-browser.tabs.query({ title: 'Output Management' }).then((tabs) => {
+browser.tabs.query({ url: 'https://www.jiosaavn.com/*' }).then((tabs) => {
 	tabs.forEach(({ id }) => id && cors.install(id))
 })
