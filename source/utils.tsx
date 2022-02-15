@@ -57,7 +57,7 @@ export function _song(
 		const { id, label, year, image, ...s } = d
 
 		const url = s.media_preview_url?.replace(/96_p\.mp4$/, '96.mp4')
-		const getURL = (bit: number): string => url.replace(/96\.mp4$/, `${bit}.mp4`)
+		const getURL = (bit: number): string => url?.replace(/96\.mp4$/, `${bit}.mp4`)
 		// prettier-ignore
 		return {
 			id, image, track, year, label, url, getURL,
@@ -119,17 +119,23 @@ export async function downloadSong(data: Song, cancelToken?: (c: Canceler) => vo
 export async function downloadList(data: List, cancelToken?: (c: Canceler) => void) {
 	const quality = (await browser.storage.sync.get(['quality']))?.quality
 	const bit = parseInt(quality) as Bitrate
+	const length = data.songs.length
+	if (length === 0) return console.log(`The list does not contains any songs`)
 
+	console.log(data)
 	const zip = new JSZip()
 	const zipName = _file(data.title, 'zip')
 	// get all songs
 	for (const song of data.songs) {
 		const blob = await getBlob(song.getURL(bit), 'audio/mp4')
-		if (blob) zip.file(_file(song.title, 'm4a'), blob)
+		if (!blob) continue
+		zip.file(_file(song.title, 'm4a'), blob)
+		console.log(`Downloaded: ${song.title} - ${bit}kbps`)
 	}
 	// get the cover image
 	const coverArt = await getBlob(data.image, 'image/jpeg')
 	if (coverArt) zip.file('cover.jpg', coverArt)
 	// create the zip file
-	zip.generateAsync({ type: 'blob' }).then((blob) => saveAs(blob, zipName))
+	const zipBlob = await zip.generateAsync({ type: 'blob' })
+	saveAs(zipBlob, zipName)
 }

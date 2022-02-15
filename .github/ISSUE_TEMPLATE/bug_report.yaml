@@ -6,12 +6,18 @@ assignees:
 body:
   - type: markdown
     attributes:
-      value: |
-        Thanks for taking the time to fill out this bug report!
-
-        - [X] Checkou the **Known Issues** posted on release notes.
-        - [X] Check if anyone else had the same issue before posting.
-        - [X] Make sure to follow the [community guidllines](https://github.com/GrayGalaxy/graygalaxy/blob/main/code_of_conduct.md).
+      value: Thanks for taking the time to fill out this bug report!
+  - type: checkboxes
+    attributes:
+      label: Preflight Checklist
+      description: Please ensure you've completed all of the following.
+      options:
+        - label: Checkout the [Known Issues](https://github.com/GrayGalaxy/jiosaavn-downloader/releases) posted on release notes.
+          required: true
+        - label: I agree to follow the [Code of Conduct](https://github.com/GrayGalaxy/graygalaxy/blob/main/code_of_conduct.md) that this project adheres to.
+          required: true
+        - label: I have searched the [issue tracker](https://www.github.com/electron/electron/issues) for a bug report that matches the one I want to file, without success.
+          required: true
   - type: textarea
     id: what-happened
     attributes:
@@ -22,7 +28,6 @@ body:
 
         - URL: where the issue occurred
         - Browser: Chrome / MS Edge / Opera ...
-      render: markdown
     validations:
       required: true
   - type: textarea
@@ -30,7 +35,7 @@ body:
     attributes:
       label: Relevant log output
       description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
-      render: shell
+      render: Shell
   - type: textarea
     id: reproduce
     attributes:
@@ -42,4 +47,4 @@ body:
         3.
         ...
     validations:
-      required: true
+      required: false

@@ -6,17 +6,22 @@ assignees:
 body:
   - type: markdown
     attributes:
-      value: |
-        Request a feature that helps to add more functionality or user-experience
-
-        - [X] Make sure to follow the [community guidllines](https://github.com/GrayGalaxy/graygalaxy/blob/main/code_of_conduct.md).
+      value: Request a feature that helps to add more functionality or user-experience
+  - type: checkboxes
+    attributes:
+      label: Preflight Checklist
+      description: Please ensure you've completed all of the following.
+      options:
+        - label: I agree to follow the [Code of Conduct](https://github.com/GrayGalaxy/graygalaxy/blob/main/code_of_conduct.md) that this project adheres to.
+          required: true
+        - label: I have searched the [issue tracker](https://www.github.com/electron/electron/issues) for a feature request that matches the one I want to file, without success.
+          required: true
   - type: textarea
     id: describe
     attributes:
       label: Describe the feature
       description: What would like to add as a feature?
-      placeholder: |
-        Explain the feature
+      placeholder: Explain the feature
     validations:
       required: true
   - type: textarea
@@ -24,7 +29,6 @@ body:
     attributes:
       label: Suggest how to implement
       description: If you can think of some way you can apply the feature, please let us know
-      placeholder: |
-        Give an idea how to aply the feature
+      placeholder: Give an idea how to aply the feature
     validations:
       required: false
