@@ -29,7 +29,9 @@ export function _c(str: string): string {
 }
 /** Sanitise File name */
 export function _file(str: string, ext?: string): string {
-	str = str.trim().replace(/[^a-z0-9!@#$%^&()_+=_\-{}\[\],.~\s]/gi, '_')
+	str = str.trim()
+		.replace(/"/g, '\'')
+		.replace(/[^a-z0-9!@#$%^&()_+=_\-{}\'\[\],.~\s]/gi, '_')
 	return ext ? `${str}.${ext}` : str
 }
 /** Modifies the JSON output from JioSaavn API */
@@ -113,7 +115,11 @@ export async function downloadSong(data: Song, cancelToken?: (c: Canceler) => vo
 	const quality = (await browser.storage.sync.get(['quality']))?.quality
 	const bit = (parseInt(quality) || 128) as Bitrate
 	const blob = await getBlob(data.getURL(bit), 'audio/mp4', cancelToken)
-	if (blob) saveAs(blob, _file(data.title, 'm4a'))
+	if (!blob) return
+	const fileName = _file(data.title, 'm4a')
+	saveAs(blob, fileName)
+	// prettier-ignore
+	console.log(`%cDownloaded : %c${fileName} %c${bit}kbps`,'color:gray','color:white','color:#52DB9A')
 }
 
 export async function downloadList(data: List, cancelToken?: (c: Canceler) => void) {
@@ -124,18 +130,27 @@ export async function downloadList(data: List, cancelToken?: (c: Canceler) => vo
 
 	console.log(data)
 	const zip = new JSZip()
-	const zipName = _file(data.title, 'zip')
 	// get all songs
-	for (const song of data.songs) {
-		const blob = await getBlob(song.getURL(bit), 'audio/mp4')
-		if (!blob) continue
-		zip.file(_file(song.title, 'm4a'), blob)
-		console.log(`Downloaded: ${song.title} - ${bit}kbps`)
+	const concurrent = 5
+	console.log(`Downloading ${length} songs`)
+	for (let i = 0; i < data.songs.length; i += concurrent) {
+		const list = data.songs.slice(i, i + concurrent)
+		if (i > 10) continue
+		// prettier-ignore
+		await Promise.all(list.map(async (song, c) => {
+			const blob = await getBlob(song.getURL(bit), 'audio/mp4')
+			if (!blob) return undefined
+			const name = _file(song.title, 'm4a')
+			zip.file(name, blob)
+			console.log(`%c(${i+c+1}) %c${name} %c${bit}kbps`,'color:gray','color:white','color:#52DB9A')
+		}))
 	}
 	// get the cover image
 	const coverArt = await getBlob(data.image, 'image/jpeg')
 	if (coverArt) zip.file('cover.jpg', coverArt)
 	// create the zip file
+	console.log('%cPlease wait while creating zip file', 'color:#FC843D;padding:15px 0')
 	const zipBlob = await zip.generateAsync({ type: 'blob' })
-	saveAs(zipBlob, zipName)
+	saveAs(zipBlob, _file(data.title, 'zip'))
+	console.log('%cThe zip file is ready to download', 'color:#52DB9A;padding:15px 0')
 }

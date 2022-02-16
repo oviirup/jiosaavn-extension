@@ -3,5 +3,3 @@
 /.vscode
 *.idea
 *.idea.*
-*-lock.json
-yarn.lock
