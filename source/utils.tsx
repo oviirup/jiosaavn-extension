@@ -34,6 +34,21 @@ export function _file(str: string, ext?: string): string {
 		.replace(/[^a-z0-9!@#$%^&()_+=_\-{}\'\[\],.~\s]/gi, '_')
 	return ext ? `${str}.${ext}` : str
 }
+/** Name Format */
+export function _file_song(song: Song, bitrate: Bitrate, format?: string): string {
+	if (!format) format = '$title'
+	const { title, artist, album_artist, track, album, genre, year } = song
+	const fileName = format
+		.replace(/\$title/g, title)
+		.replace(/\$artist/g, artist.join(', '))
+		.replace(/\$album_artist/g, album_artist.join(', '))
+		.replace(/\$album/g, album)
+		.replace(/\$track/g, String(track))
+		.replace(/\$genre/g, genre)
+		.replace(/\$bitrate/g, String(bitrate))
+		.replace(/\$year/g, String(year))
+	return _file(fileName,'m4a')
+}
 /** Modifies the JSON output from JioSaavn API */
 export function _json(obj: object): object {
 	const string = JSON.stringify(obj)
@@ -113,10 +128,11 @@ export async function getBlob(
 
 export async function downloadSong(data: Song, cancelToken?: (c: Canceler) => void) {
 	const quality = (await browser.storage.sync.get(['quality']))?.quality
-	const bit = (parseInt(quality) || 128) as Bitrate
+	const bit = (Number(quality) || 128) as Bitrate
 	const blob = await getBlob(data.getURL(bit), 'audio/mp4', cancelToken)
 	if (!blob) return
-	const fileName = _file(data.title, 'm4a')
+	const { format = '$title' } = await browser.storage.sync.get(['format'])
+	const fileName = _file_song(data, bit, format)
 	saveAs(blob, fileName)
 	// prettier-ignore
 	console.log(`%cDownloaded : %c${fileName} %c${bit}kbps`,'color:gray','color:white','color:#52DB9A')
@@ -130,6 +146,7 @@ export async function downloadList(data: List, cancelToken?: (c: Canceler) => vo
 
 	console.log(data)
 	const zip = new JSZip()
+	const { format = '$title' } = await browser.storage.sync.get(['format'])
 	// get all songs
 	const concurrent = 5
 	console.log(`Downloading ${length} songs`)
@@ -140,7 +157,7 @@ export async function downloadList(data: List, cancelToken?: (c: Canceler) => vo
 		await Promise.all(list.map(async (song, c) => {
 			const blob = await getBlob(song.getURL(bit), 'audio/mp4')
 			if (!blob) return undefined
-			const name = _file(song.title, 'm4a')
+			const name = _file_song(song, bit, format)
 			zip.file(name, blob)
 			console.log(`%c(${i+c+1}) %c${name} %c${bit}kbps`,'color:gray','color:white','color:#52DB9A')
 		}))

@@ -1,6 +1,6 @@
 # JioSaavn Downloader ![][sh_chrome]
 
-![][sh_gh_stars] ![][sh_version] [![][sh_downloads]][release]
+[![][sh_gh_stars]](#) [![][sh_version]](#) [![][sh_downloads]][release]
 
 > This extension is still in the works. It is not yet ready for production use. It is still in the early stages of development. Many features are missing and bugs are still being worked on.
 >
@@ -15,11 +15,16 @@ You can download the extension from the following [link][download].\
 <small>You can also go through how to install it if you are struggling.</small>
 
 <details>
-	<summary><b>Contents</b></summary>
+	<summary><b>Table of Contents</b></summary>
 	<ul>
 		<li><a href='#how-it-works'>How It Works</a></li>
 		<li><a href='#features'>Features</a></li>
 		<li><a href='#how-to-use'>How to Use</a></li>
+    <ul>
+      <li><a href='#prerequisites'>Prerequisites</a></li>
+      <li><a href='#download-and-install'>Downnloaad and install</a></li>
+      <li><a href='#customizing-the-extension'>Customize Extension</a></li>
+    </ul>
 		<li><a href='#credits'>Credits</a></li>
 	</ul>
 </details>
@@ -113,7 +118,7 @@ Made with 💖 in India.
 
 [about_ext]: about://extensions/
 [release]: https://github.com/GrayGalaxy/jiosaavn-downloader/releases ' '
-[download]: https://github.com/GrayGalaxy/jiosaavn-downloader/releases/download/v22.2.14/release.zip 'Download'
+[download]: https://github.com/GrayGalaxy/jiosaavn-downloader/releases/download/v22.2.22/release.zip 'Download'
 [profile]: https://github.com/GrayGalaxy
 
 <!--Images -->

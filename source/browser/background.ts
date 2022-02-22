@@ -4,7 +4,7 @@ console.log('Background Page running successfully')
 
 // set default quality on first run
 browser.runtime.onInstalled.addListener(() => {
-	browser.storage.sync.set({ quality: '160', theme: 'dark' })
+	browser.storage.sync.set({ quality: 160, theme: 'dark', format: '$title' })
 })
 
 // open jiosaavn on clicking the extension icon
