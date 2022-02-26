@@ -1,5 +1,6 @@
 name: Bug Report
 description: File a bug report
+title: '[Bug]: '
 labels: [bug]
 assignees:
   - GrayGalaxy
@@ -16,28 +17,31 @@ body:
           required: true
         - label: I agree to follow the [Code of Conduct](https://github.com/GrayGalaxy/graygalaxy/blob/main/code_of_conduct.md) that this project adheres to.
           required: true
-        - label: I have searched the [issue tracker](https://www.github.com/electron/electron/issues) for a bug report that matches the one I want to file, without success.
+        - label: I have searched the [issue tracker](https://www.github.com/GrayGalaxy/jiosaavn-downloader/issues) for a bug report that matches the one I want to file, without success.
           required: true
   - type: textarea
-    id: what-happened
     attributes:
       label: What happened?
       description: Also tell us, what did you expect to happen?
-      value: |
+      placeholder: |
         Tell us what you observed...
 
-        - URL: where the issue occurred
         - Browser: Chrome / MS Edge / Opera ...
     validations:
       required: true
+  - type: input
+    attributes:
+      label: Relevent URL
+      description: Provide the url where the error occoured
+      placeholder: https://jiosaavn.com/featured
+    validations:
+      required: true
   - type: textarea
-    id: logs
     attributes:
       label: Relevant log output
       description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
       render: Shell
   - type: textarea
-    id: reproduce
     attributes:
       label: Reproduction steps
       description: 'How do you trigger this bug? Please walk us through it step by step.'

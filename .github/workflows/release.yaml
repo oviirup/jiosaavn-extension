@@ -18,8 +18,6 @@ jobs:
       - name: Creating release tag
         uses: fregante/daily-version-action@v1
         id: daily-version
-        with:
-          prefix: v
   Build:
     needs: Version
     if: needs.Version.result == 'success'
@@ -49,7 +47,6 @@ jobs:
         with:
           artifacts: '${{ env.DIR }}/release.zip'
           artifactContentType: 'zip'
-          body: ${{ github.event.inputs.message || '' }}
           prerelease: ${{ github.event.inputs.prerelease }}
-          tag: ${{ needs.Version.outputs.version }}
+          tag: 'v${{ needs.Version.outputs.version }}'
           token: ${{ secrets.GITHUB_TOKEN }}
