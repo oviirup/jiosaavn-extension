@@ -4,14 +4,14 @@
 	"manifest_version": 2,
 	"description": "Easily download songs, albums, playlist, etc with just one click on jiosaavn.com",
 	"icons": { "128": "icon.png" },
-	"homepage_url": "https://github.com/grayglaxy/jiosaavn-downloader",
-	"options_ui": { "open_in_tab": false, "page": "options.html" },
+	"homepage_url": "https://github.com/graygalaxy/jiosaavn-downloader",
+	"options_ui": { "open_in_tab": true, "page": "options.html" },
 	"content_scripts": [{
 		"matches": ["https://www.jiosaavn.com/*"],
 		"css": ["inject.css", "theme.css"],
 		"js": ["browser-polyfill.js", "downloader.js"]
 	}],
-	"permissions": ["<all_urls>", "webRequest", "webRequestBlocking", "storage", "tabs"],
+	"permissions": ["<all_urls>", "webRequest", "webRequestBlocking", "storage", "tabs", "notifications"],
 	"browser_action": { "default_icon": "icon.png" },
 	"background": { "scripts": ["browser-polyfill.js", "background.js"] }
 }

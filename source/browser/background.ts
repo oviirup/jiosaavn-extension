@@ -1,10 +1,11 @@
 import browser from 'webextension-polyfill'
+import axios from 'axios'
 
 console.log('Background Page running successfully')
 
 // set default quality on first run
 browser.runtime.onInstalled.addListener(() => {
-	browser.storage.sync.set({ quality: 160, theme: 'dark', format: '$title' })
+	browser.storage.sync.set({ quality: 160, theme: 'dark', format: '$title', notify: true })
 })
 
 // open jiosaavn on clicking the extension icon
@@ -79,4 +80,24 @@ browser.tabs.onUpdated.addListener((id, info) => {
 
 browser.tabs.query({ url: 'https://www.jiosaavn.com/*' }).then((tabs) => {
 	tabs.forEach(({ id }) => id && cors.install(id))
+})
+
+// check for updates
+browser.storage.sync.get(['notify']).then(async (i) => {
+	if (!i.notify) return
+	const version = `v${browser.runtime.getManifest().version}`
+	const api = 'https://api.github.com/repos/graygalaxy/jiosaavn-downloader/tags'
+	const res = await axios.get(api).catch(() => null)
+	if (!res) return
+	const latest = res.data[0].name
+	const url = `https://github.com/GrayGalaxy/jiosaavn-downloader/releases/tag/${latest}`
+	if (version !== latest) {
+		browser.notifications.create({
+			type: 'basic',
+			iconUrl: browser.runtime.getURL('icon.png'),
+			title: 'JioSaavn Downloader',
+			message: `Version ${latest} is available.\nClick to checkout the downoad page.`,
+		})
+		browser.notifications.onClicked.addListener(() => browser.tabs.create({ url }))
+	}
 })

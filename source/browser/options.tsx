@@ -44,28 +44,18 @@ const TextBox: React.FC<InputElement> = (props) => {
 }
 
 $(document).ready(async () => {
-	const store = await browser.storage.sync.get(['theme', 'quality', 'format'])
+	const store = await browser.storage.sync.get(['theme', 'quality', 'format', 'notify'])
+
 	const changeTheme = (e: any) => {
 		const theme = e.target.checked ? 'dark' : 'light'
 		browser.storage.sync.set({ theme })
 	}
-	const changeQuality = (e: any) => {
-		const value = e.target.value
-		browser.storage.sync.set({ quality: value })
-	}
-	const changeNameFormat = (e: any) => {
-		const value = e.target.value
-		browser.storage.sync.set({ format: value })
-	}
+	const changeQuality = (e: any) => browser.storage.sync.set({ quality: e.target.value })
+	const changeNameFormat = (e: any) => browser.storage.sync.set({ format: e.target.value })
+	const updateNotify = (e: any) => browser.storage.sync.set({ notify: e.target.checked })
 
 	const qualities = Object.entries({ 320: 'Extreme', 160: 'Best', 96: 'Good', 48: 'Fair', 12: 'Low' })
 	ROOT!.appendChild(<>
-		<Heading>Dark Mode</Heading>
-		<p>Adjust the appearance of JioSaavn to reduce glare and give your eyes a break.</p>
-		<CheckBox checked={store.theme === 'dark'} onChange={changeTheme}>
-			Enable Dark mode
-		</CheckBox>
-		<Sm>Currently the DarkMode ON by default.</Sm>
 		<Heading>Download Quality</Heading>
 		<p>Select the quality of audio you want to download. Extreame is preferred.</p>
 		<form onChange={changeQuality}>
@@ -81,6 +71,13 @@ $(document).ready(async () => {
 		<TextBox value={store.format} placeholder='$title - $album_artist' onChange={changeNameFormat}/>
 		<Sm><b>Format : </b> $title, $album_artist, $artists, $album, $year, $track, $genre, $bitrate</Sm>
 		<br />
+		<Heading>Miscellaneous</Heading>
+		<CheckBox checked={store.theme === 'dark'} onChange={changeTheme}>
+			Enable Dark mode
+		</CheckBox>
+		<CheckBox checked={store.notify} onChange={updateNotify}>
+			Notify when new version is available
+		</CheckBox>
 		<p>For more information, visit <A href='https://github.com/GrayGalaxy/jiosaavn-downloader#readme' target='_blank'>the readme page</A>.</p>
 	</>)
 })

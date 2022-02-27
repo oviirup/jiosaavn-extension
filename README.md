@@ -21,9 +21,9 @@ You can download the extension from the following [link][download].\
 		<li><a href='#features'>Features</a></li>
 		<li><a href='#how-to-use'>How to Use</a></li>
     <ul>
-      <li><a href='#prerequisites'>Prerequisites</a></li>
-      <li><a href='#download-and-install'>Downnloaad and install</a></li>
-      <li><a href='#customizing-the-extension'>Customize Extension</a></li>
+      <li><a href='#prerequisites-'>Prerequisites</a></li>
+      <li><a href='#download-and-install-'>Downnloaad and install</a></li>
+      <li><a href='#customizing-the-extension-'>Customize Extension</a></li>
     </ul>
 		<li><a href='#credits'>Credits</a></li>
 	</ul>
@@ -51,6 +51,10 @@ In the case of a Playlist or an Album, it fetches the songs in the playlist and 
 - [x] **Blocks ADs** and Promotions.
 - [x] Modifies some of the UI Elements.
 - [x] **Cancel Download** button for songs.
+- [x] **Update Notification** for new releases of the extension.
+
+### Upcomming Features
+
 - [ ] Download Top songs from Artists.
 - [ ] Download Podcast.
 - [ ] Add metadata to the songs.
@@ -90,12 +94,14 @@ The extension comes with an options page from where you can customize the extens
 Alternatively, you can open the options page by **double-clicking** on the extension icon in the toolbar.
 
 - **Dark Mode:** to toggle the dark mode.\
-  Default: Enabled
+  > Default: Enabled
 - **Quality Settings:** to select the quality of the songs you want to download.\
-  Default: 160kbps
-- Name Format\*: to change the name of the songs in a specified format.\
-  Default: $title - $album_artist,\
-  Params: $title, $album_artist, $artists, $album, $year, $track, $genre, $bitrate
+  > Default: 160kbps
+- **Name Format**: to change the name of the songs in a specified format.\
+  > Default: $title - $album_artist,\
+  > Params: $title, $album_artist, $artists, $album, $year, $track, $genre, $bitrate
+- **Update Notification**: to enable or disable the update notification.\
+  > Default: Enabled
 
 ## Credits
 
@@ -118,7 +124,7 @@ Made with 💖 in India.
 
 [about_ext]: about://extensions/
 [release]: https://github.com/GrayGalaxy/jiosaavn-downloader/releases ' '
-[download]: https://github.com/GrayGalaxy/jiosaavn-downloader/releases/download/v22.2.22/release.zip 'Download'
+[download]: https://github.com/GrayGalaxy/jiosaavn-downloader/releases/download/v22.2.26/release.zip 'Download'
 [profile]: https://github.com/GrayGalaxy
 
 <!--Images -->
