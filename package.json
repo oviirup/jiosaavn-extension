@@ -26,6 +26,6 @@
 		"jsx-dom": "^8.0.1-beta.4",
 		"jszip": "^3.7.1",
 		"selector-observer": "^2.1.6",
-		"webextension-polyfill": "^0.8.0"
+		"webextension-polyfill": "^0.9.0"
 	}
 }
