@@ -1,0 +1,17 @@
+{
+	"$schema": "https://json.schemastore.org/chrome-manifest",
+	"name": "JioSaavn Downloader ᴺᴱᵂ",
+	"version": "0.0.0",
+	"manifest_version": 3,
+	"description": "An all in one extension for JioSaavn, with DarkMode, Download songs, AdsBlocker, and more.",
+	"icons": { "128": "icon.png" },
+	"homepage_url": "https://github.com/graygalaxy/jiosaavn-downloader",
+	"options_ui": { "open_in_tab": true, "page": "options.html" },
+	"content_scripts": [{
+		"matches": ["https://www.jiosaavn.com/*"],
+		"css": ["inject.css", "theme.css"],
+		"js": ["downloader.js"]
+	}],
+	"permissions": ["storage", "tabs"],
+	"host_permissions": ["https://www.jiosaavn.com/*", "*://*/*"]
+}

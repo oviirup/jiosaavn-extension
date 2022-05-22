@@ -1,120 +1,141 @@
 # JioSaavn Downloader ![][sh_chrome]
-![][sh_gh_stars] ![][sh_version] [![][sh_downloads]][release]
 
+[![][sh_gh_stars]](#) [![][sh_version]](#) [![][sh_downloads]][release]
 
-Simple and effective extension to download Songs, Albums or Playlist from JioSaavn.com with just one click. It also hides ads and promotions from JioSaavn Web, and slightly tweaks the UI.
+> This extension is still in the works. It is not yet ready for production use. It is still in the early stages of development. Many features are missing and bugs are still being worked on.
+>
+> The Download is working right but currently the files have _no metatags_.
+
+Simple and effective extension to download Songs, Albums, or Playlists from [jioSaavn.com](https://jioSaavn.com) with just one click. It also hides ads and promotions from JioSaavn Web and slightly tweaks the UI. Last but not least, it implements a long-awaited **dark mode****.
 
 Give it a star if you love the extension.\
-[Follow][profile] me if you want to get updates of my repos.
+[Follow me][profile] if you want to get updates on repos like this.
 
-You can download the extension form the following [link][download].\
-You can go to the [_Changelogs_][changelog] to have a look at the upcoming features
+You can download the extension from the following [link][download].\
 <small>You can also go through how to install it if you are struggling.</small>
 
-## Screenshots
+<details>
+ <summary><b>Table of Contents</b></summary>
+ <ul>
+  <li><a href='#how-it-works'>How It Works</a></li>
+  <li><a href='#features'>Features</a></li>
+  <li><a href='#how-to-use'>How to Use</a></li>
+    <ul>
+      <li><a href='#prerequisites'>Prerequisites</a></li>
+      <li><a href='#download-and-install'>Downnloaad and install</a></li>
+      <li><a href='#customizing-the-extension'>Customize Extension</a></li>
+    </ul>
+  <li><a href='#credits'>Credits</a></li>
+ </ul>
+</details>
 
-![Song Quality Selector](https://i.ibb.co/XWfJZGZ/1.jpg)
+This extension is still in development, and some of its features are still in the making.
 
-![Single Song Download](https://i.ibb.co/444dJB0/1.jpg)
+![JioSaavn Dark Mode][img_1]
 
 ## How It Works
 
-It fetches data from the api endpoints of JioSaavn, organizes them in useful manner. All this happens within the browser and does not rely on external servers.
+It fetches data from the API endpoints of JioSaavn and organizes them in a useful manner. All this happens within the browser and does not rely on external servers.
 
-<small>Previously This extension used <a href='https://github.com/cachecleanerjeet/JiosaavnAPI'>JioSaavn API</a> in the backend to fetch Download Links in real time.</small>
+After Fetching data it gets the URL of the song, album, or playlist in your desired quality settings. Then it creates an HTTP request to the server to fetch the M4A file. This step requires the CORS to be enabled in your browser. In previous builds, it requires you to use another extension, but in newer builds, it is baked in.
 
-After Fetching data it gives out MP3 file with neatly organized tags and album art with the help of `ID3.js`
+In the case of a Playlist or an Album, it fetches the songs in the playlist and then downloads them one by one and puts them inside a zip file to download at once.
 
 ## Features
 
-- Select Any Quality Downloads (Supports HD 320kbps)
-- Download a Single Song
-- Download Album, Playlist as zip
-- Blocks ADs and Promotions
-- Modifies some of the UI Elements.
+- [x] Added Dark Mode toggle.
+- [x] Select Any Quality Downloads\
+      Supports HD **320kbps**, Default: **160kbps**.
+- [x] Download a **Songs**.
+- [x] Download **Album**, and **Playlist** as ZIP files.
+- [x] **Blocks ADs** and Promotions.
+- [x] Modifies some of the UI Elements.
+- [x] **Cancel Download** button for songs.
+- [x] **Update Notification** for new releases of the extension.
 
-<small>For upcoming features you can refer to [Changelog](https://github.com/GrayGalaxy/jiosaavn-downloader/blob/beta/changelog.md)</small>
+### Upcomming Features
 
-## How to use It
+- [ ] Download Progressbar
+- [ ] Download Top songs from Artists.
+- [ ] Cancel Download button for Lists or Album downloads.
+- [ ] Download Podcast.
+- [ ] Add metadata to the songs.
 
-- Select preferred quality,
-- To Download a Single Song: Click the download button on the right of the title of the song.
-- To Download an Album: Click the download button right next to play button in album title.
+## How to Use
 
-## How to Install it
+This extension cannot hosted be in Chrome Webstore due to obvious reasons. You can manually install the extension just by following the steps...
 
-This extension cannot hosted be in Chrome webstore due to obvious reasons. You can manually install the extension just by following the steps...
+You can go to _jiosaavn.com_ just by **single-click** on the extension icon, no need to add extra bookmarks, and **double-click** to open the _extension options_.
 
-- Download the extension here : [download][download]
-- Extract the zip file
-- Go to chrome extensions page : [about://extensions/](about://extensions/ " ")
-- You will see a button called **Load Unpacked Extension...** click that
-- Select the extracted folder and click **Open**\
-  <small>
-  Note: <strong>Developer mode</strong> is required to enable the extension. You can see a toggle button promptly named "Developer Mode". Turn it on to enable the Developer mode.<br>
-  You might get turn off developer mode notification every time you open the browser if you are using Stable versions of chrome. You can use Chrome Dev or Canary of that notification annoys you.
-  </small>
+### Prerequisites
 
-## Behind the Scenes
+- [x] Developer Mode: Enable developer mode in your browser.\
+       Go to [about://extensions/][about_ext] and check **Developer Mode** checkbox.
 
-The extension just fetches data from the JioSaavn server for necessary links to download the songs. Then it grabs the song in mp3 format from the backend services.
+### Download and Install
 
-Make sure you check out [JioSaavn API][a1] and [Jiosaavn Downloader Extension][a2] repo and :star: it if you like. People do not earn a penny from this and spend their precious time developing it and release it for free. A small praise, a good mention makes them feel good and it doesn't cost anything. See right sidebar for the list of contributors to the repo.
+1. Download the extension here : [download][download], and extract it.\
+   You can also go to the [release page][release] to check out other versions.
+2. Go to chrome extensions page : [about://extensions/][about_ext]
+3. You will see a button called **Load Unpacked Extension...** click that
+4. Select the extracted folder and click **Open**
 
-### Dependencies
+**Note:** If you downloaded the SourceCode, you can also install it by running the following command in your terminal (You will need Node.JS and npm installed on your machine) :
 
-- [JQuery][d1] - To simplify code
-- [ID3 JS][d2] - To add tags to downloaded files
-- [JS Zip][d3] - To create zip file for Playlists or Albums
+``` shell
+npm install
+npm run build
+```
 
-### How it works
+This will build the extension in `build` folder. Then you can manually install the extension.
 
-#### Song
+### Customizing the Extension
 
-- When you press a download button on song it fetches data of song from the JioSaavn server to provide Links, Title, Album etc.
-- Then it will send a request to this [custom API endpoint][a3] and generate a download URL from server.\
-  <small>This helps to avoid CORS errors if we try to fetch from browser</small>
-- Then it will download the song asynchronously in background. as the download song will have a gibberish name and no song details.
-- Then it will download the album art asynchronously.
-- Finally it will add ID3 tags (Title, Singer, Cover, Composer and stuff) to the downloaded song.
+The extension comes with an options page from which you can customize the extension. You can find it in the extensions menu, just **Right Click** on the extension icon and click on **Extension Options**. You will have several options like...
 
-#### Album, Playlist
+Alternatively, you can open the options page by **double-clicking** on the extension icon in the toolbar.
 
-- On clicking the Download button it fetches lists of songs from server to download.
-- Then it downloads the songs one by one as mentioned above.
-- For playlists it also downloads the featured image if available.
-- We will make a virtual zip on memory and create a folder and add the songs there.
-- Finally you can Download the Zip file.
+- **Dark Mode:** to toggle the dark mode.\
+  > Default: Enabled
+- **Quality Settings:** to select the quality of the songs you want to download.\
+  > Default: 160kbps
+- **Name Format**: to change the name of the songs in a specified format.\
+  > Default: $title - $album_artist,\
+  > Params: $title, $album_artist, $artists, $album, $year, $track, $genre, $bitrate
+- **Update Notification**: to enable or disable the update notification.\
+  > Default: Enabled
 
-## Help me solve Issues
+## Credits
 
-[![][sh_issues_open]][issues]
-[![][sh_issues_closed]][issues]
+I must acknowledge where credit is due. This project would not be possible without the help of the following people and their open-source projects.
 
-If you have some suggestions or you ran into some problems you can post it to the [issues tab][issues]. It is not always possible to find out all the issues alone, and overtime there might be new issues that was previously undetected.\
-<small>Make sure to read other issues also before posting a new issue. One of might relate to your problem</small>
+- [naqushab / saavn-downloader-extension](https://github.com/naqushab/saavn-downloader-extension)\
+  Gave the inspiration to build the extension.
+- [Tehhs / chrome-localhost-cors-unblocker](https://github.com/Tehhs/chrome-localhost-cors-unblocker)\
+  Helped to make the extension completely standalone, adn remove requirement of any proxy server.
+- [monuyadav016 / Saavn-Downloader](https://github.com/monuyadav016/Saavn-Downloader)\
+  Gave the concept of the JioSaavn API.
+
+Their Projects help me a lot in developing this extension.
+
+[&#x21e1; Back to top](#)
 
 ---
 
-Made with :heart: in India.
+Made with 💖 in India.
 
-[release]: https://github.com/GrayGalaxy/jiosaavn-downloader/releases " "
-[download]: https://github.com/GrayGalaxy/jiosaavn-downloader/releases/download/v0.7.3/release.zip "Download"
-[changelog]: https://github.com/GrayGalaxy/jiosaavn-downloader/blob/beta/changelog.md
-[issues]: https://github.com/GrayGalaxy/jiosaavn-downloader/issues " "
+[about_ext]: about://extensions/
+[release]: https://github.com/GrayGalaxy/jiosaavn-downloader/releases ' '
+[download]: https://github.com/GrayGalaxy/jiosaavn-downloader/releases/download/v22.2.26/release.zip 'Download'
 [profile]: https://github.com/GrayGalaxy
-[a1]: https://github.com/cachecleanerjeet/JiosaavnAPI "By @cachecleanerjeet"
-[a2]: https://github.com/naqushab/saavn-downloader-extension "By @naqushab"
-[a3]: https://jiosaavnex.vercel.app/
-[d1]: https://github.com/jquery/jquery
-[d2]: https://github.com/aadsm/JavaScript-ID3-Reader
-[d3]: https://github.com/Stuk/jszip
+
+<!--Images -->
+
+[img_1]: https://user-images.githubusercontent.com/49820575/152336823-7ae2fa07-56a2-438e-9ff3-46a1d69566c6.jpg
 
 <!-- Shields -->
 
-[sh_gh_stars]: https://img.shields.io/github/stars/GrayGalaxy/jiosaavn-downloader.svg?logo=github&label=Stars
+[sh_gh_stars]: https://img.shields.io/github/stars/GrayGalaxy/jiosaavn-downloader?logo=github&label=Stars
 [sh_chrome]: https://img.shields.io/badge/-Chrome-black?logo=google-chrome&logoColor=white
-[sh_version]: https://img.shields.io/github/manifest-json/v/graygalaxy/jiosaavn-downloader
+[sh_version]: https://img.shields.io/github/v/release/GrayGalaxy/jiosaavn-downloader?include_prereleases&label=Version
 [sh_downloads]: https://img.shields.io/github/downloads/GrayGalaxy/jiosaavn-downloader/total?label=Downloads
-[sh_issues_open]: https://img.shields.io/github/issues-raw/GrayGalaxy/jiosaavn-downloader?label=Open
-[sh_issues_closed]: https://img.shields.io/github/issues-closed-raw/GrayGalaxy/jiosaavn-downloader?label=Closed

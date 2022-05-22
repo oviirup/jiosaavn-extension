@@ -1,0 +1,51 @@
+.disabled
+	cursor: not-allowed !important
+[data-menu-action="D"]
+	display: none !important
+@media (max-width: 61.25em)
+	li>.o-snippet.active .o-snippet__item:first-child
+		width: 35px !important
+		display: block !important
+	figure.o-flag.o-flag--cover figcaption.o-flag__body
+		margin-bottom: 3em !important
+	.o-snippet__item:first-child
+		display: none
+	.c-player__entity
+		margin-left: auto
+		margin-right: auto
+figcaption h4
+	~ p:only-of-type, ~ p:nth-of-type(2)
+		opacity: .5
+main section .o-snippet__item figcaption
+	> *
+		width: auto !important
+		margin: 0 !important
+		padding-right: 20px !important
+		text-align: left
+	@media (min-width: 61em)
+		display: grid !important
+		grid-template-columns: 1fr 1fr
+		align-items: center
+		p
+			grid-column: 2
+		p:only-of-type, h4
+			grid-row: 1 / span 2
+@media (max-width: 61em)
+	main section .o-snippet__item figcaption p:nth-of-type(2)
+		display: none
+	article.o-snippet.o-snippet--draggable
+		padding: 0 13px
+		margin-left: -13px
+		width: calc(100% + 26px ) !important
+.c-aside--flyout .o-list-bare li
+	figcaption > *
+		margin: 0 !important
+.c-select__list
+	padding: 0 !important
+.o-snippet__item
+	&:nth-last-of-type(2),&:nth-last-of-type(3)
+		width: 32px !important
+		padding: 15px 5px
+.c-search__list .o-snippet .o-snippet__item:not(:first-of-type)
+	display: none
+@import './modules'

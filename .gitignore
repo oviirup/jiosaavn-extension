@@ -1,2 +1,12 @@
-.vscode
-*.test.*
+/node_modules
+/build
+/.vscode
+*.idea
+*.idea.*
+
+# lock files
+yarn.lock
+package-lock.json
+pnpm-lock.yaml
+*-debug.log*
+*-error.log*

@@ -1,0 +1,31 @@
+{
+	"name": "jiosaavn-downloader",
+	"version": "1.2.6",
+	"description": "An all in one extension for JioSaavn, to enable dark mode, download songs, adblocker, and more.",
+	"license": "GPL-3.0-or-later",
+	"type": "module",
+	"scripts": {
+		"watch": "webpack --mode=development --watch && tsc --watch --preserveWatchOutput",
+		"build": "webpack --mode=production && tsc"
+	},
+	"devDependencies": {
+		"@types/file-saver": "^2.0.5",
+		"@types/jquery": "^3.5.13",
+		"@types/webextension-polyfill": "^0.8.2",
+		"copy-webpack-plugin": "^10.2.0",
+		"esbuild-loader": "^2.18.0",
+		"node-sass": "^7.0.1",
+		"typescript": "^4.5.5",
+		"webpack": "^5.69.1",
+		"webpack-cli": "^4.9.1"
+	},
+	"dependencies": {
+		"axios": "^0.26.0",
+		"file-saver": "^2.0.5",
+		"jquery": "^3.6.0",
+		"jsx-dom": "^8.0.1-beta.4",
+		"jszip": "^3.7.1",
+		"selector-observer": "^2.1.6",
+		"webextension-polyfill": "^0.8.0"
+	}
+}

@@ -1,27 +1,54 @@
 name: Bug Report
 description: File a bug report
-labels: [bug,]
+title: '[Bug]: '
+labels: [bug]
 assignees:
   - GrayGalaxy
 body:
   - type: markdown
     attributes:
-      value: |
-        Thanks for taking the time to fill out this bug report!
+      value: Thanks for taking the time to fill out this bug report!
+  - type: checkboxes
+    attributes:
+      label: Preflight Checklist
+      description: Please ensure you've completed all of the following.
+      options:
+        - label: Checkout the [Known Issues](https://github.com/GrayGalaxy/jiosaavn-downloader/releases) posted on release notes.
+          required: true
+        - label: I agree to follow the [Code of Conduct](https://github.com/GrayGalaxy/graygalaxy/blob/main/code_of_conduct.md) that this project adheres to.
+          required: true
+        - label: I have searched the [issue tracker](https://www.github.com/GrayGalaxy/jiosaavn-downloader/issues) for a bug report that matches the one I want to file, without success.
+          required: true
   - type: textarea
-    id: what-happened
     attributes:
       label: What happened?
       description: Also tell us, what did you expect to happen?
-      placeholder: Tell us what you see!
-      value: "A bug happened!"
+      placeholder: |
+        Tell us what you observed...
+
+        - Browser: Chrome / MS Edge / Opera ...
     validations:
-      required: true    
-  - type: checkboxes
-    id: terms
+      required: true
+  - type: input
     attributes:
-      label: Code of Conduct
-      description: By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/GrayGalaxy/jiosaavn-downloader/blob/beta/code_of_conduct.md)
-      options:
-        - label: I agree to follow this project's Code of Conduct
-          required: true
+      label: Relevent URL
+      description: Provide the url where the error occoured
+      placeholder: https://jiosaavn.com/featured
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Relevant log output
+      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      render: Shell
+  - type: textarea
+    attributes:
+      label: Reproduction steps
+      description: 'How do you trigger this bug? Please walk us through it step by step.'
+      placeholder: |
+        1.
+        2.
+        3.
+        ...
+    validations:
+      required: false
