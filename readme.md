@@ -112,7 +112,7 @@ I must acknowledge where credit is due. This project would not be possible witho
 - [naqushab / saavn-downloader-extension](https://github.com/naqushab/saavn-downloader-extension)\
   Gave the inspiration to build the extension.
 - [Tehhs / chrome-localhost-cors-unblocker](https://github.com/Tehhs/chrome-localhost-cors-unblocker)\
-  Helped to make the extension completely standalone, adn remove requirement of any proxy server.
+  Helped to make the extension completely standalone, and remove the requirement of any proxy server.
 - [monuyadav016 / Saavn-Downloader](https://github.com/monuyadav016/Saavn-Downloader)\
   Gave the concept of the JioSaavn API.
 
@@ -125,8 +125,8 @@ Their Projects help me a lot in developing this extension.
 Made with 💖 in India.
 
 [about_ext]: about://extensions/
-[release]: https://github.com/GrayGalaxy/jiosaavn-downloader/releases ' '
-[download]: https://github.com/GrayGalaxy/jiosaavn-downloader/releases/download/v22.2.26/release.zip 'Download'
+[release]: https://github.com/GrayGalaxy/jiosaavn-extension/releases ' '
+[download]: https://github.com/GrayGalaxy/jiosaavn-extension/releases/download/v22.2.26/release.zip 'Download'
 [profile]: https://github.com/GrayGalaxy
 
 <!--Images -->
@@ -135,7 +135,7 @@ Made with 💖 in India.
 
 <!-- Shields -->
 
-[sh_gh_stars]: https://img.shields.io/github/stars/GrayGalaxy/jiosaavn-downloader?logo=github&label=Stars
+[sh_gh_stars]: https://img.shields.io/github/stars/GrayGalaxy/jiosaavn-extension?logo=github&label=Stars
 [sh_chrome]: https://img.shields.io/badge/-Chrome-black?logo=google-chrome&logoColor=white
-[sh_version]: https://img.shields.io/github/v/release/GrayGalaxy/jiosaavn-downloader?include_prereleases&label=Version
-[sh_downloads]: https://img.shields.io/github/downloads/GrayGalaxy/jiosaavn-downloader/total?label=Downloads
+[sh_version]: https://img.shields.io/github/v/release/GrayGalaxy/jiosaavn-extension?include_prereleases&label=Version
+[sh_downloads]: https://img.shields.io/github/downloads/GrayGalaxy/jiosaavn-extension/total?label=Downloads

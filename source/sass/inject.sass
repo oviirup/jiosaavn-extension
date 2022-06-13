@@ -4,8 +4,8 @@
 	display: none !important
 @media (max-width: 61.25em)
 	li>.o-snippet.active .o-snippet__item:first-child
-		width: 35px !important
-		display: block !important
+	width: 35px !important
+	display: block !important
 	figure.o-flag.o-flag--cover figcaption.o-flag__body
 		margin-bottom: 3em !important
 	.o-snippet__item:first-child
@@ -48,4 +48,52 @@ main section .o-snippet__item figcaption
 		padding: 15px 5px
 .c-search__list .o-snippet .o-snippet__item:not(:first-of-type)
 	display: none
-@import './modules'
+.c-nav__item.active .c-nav__item-content
+	background: var(--bg2)
+	border: 1px solid var(--br)
+
+.jsdBTN_1,.jsdBTN_2
+	position: relative
+	cursor: pointer
+.jsdDlI
+	pointer-events: none
+	position: relative
+	.pending & i:before
+		content: 'J'
+	.progress:not(.jsdBTN_1) & i
+		opacity: 0
+	.progress & svg
+		opacity: 1
+		circle
+			animation: dash_1 1.5s ease-in-out infinite,rotate 2s linear infinite
+	svg
+		position: absolute
+		top: 50%
+		left: 50%
+		transform: translate(-50%, -50%)
+		opacity: 0
+		circle
+			stroke: var(--tx3)
+			transform-origin: center
+.jsdBTN_1.progress .jsdDlI
+	svg circle
+		animation: dash_2 1.5s ease-in-out infinite,rotate 2s linear infinite
+	i:before
+		content: 'x'
+		font-size: smaller
+@mixin keyframe($name,$C)
+	@keyframes #{$name}
+		0%
+			stroke-dasharray: 1, 200
+			stroke-dashoffset: 0
+		50%
+			stroke-dasharray: #{$C * 0.7}, 200
+			stroke-dashoffset: -#{$C * 0.7}
+		100%
+			stroke-dasharray: #{$C * 0.7}, 200
+			stroke-dashoffset: -#{$C}
+@include keyframe(dash_1,66)
+@include keyframe(dash_2,103)
+@keyframes rotate
+	100%
+		transform: rotate(360deg)

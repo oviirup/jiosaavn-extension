@@ -8,7 +8,7 @@ const Heading = styled.h2`font-size:1.25rem;font-weight:400;margin-bottom:0.75re
 const Label = styled.label`display:flex;flex-direction:row;gap:0.5rem;align-items:center;cursor:pointer;height:2rem;`
 const Knob = styled.svg`position:absolute;pointer-events:none;left:0;fill:var(--bg);border-radius:2px;height:20px;width:20px;stroke:none;`
 const A = styled.a`color:var(--tx) !important;opacity:0.5;`
-const Choice = styled.input`width:20px;height:20px;appearance:none;`
+const Choice = styled.input`width:20px;height:20px;appearance:none;margin-top:-2px`
 const Text = styled.input`width:100%;height:32px;padding:0 0.5rem;border-radius:4px;border:1px solid var(--br);color:var(--tx);`
 const Sm = styled.small`opacity:0.5;`
 
@@ -46,6 +46,9 @@ const TextBox: React.FC<InputElement> = (props) => {
 $(document).ready(async () => {
 	const store = await Browser.storage.sync.get(['theme', 'quality', 'format', 'notify'])
 
+	const bug_report = 'https://github.com/GrayGalaxy/jiosaavn-extension/issues/new?assignees=GrayGalaxy&labels=bug&template=bug_report.yaml&title=%5BBug%5D%3A+'
+	const feature_request = 'https://github.com/GrayGalaxy/jiosaavn-extension/issues/new?assignees=GrayGalaxy&labels=enhancement&template=feature_request.yaml&title=%5BFeature%5D%3A+'
+
 	const changeTheme = (e: any) => {
 		const theme = e.target.checked ? 'dark' : 'light'
 		Browser.storage.sync.set({ theme })
@@ -78,7 +81,10 @@ $(document).ready(async () => {
 		<CheckBox checked={store.notify} onChange={updateNotify}>
 			Notify when new version is available
 		</CheckBox>
-		<p>For more information, visit <A href='https://github.com/GrayGalaxy/jiosaavn-downloader#readme' target='_blank'>the readme page</A>.</p>
+		<p>
+			<A href={bug_report}>Bug Report</A> • <A href={feature_request}>Feature Request</A>
+		</p>
+		<p>For more information, visit <A href='https://github.com/GrayGalaxy/jiosaavn-extension#readme' target='_blank'>the readme page</A>.</p>
 	</>)
 })
 

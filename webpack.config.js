@@ -17,13 +17,15 @@ const config = (env, argv) => {
 		plugins: [
 			new CopyPlugin({
 				patterns: [
+					{ from: resolvePackage('webextension-polyfill') },
 					{
 						from: 'public',
 						transform(content, file) {
 							if (/\\public\\manifest\.json$/.test(file) === false) return content
 							const manifest = JSON.parse(content)
 							manifest.$schema = undefined
-							manifest.options_ui.open_in_tab = true
+							if (!isDev) manifest.options_ui.open_in_tab = false
+							return JSON.stringify(manifest)
 						},
 					},
 					{

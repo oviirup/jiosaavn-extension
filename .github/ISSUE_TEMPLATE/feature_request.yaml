@@ -15,7 +15,7 @@ body:
       options:
         - label: I agree to follow the [Code of Conduct](https://github.com/graygalaxy/graygalaxy/blob/main/code_of_conduct.md) that this project adheres to.
           required: true
-        - label: I have searched the [issue tracker](https://www.github.com/graygalaxy/jiosaavn-downloader/issues) for a feature request that matches the one I want to file, without success.
+        - label: I have searched the [issue tracker](https://www.github.com/graygalaxy/jiosaavn-extension/issues) for a feature request that matches the one I want to file, without success.
           required: true
   - type: textarea
     attributes:

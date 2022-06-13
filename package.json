@@ -1,31 +1,32 @@
 {
-	"name": "jiosaavn-downloader",
+	"name": "jiosaavn-extension",
 	"version": "1.2.6",
 	"description": "An all in one extension for JioSaavn, to enable dark mode, download songs, adblocker, and more.",
 	"license": "GPL-3.0-or-later",
 	"type": "module",
 	"scripts": {
-		"watch": "webpack --mode=development --watch && tsc --watch --preserveWatchOutput",
-		"build": "webpack --mode=production && tsc"
+		"watch": "webpack --mode=development --watch",
+		"build": "webpack --mode=production"
 	},
 	"devDependencies": {
 		"@types/file-saver": "^2.0.5",
-		"@types/jquery": "^3.5.13",
-		"@types/webextension-polyfill": "^0.8.2",
-		"copy-webpack-plugin": "^10.2.0",
-		"esbuild-loader": "^2.18.0",
-		"node-sass": "^7.0.1",
-		"typescript": "^4.5.5",
-		"webpack": "^5.69.1",
-		"webpack-cli": "^4.9.1"
+		"@types/jquery": "3.5.14",
+		"@types/webextension-polyfill": "0.9.0",
+		"copy-webpack-plugin": "11.0.0",
+		"esbuild-loader": "2.19.0",
+		"node-sass": "7.0.1",
+		"typescript": "4.7.3",
+		"webpack": "5.73.0",
+		"webpack-cli": "4.10.0"
 	},
 	"dependencies": {
-		"axios": "^0.26.0",
-		"file-saver": "^2.0.5",
-		"jquery": "^3.6.0",
-		"jsx-dom": "^8.0.1-beta.4",
-		"jszip": "^3.7.1",
-		"selector-observer": "^2.1.6",
-		"webextension-polyfill": "^0.8.0"
+		"@types/chrome": "0.0.190",
+		"axios": "0.27.2",
+		"file-saver": "2.0.5",
+		"jquery": "3.6.0",
+		"jsx-dom": "8.0.1-beta.8",
+		"jszip": "3.10.0",
+		"selector-observer": "2.1.6",
+		"webextension-polyfill": "0.9.0"
 	}
 }

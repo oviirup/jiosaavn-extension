@@ -5,13 +5,22 @@
 	"manifest_version": 3,
 	"description": "An all in one extension for JioSaavn, with DarkMode, Download songs, AdsBlocker, and more.",
 	"icons": { "128": "icon.png" },
-	"homepage_url": "https://github.com/graygalaxy/jiosaavn-downloader",
+	"homepage_url": "https://github.com/graygalaxy/jiosaavn-extension",
 	"options_ui": { "open_in_tab": true, "page": "options.html" },
 	"content_scripts": [{
+		"run_at": "document_start",
 		"matches": ["https://www.jiosaavn.com/*"],
 		"css": ["inject.css", "theme.css"],
 		"js": ["downloader.js"]
 	}],
-	"permissions": ["storage", "tabs"],
-	"host_permissions": ["https://www.jiosaavn.com/*", "*://*/*"]
+	"action": {
+		"default_icon": { "128": "icon.png" },
+		"default_title": "Go to JioSaavn"
+	},
+	"background": { "service_worker": "background.js" },
+	"permissions": [
+		"storage", "tabs", "scripting",
+		"declarativeNetRequest", "declarativeNetRequestFeedback"
+	],
+	"host_permissions": ["https://www.jiosaavn.com/*", "*://*/*", "https://api.github.com/*"]
 }
